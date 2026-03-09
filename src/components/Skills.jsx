@@ -58,14 +58,14 @@ const SKILL_CATEGORIES = [
 
 // Featured tech logos shown in the large bento card
 const TECH_BADGES = [
-    { name: 'React', icon: '⚛', color: '#61DAFB' },
-    { name: 'Next.js', icon: '▲', color: 'var(--color-text)' },
-    { name: 'Unity', icon: '◉', color: 'var(--color-muted-2)' },
-    { name: 'Figma', icon: '✦', color: '#F24E1E' },
-    { name: 'Tailwind', icon: '~', color: '#38BDF8' },
-    { name: 'TypeScript', icon: 'TS', color: '#3178C6' },
-    { name: 'Blender', icon: '⬡', color: '#EA7600' },
-    { name: 'Framer', icon: '◈', color: '#0055FF' },
+    { name: 'React', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg', color: '#61DAFB' },
+    { name: 'Next.js', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg', color: '#ffffff' },
+    { name: 'Unity', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/unity/unity-original.svg', color: '#ffffff' },
+    { name: 'Figma', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg', color: '#F24E1E' },
+    { name: 'Tailwind', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg', color: '#38BDF8' },
+    { name: 'TypeScript', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg', color: '#3178C6' },
+    { name: 'Blender', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/blender/blender-original.svg', color: '#EA7600' },
+    { name: 'Framer', logo: 'https://cdn.simpleicons.org/framer/0055FF', color: '#0055FF' },
 ];
 
 // ─── Sub-components ─────────────────────────────────────────────────────────────
@@ -76,14 +76,14 @@ function SkillBar({ name, level, color, index }) {
     return (
         <div ref={ref} className="group">
             <div className="flex justify-between items-center mb-1.5">
-                <span className="text-[11px] uppercase tracking-[0.15em] font-medium text-theme-muted group-hover:text-theme-text transition-colors duration-300">
+                <span className="text-xs uppercase tracking-[0.15em] font-medium text-theme-muted group-hover:text-theme-text transition-colors duration-300">
                     {name}
                 </span>
                 <motion.span
                     initial={{ opacity: 0 }}
                     animate={inView ? { opacity: 1 } : {}}
                     transition={{ delay: 0.3 + index * 0.06, duration: 0.4 }}
-                    className="text-[10px] font-mono tabular-nums"
+                    className="text-xs font-mono tabular-nums"
                     style={{ color }}
                 >
                     {level}%
@@ -114,7 +114,7 @@ function CategoryCard({ cat, isActive, onClick }) {
     return (
         <motion.button
             onClick={onClick}
-            className={`relative px-4 py-2.5 text-[10px] uppercase tracking-[0.2em] font-semibold rounded-full border overflow-hidden ${isActive
+            className={`relative px-4 py-2.5 text-xs uppercase tracking-[0.2em] font-semibold rounded-full border overflow-hidden ${isActive
                 ? 'text-theme-text border-transparent'
                 : 'text-theme-muted border-theme-border hover:border-theme-border-hover'
                 }`}
@@ -151,10 +151,19 @@ function TechBadge({ badge, index }) {
             style={{ '--badge-color': badge.color }}
             data-hover
         >
-            <span className="text-xl font-black" style={{ color: badge.color }}>
-                {badge.icon}
-            </span>
-            <span className="text-[9px] uppercase tracking-[0.15em] text-theme-muted group-hover:text-theme-text transition-colors duration-300">
+            <div className="w-8 h-8 flex items-center justify-center">
+                <img
+                    src={badge.logo}
+                    alt={badge.name}
+                    className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
+                    style={{
+                        filter: badge.name === 'Next.js' || badge.name === 'Unity'
+                            ? 'invert(1)'
+                            : 'none',
+                    }}
+                />
+            </div>
+            <span className="text-[11px] uppercase tracking-[0.15em] text-theme-muted group-hover:text-theme-text transition-colors duration-300">
                 {badge.name}
             </span>
             {/* Hover glow */}
@@ -175,7 +184,7 @@ export default function Skills() {
     const activeCat = SKILL_CATEGORIES.find((c) => c.id === activeId);
 
     return (
-        <section id="skills" className="relative py-32 md:py-48">
+        <section id="skills" className="relative pt-16 pb-16 md:pt-20 md:pb-20 overflow-hidden">
 
             {/* — Section header — */}
             <div ref={headerRef} className="flex items-end justify-between mb-16 gap-8">
@@ -293,18 +302,18 @@ export default function Skills() {
                                 className="p-3 rounded-xl border border-theme-border bg-theme-surface-hover flex flex-col gap-0.5"
                             >
                                 <span className="text-2xl font-black tracking-[-0.04em] text-theme-text">{val}</span>
-                                <span className="text-[9px] uppercase tracking-[0.2em] text-theme-muted">{label}</span>
+                                <span className="text-[11px] uppercase tracking-[0.2em] text-theme-muted">{label}</span>
                             </motion.div>
                         ))}
                     </div>
 
                     <div className="mt-6 pt-6 border-t border-theme-border">
-                        <p className="text-[10px] uppercase tracking-[0.2em] text-theme-muted mb-2">Primary stack</p>
+                        <p className="text-xs uppercase tracking-[0.2em] text-theme-muted mb-2">Primary stack</p>
                         <div className="flex flex-wrap gap-1.5">
                             {['React', 'Unity', 'Figma', 'Next.js'].map((t) => (
                                 <span
                                     key={t}
-                                    className="px-2.5 py-1 rounded-full text-[9px] uppercase tracking-[0.15em] bg-primary/10 text-primary border border-primary/20 font-semibold"
+                                    className="px-2.5 py-1 rounded-full text-[11px] uppercase tracking-[0.15em] bg-primary/10 text-primary border border-primary/20 font-semibold"
                                 >
                                     {t}
                                 </span>

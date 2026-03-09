@@ -72,12 +72,6 @@ export default function Hero() {
         style={{ y: heroY, opacity: heroOpacity }}
         className="text-center z-10 px-6 w-full max-w-screen-xl mx-auto"
       >
-        <motion.p
-          variants={fadeUp} initial="hidden" animate="visible" custom={0}
-          className="section-badge mb-10 block"
-        >
-          ✦ Based in Indonesia · Available for work ✦
-        </motion.p>
 
         <motion.div variants={containerVariants} initial="hidden" animate="visible" className="overflow-visible">
           <div className="overflow-hidden">
@@ -139,20 +133,6 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* ── Scroll cue ── */}
-      <motion.a
-        href="#about"
-        variants={fadeUp} initial="hidden" animate="visible" custom={5}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 group flex flex-col items-center gap-3 text-theme-muted hover:text-theme-text transition-colors duration-500"
-        data-hover
-      >
-        <span className="text-[9px] uppercase tracking-[0.4em]">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-          className="w-[1px] h-14 bg-gradient-to-b from-theme-border to-transparent group-hover:from-primary transition-all duration-500"
-        />
-      </motion.a>
 
       {/* ── Stats row bottom-left ── */}
       <motion.div

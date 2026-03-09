@@ -13,6 +13,7 @@ import CustomCursor from './components/CustomCursor';
 export default function App() {
   return (
     <ThemeProvider>
+
       <SmoothScroll>
         {/* Noise grain texture overlay */}
         <div className="noise-overlay" aria-hidden="true" />
@@ -23,8 +24,10 @@ export default function App() {
         <div className="bg-theme-bg text-theme-text font-sans transition-colors duration-500">
           <Navbar />
 
+          {/* Hero di luar main agar full-width tanpa padding/max-width */}
+          <Hero />
+
           <main className="px-6 md:px-16 lg:px-24 max-w-screen-2xl mx-auto">
-            <Hero />
 
             <SectionWrapper id="about">
               <About />

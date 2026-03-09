@@ -1,11 +1,11 @@
-import { useRef } from 'react';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { useRef, useState } from 'react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 
 // ─── Timeline Data ──────────────────────────────────────────────────────────────
 const TIMELINE = [
     {
         id: 'exp-01',
-        year: '2025 — Now',
+        year: '2025 — Present',
         role: 'Freelance Developer & Designer',
         company: 'Self-Employed',
         type: 'Work',
@@ -56,178 +56,299 @@ const TIMELINE = [
         color: '#FF2D55',
         tags: ['Enrolled', 'GPA 3.8+'],
         description:
-            'Pursuing a degree in Informatics Engineering with a focus on game development and human-computer interaction. Consistent Dean\'s List achiever.',
+            "Pursuing a degree in Informatics Engineering with a focus on game development and human-computer interaction. Consistent Dean's List achiever.",
     },
 ];
 
-// ─── Single event card ──────────────────────────────────────────────────────────
-function TimelineItem({ item, index, isLeft }) {
+// ─── Floating Particles ─────────────────────────────────────────────────────────
+const PARTICLES = Array.from({ length: 28 }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: Math.random() * 3 + 1.5,
+    delay: Math.random() * 6,
+    duration: Math.random() * 6 + 5,
+    opacity: Math.random() * 0.45 + 0.1,
+}));
+
+function Particle({ p }) {
+    return (
+        <motion.span
+            className="pointer-events-none absolute rounded-full"
+            style={{
+                left: `${p.x}%`,
+                top: `${p.y}%`,
+                width: p.size,
+                height: p.size,
+                background: 'radial-gradient(circle, #38bdf8cc, #0ea5e900)',
+                boxShadow: `0 0 ${p.size * 3}px ${p.size}px #38bdf840`,
+            }}
+            animate={{
+                y: [0, -18, 0],
+                opacity: [p.opacity * 0.5, p.opacity, p.opacity * 0.5],
+                scale: [0.8, 1.2, 0.8],
+            }}
+            transition={{
+                duration: p.duration,
+                repeat: Infinity,
+                delay: p.delay,
+                ease: 'easeInOut',
+            }}
+        />
+    );
+}
+
+// ─── Content Card ───────────────────────────────────────────────────────────────
+function TimelineCard({ item, index, isLeft }) {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true, margin: '-8%' });
-
-    return (
-        <div
-            ref={ref}
-            className={`relative flex items-start gap-0 ${isLeft ? 'lg:flex-row-reverse' : 'lg:flex-row'} flex-col lg:w-full`}
-        >
-            {/* Content card */}
-            <motion.div
-                initial={{ opacity: 0, x: isLeft ? 40 : -40, y: 20 }}
-                animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
-                transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className={`group relative lg:w-[calc(50%-2.5rem)] w-full bento-card cursor-default ${isLeft ? 'lg:mr-10' : 'lg:ml-10'}`}
-            >
-                {/* Glow blob */}
-                <div
-                    className="absolute -top-10 -right-10 w-40 h-40 rounded-full blur-[60px] opacity-0 group-hover:opacity-25 transition-opacity duration-700 pointer-events-none"
-                    style={{ background: item.color }}
-                />
-
-                {/* Header row */}
-                <div className="flex items-start justify-between gap-4 mb-4">
-                    <div className="flex-1 min-w-0">
-                        <p className="text-[9px] uppercase tracking-[0.3em] font-bold mb-1.5" style={{ color: item.color }}>
-                            {item.year}
-                        </p>
-                        <h3 className="text-lg font-black tracking-tight leading-snug text-theme-text">
-                            {item.role}
-                        </h3>
-                        <p className="text-xs text-theme-muted mt-0.5 tracking-wide">{item.company}</p>
-                    </div>
-
-                    {/* Type pill */}
-                    <span
-                        className="shrink-0 px-3 py-1 rounded-full text-[9px] uppercase tracking-[0.18em] font-bold border mt-1"
-                        style={{
-                            color: item.color,
-                            borderColor: `${item.color}40`,
-                            background: `${item.color}12`,
-                        }}
-                    >
-                        {item.type}
-                    </span>
-                </div>
-
-                {/* Description */}
-                <p className="text-sm leading-relaxed text-theme-muted mb-5">{item.description}</p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1.5">
-                    {item.tags.map((tag) => (
-                        <span
-                            key={tag}
-                            className="px-2.5 py-1 text-[9px] uppercase tracking-[0.12em] font-semibold rounded-full border border-theme-border text-theme-muted hover:border-theme-border-hover hover:text-theme-text transition-all duration-300"
-                        >
-                            {tag}
-                        </span>
-                    ))}
-                </div>
-
-                {/* Corner accents */}
-                <span className="absolute top-0 left-0 w-4 h-4 border-t border-l opacity-50" style={{ borderColor: item.color }} />
-                <span className="absolute bottom-0 right-0 w-4 h-4 border-b border-r opacity-50" style={{ borderColor: item.color }} />
-            </motion.div>
-
-            {/* Spacer on the other side for desktop */}
-            <div className="hidden lg:block lg:w-[calc(50%-2.5rem)]" />
-        </div>
-    );
-}
-
-// ─── Main component ─────────────────────────────────────────────────────────────
-export default function Experience() {
-    const sectionRef = useRef(null);
-    const headerRef = useRef(null);
-    const headerInView = useInView(headerRef, { once: true });
-
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ['start 80%', 'end 20%'],
-    });
-    const lineH = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
-
-    return (
-        <section ref={sectionRef} id="experience" className="relative py-32 md:py-48">
-
-            {/* — Section header — */}
-            <div ref={headerRef} className="mb-20">
-                <motion.span
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={headerInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                    className="section-badge block mb-4"
-                >
-                    04 / Experience & Education
-                </motion.span>
-                <div className="overflow-hidden">
-                    <motion.h2
-                        initial={{ y: '110%' }}
-                        animate={headerInView ? { y: '0%' } : {}}
-                        transition={{ delay: 0.1, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-5xl md:text-7xl font-black tracking-[-0.04em] leading-none text-theme-text"
-                    >
-                        Timeline
-                    </motion.h2>
-                </div>
-            </div>
-
-            {/* ── Central vertical track ── */}
-            <div className="relative">
-
-                {/* Track line */}
-                <div className="absolute left-4 lg:left-1/2 top-0 bottom-0 w-[1px] -translate-x-1/2 bg-theme-border overflow-hidden">
-                    <motion.div
-                        style={{ height: lineH }}
-                        className="w-full bg-gradient-to-b from-primary via-primary/60 to-transparent origin-top"
-                    />
-                </div>
-
-                {/* ── Events ── */}
-                <div className="flex flex-col gap-10 pl-12 lg:pl-0">
-                    {TIMELINE.map((item, i) => (
-                        <div key={item.id} className="relative">
-
-                            {/* Year dot — centered on the track */}
-                            <TimelineDot item={item} index={i} />
-
-                            <TimelineItem
-                                item={item}
-                                index={i}
-                                isLeft={i % 2 !== 0}
-                            />
-                        </div>
-                    ))}
-                </div>
-
-            </div>
-        </section>
-    );
-}
-
-function TimelineDot({ item, index }) {
-    const ref = useRef(null);
-    const inView = useInView(ref, { once: true, margin: '-10%' });
+    const [expanded, setExpanded] = useState(false);
 
     return (
         <motion.div
             ref={ref}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={inView ? { scale: 1, opacity: 1 } : {}}
-            transition={{ delay: 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute left-4 lg:left-1/2 top-6 -translate-x-1/2 z-10"
+            initial={{ opacity: 0, x: isLeft ? 50 : -50 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ delay: index * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className={`group relative w-full ${isLeft ? 'text-left' : 'text-right'}`}
         >
-            {/* Outer ring */}
-            <motion.div
-                animate={{ scale: [1, 1.35, 1], opacity: [0.4, 0, 0.4] }}
-                transition={{ duration: 2.5, repeat: Infinity, delay: index * 0.3 }}
-                className="absolute inset-0 rounded-full"
-                style={{ background: item.color, margin: '-6px' }}
-            />
-            {/* Core dot */}
+            {/* Connector arm: horizontal line from card to center */}
             <div
-                className="w-3 h-3 rounded-full border-2 border-theme-bg"
-                style={{ background: item.color, boxShadow: `0 0 10px ${item.color}80` }}
+                className={`absolute top-5 hidden lg:block h-[1px] w-10 ${isLeft ? 'right-0' : 'left-0'}`}
+                style={{ background: `linear-gradient(${isLeft ? 'to left' : 'to right'}, transparent, ${item.color}60)` }}
             />
+
+            {/* Glow blob */}
+            <div
+                className="absolute -top-8 w-52 h-52 rounded-full blur-[80px] opacity-0 group-hover:opacity-15 transition-opacity duration-700 pointer-events-none"
+                style={{ background: item.color, [isLeft ? 'right' : 'left']: '-4rem' }}
+            />
+
+            {/* Year + type */}
+            <div className={`flex items-center gap-3 mb-2 ${isLeft ? 'justify-start' : 'justify-end'}`}>
+                {!isLeft && (
+                    <span
+                        className="px-2.5 py-0.5 rounded-full text-[11px] uppercase tracking-[0.18em] font-bold border"
+                        style={{ color: item.color, borderColor: `${item.color}50`, background: `${item.color}15` }}
+                    >
+                        {item.type}
+                    </span>
+                )}
+                <span className="text-[10px] uppercase tracking-[0.25em] font-bold" style={{ color: item.color }}>
+                    {item.year}
+                </span>
+                {isLeft && (
+                    <span
+                        className="px-2.5 py-0.5 rounded-full text-[11px] uppercase tracking-[0.18em] font-bold border"
+                        style={{ color: item.color, borderColor: `${item.color}50`, background: `${item.color}15` }}
+                    >
+                        {item.type}
+                    </span>
+                )}
+            </div>
+
+            {/* Role */}
+            <h3 className="text-xl md:text-2xl font-black tracking-tight text-theme-text leading-snug mb-1">
+                {item.role}
+            </h3>
+
+            {/* Company */}
+            <p className="text-xs text-theme-muted tracking-wide mb-3">{item.company}</p>
+
+            {/* Description */}
+            <p className="text-sm leading-relaxed text-theme-muted mb-4">
+                {item.description}
+            </p>
+
+            {/* Tags */}
+            <div className={`flex flex-wrap gap-1.5 mb-4 ${isLeft ? 'justify-start' : 'justify-end'}`}>
+                {item.tags.map((tag) => (
+                    <span
+                        key={tag}
+                        className="px-2.5 py-1 text-[11px] uppercase tracking-[0.12em] font-semibold rounded-full border border-theme-border text-theme-muted hover:border-theme-border-hover hover:text-theme-text transition-all duration-300"
+                    >
+                        {tag}
+                    </span>
+                ))}
+            </div>
+
+            {/* View Details button */}
+            <div className={`flex ${isLeft ? 'justify-start' : 'justify-end'}`}>
+                <motion.button
+                    whileHover={{ scale: 1.04 }}
+                    whileTap={{ scale: 0.96 }}
+                    onClick={() => setExpanded(!expanded)}
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-theme-border text-theme-text text-[11px] uppercase tracking-[0.2em] font-semibold hover:bg-theme-border-hover hover:text-theme-text transition-all duration-300"
+                    data-hover
+                >
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+                    </svg>
+                    {expanded ? 'HIDE DETAILS' : 'VIEW DETAILS'}
+                </motion.button>
+            </div>
+
+            {/* Expandable extra info */}
+            <AnimatePresence>
+                {expanded && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                    >
+                        <div
+                            className="mt-3 p-4 rounded-xl border text-xs text-theme-muted leading-relaxed"
+                            style={{ borderColor: `${item.color}30`, background: `${item.color}0c` }}
+                        >
+                            <p className="text-theme-muted font-semibold mb-1 uppercase tracking-widest text-[10px]">
+                                Impact &amp; highlights
+                            </p>
+                            <p>
+                                Key technologies: {item.tags.join(', ')}. This experience shaped my
+                                approach to building scalable, user-focused products with a keen eye
+                                for performance and aesthetic detail.
+                            </p>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.div>
+    );
+}
+
+// ─── Center Dot ─────────────────────────────────────────────────────────────────
+function CenterDot({ item, index }) {
+    const ref = useRef(null);
+    const inView = useInView(ref, { once: true, margin: '-10%' });
+
+    return (
+        <div ref={ref} className="relative z-10 flex-shrink-0 flex items-start justify-center" style={{ width: 24, paddingTop: 4 }}>
+            <motion.div
+                initial={{ scale: 0, opacity: 0 }}
+                animate={inView ? { scale: 1, opacity: 1 } : {}}
+                transition={{ delay: index * 0.1 + 0.2, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="relative"
+                style={{ width: 18, height: 18 }}
+            >
+                {/* Pulse ring */}
+                <motion.span
+                    animate={{ scale: [1, 1.9, 1], opacity: [0.4, 0, 0.4] }}
+                    transition={{ duration: 2.5, repeat: Infinity, delay: index * 0.35 }}
+                    className="absolute inset-0 rounded-full"
+                    style={{ background: item.color }}
+                />
+                {/* Core */}
+                <span
+                    className="absolute inset-[3px] rounded-full border-2 border-black/50"
+                    style={{ background: item.color, boxShadow: `0 0 14px ${item.color}90` }}
+                />
+            </motion.div>
+        </div>
+    );
+}
+
+// ─── Main Component ─────────────────────────────────────────────────────────────
+export default function Experience() {
+    const headerRef = useRef(null);
+    const headerInView = useInView(headerRef, { once: true });
+
+    return (
+        <section id="experience" className="relative overflow-hidden pb-32 pt-0 md:pb-48 md:pt-0">
+
+            {/* ── Particles ── */}
+            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+                {PARTICLES.map((p) => <Particle key={p.id} p={p} />)}
+            </div>
+
+            {/* ── Content ── */}
+            <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 pt-24">
+
+                {/* Section Header */}
+                <div ref={headerRef} className="text-center mb-20">
+                    <motion.span
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={headerInView ? { opacity: 1, y: 0 } : {}}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="section-badge inline-block mb-6"
+                    >
+                        04 / Experience &amp; Education
+                    </motion.span>
+
+                    <div className="overflow-hidden mb-6">
+                        <motion.h2
+                            initial={{ y: '110%' }}
+                            animate={headerInView ? { y: '0%' } : {}}
+                            transition={{ delay: 0.1, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                            className="text-5xl md:text-7xl font-black tracking-[0.1em] leading-none text-theme-text uppercase"
+                        >
+                            My Backstory
+                        </motion.h2>
+                    </div>
+
+                    <motion.div
+                        initial={{ scaleX: 0 }}
+                        animate={headerInView ? { scaleX: 1 } : {}}
+                        transition={{ delay: 0.35, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                        className="mx-auto h-[1px] w-24 bg-theme-border origin-center"
+                    />
+                </div>
+
+                {/* ── Zigzag Timeline ── */}
+                <div className="relative">
+
+                    {/* Central vertical track */}
+                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] hidden lg:block"
+                        style={{ background: 'linear-gradient(to bottom, transparent, var(--color-border) 15%, var(--color-border) 85%, transparent)' }}
+                    />
+
+                    <div className="flex flex-col gap-16">
+                        {TIMELINE.map((item, i) => {
+                            const isLeft = i % 2 === 0; // even → content on LEFT, odd → content on RIGHT
+                            return (
+                                <div key={item.id} className="relative flex items-start gap-0 lg:grid lg:grid-cols-[1fr_24px_1fr]">
+
+                                    {/* LEFT COLUMN */}
+                                    <div className={`${isLeft ? 'lg:block' : 'lg:block'} w-full lg:pr-10`}>
+                                        {isLeft ? (
+                                            <TimelineCard item={item} index={i} isLeft={false} />
+                                        ) : (
+                                            <div className="hidden lg:block" /> // empty spacer
+                                        )}
+                                    </div>
+
+                                    {/* CENTER DOT */}
+                                    <div className="hidden lg:flex justify-center">
+                                        <CenterDot item={item} index={i} />
+                                    </div>
+
+                                    {/* RIGHT COLUMN */}
+                                    <div className="w-full lg:pl-10">
+                                        {!isLeft ? (
+                                            <TimelineCard item={item} index={i} isLeft={true} />
+                                        ) : (
+                                            <div className="hidden lg:block" /> // empty spacer
+                                        )}
+                                    </div>
+
+                                    {/* MOBILE: always show full width */}
+                                    <div className="lg:hidden w-full pl-8 relative">
+                                        {/* Mobile dot */}
+                                        <span
+                                            className="absolute left-0 top-1.5 w-4 h-4 rounded-full border-2 border-black/50"
+                                            style={{ background: item.color, boxShadow: `0 0 8px ${item.color}80` }}
+                                        />
+                                        <TimelineCard item={item} index={i} isLeft={true} />
+                                    </div>
+
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+            </div>
+        </section>
     );
 }

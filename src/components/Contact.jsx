@@ -91,7 +91,7 @@ function SocialCard({ social, index }) {
                 </motion.div>
                 <div>
                     <p className="text-sm font-semibold text-theme-text leading-none">{social.label}</p>
-                    <p className="text-[10px] text-theme-muted mt-0.5 tracking-wide">{social.handle}</p>
+                    <p className="text-xs text-theme-muted mt-0.5 tracking-wide">{social.handle}</p>
                 </div>
             </div>
 
@@ -122,15 +122,15 @@ export default function Contact() {
     };
 
     return (
-        <footer id="contact" className="relative border-t border-theme-border mt-24">
+        <footer id="contact" className="relative border-t border-theme-border mt-24 overflow-hidden">
 
             {/* Ambient glow top */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-primary/[0.06] blur-[100px] rounded-full pointer-events-none" />
 
-            <div ref={ref} className="py-28 md:py-40 relative z-10">
+            <div ref={ref} className="py-16 md:py-24 relative z-10">
 
                 {/* ── CTA Block ── */}
-                <div className="text-center mb-24">
+                <div className="text-center mb-14">
                     <motion.span
                         initial={{ opacity: 0, y: 10 }}
                         animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -240,9 +240,9 @@ export default function Contact() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     transition={{ delay: 0.5, duration: 0.7 }}
-                    className="max-w-2xl mx-auto mb-24 px-6 md:px-0"
+                    className="max-w-2xl mx-auto mb-12 px-6 md:px-0"
                 >
-                    <p className="text-[9px] uppercase tracking-[0.4em] text-theme-muted text-center mb-6">Find me on</p>
+                    <p className="text-xs uppercase tracking-[0.4em] text-theme-muted text-center mb-6">Find me on</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {SOCIALS.map((s, i) => (
                             <SocialCard key={s.id} social={s} index={i} />
@@ -267,7 +267,7 @@ export default function Contact() {
                         initial={{ opacity: 0 }}
                         animate={inView ? { opacity: 1 } : {}}
                         transition={{ delay: 0.7, duration: 0.6 }}
-                        className="text-[9px] uppercase tracking-[0.4em] text-theme-muted"
+                        className="text-xs uppercase tracking-[0.4em] text-theme-muted"
                     >
                         © 2026 Rafif Ahmad · Crafted with precision
                     </motion.p>
@@ -277,7 +277,7 @@ export default function Contact() {
                         initial={{ opacity: 0 }}
                         animate={inView ? { opacity: 1 } : {}}
                         transition={{ delay: 0.75, duration: 0.6 }}
-                        className="text-[9px] uppercase tracking-[0.2em] text-theme-muted hover:text-primary transition-colors duration-300"
+                        className="text-xs uppercase tracking-[0.2em] text-theme-muted hover:text-primary transition-colors duration-300"
                         data-hover
                     >
                         Back to top ↑

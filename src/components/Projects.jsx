@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 
 const PROJECTS = [
   {
@@ -9,6 +9,7 @@ const PROJECTS = [
     year: '2025',
     description: 'A hyper-interactive dashboard built with React and Three.js, featuring real-time data visualization.',
     color: '#007AFF',
+    image: '/project-1.png',
     link: '#',
   },
   {
@@ -18,6 +19,7 @@ const PROJECTS = [
     year: '2024',
     description: 'An endless runner game set in a cyberpunk neon-lit cityscape. Built in Unity with HDRP rendering.',
     color: '#5856D6',
+    image: '/project-2.png',
     link: '#',
   },
   {
@@ -27,6 +29,7 @@ const PROJECTS = [
     year: '2024',
     description: 'A premium analytics dashboard with custom charting components and micro-animated data states.',
     color: '#34C759',
+    image: '/project-3.png',
     link: '#',
   },
   {
@@ -36,11 +39,12 @@ const PROJECTS = [
     year: '2023',
     description: 'A dark-first, component-driven design system built for maximum flexibility and visual consistency.',
     color: '#FF9F0A',
+    image: '/project-4.png',
     link: '#',
   },
 ];
 
-function ProjectItem({ project, index }) {
+function ProjectCard({ project, index }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-5%' });
   const [hovered, setHovered] = useState(false);
@@ -50,76 +54,85 @@ function ProjectItem({ project, index }) {
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay: index * 0.08, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ delay: index * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="project-line group relative border-b border-theme-border cursor-pointer"
+      className="group relative"
       data-hover
     >
-      <a href={project.link} className="flex items-start md:items-center justify-between py-8 md:py-10 px-0 md:px-2 gap-4">
+      <a href={project.link} className="block">
+        {/* ── Image container ── */}
+        <div className="relative overflow-hidden rounded-2xl border border-theme-border mb-5"
+          style={{ aspectRatio: '16/9' }}
+        >
+          {/* Image */}
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+            style={{ transform: hovered ? 'scale(1.06)' : 'scale(1)' }}
+          />
 
-        {/* Left: number + title */}
-        <div className="flex items-start md:items-center gap-6 min-w-0">
-          <span className="text-[10px] text-theme-muted font-mono pt-2 md:pt-0 shrink-0 tabular-nums">
-            {project.id}
-          </span>
-          <div className="min-w-0">
-            <motion.h3
-              animate={{ x: hovered ? 10 : 0, color: hovered ? project.color : 'var(--color-text)' }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.04em] leading-none whitespace-nowrap text-theme-text"
-            >
-              {project.title}
-            </motion.h3>
+          {/* Dark overlay */}
+          <div
+            className="absolute inset-0 transition-opacity duration-500"
+            style={{
+              background: `linear-gradient(to top, ${project.color}30 0%, transparent 60%)`,
+              opacity: hovered ? 1 : 0,
+            }}
+          />
 
-            <AnimatePresence>
-              {hovered && (
-                <motion.p
-                  initial={{ opacity: 0, height: 0, y: -5 }}
-                  animate={{ opacity: 1, height: 'auto', y: 0 }}
-                  exit={{ opacity: 0, height: 0, y: -5 }}
-                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-theme-muted text-sm leading-relaxed mt-3 max-w-md overflow-hidden"
-                >
-                  {project.description}
-                </motion.p>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {/* Right: tags, year, arrow */}
-        <div className="flex flex-col md:flex-row items-end md:items-center gap-3 md:gap-8 shrink-0 text-right">
-          <div className="hidden md:block">
-            <motion.p
-              animate={{ opacity: hovered ? 1 : 0.45 }}
-              className="text-[10px] uppercase tracking-[0.2em] text-theme-text font-medium"
-            >
-              {project.tags}
-            </motion.p>
-            <p className="text-[10px] text-theme-muted mt-0.5 tracking-widest">{project.year}</p>
-          </div>
-
+          {/* Corner accent on hover */}
           <motion.div
-            animate={{ x: hovered ? 0 : 10, opacity: hovered ? 1 : 0, rotate: hovered ? 0 : -45 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="w-10 h-10 rounded-full border flex items-center justify-center shrink-0"
-            style={{ borderColor: project.color, color: project.color }}
+            animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1 : 0.8 }}
+            transition={{ duration: 0.3 }}
+            className="absolute top-4 right-4 w-9 h-9 rounded-full border flex items-center justify-center backdrop-blur-sm"
+            style={{
+              borderColor: project.color,
+              color: project.color,
+              background: `${project.color}18`,
+            }}
           >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
               <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </motion.div>
-        </div>
-      </a>
 
-      {/* Hover background wash */}
-      <motion.div
-        className="absolute inset-0 rounded-sm pointer-events-none"
-        animate={{ opacity: hovered ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
-        style={{ background: `radial-gradient(ellipse at left center, ${project.color}08 0%, transparent 70%)` }}
-      />
+          {/* Project number badge */}
+          <div className="absolute top-4 left-4 text-xs font-mono text-white/70 tracking-widest bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
+            {project.id}
+          </div>
+        </div>
+
+        {/* ── Info row ── */}
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <motion.h3
+              animate={{ color: hovered ? project.color : 'var(--color-text)' }}
+              transition={{ duration: 0.3 }}
+              className="text-xl sm:text-2xl font-black tracking-[-0.03em] leading-tight mb-1 truncate"
+            >
+              {project.title}
+            </motion.h3>
+            <p className="text-xs text-theme-muted uppercase tracking-[0.2em] truncate">
+              {project.tags} · {project.year}
+            </p>
+          </div>
+        </div>
+
+        {/* Description */}
+        <p className="mt-3 text-sm text-theme-muted leading-relaxed line-clamp-2">
+          {project.description}
+        </p>
+
+        {/* Bottom color bar on hover */}
+        <motion.div
+          animate={{ scaleX: hovered ? 1 : 0, opacity: hovered ? 1 : 0 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-4 h-[2px] rounded-full origin-left"
+          style={{ background: `linear-gradient(90deg, ${project.color}, transparent)` }}
+        />
+      </a>
     </motion.div>
   );
 }
@@ -129,8 +142,9 @@ export default function Projects() {
   const headerInView = useInView(headerRef, { once: true });
 
   return (
-    <section id="projects" className="relative py-32 md:py-48">
+    <section id="projects" className="relative pt-32 pb-16 md:pt-48 md:pb-20 overflow-hidden">
 
+      {/* ── Header ── */}
       <div ref={headerRef} className="flex items-end justify-between mb-16 gap-8">
         <div>
           <motion.span
@@ -158,24 +172,17 @@ export default function Projects() {
           initial={{ opacity: 0 }}
           animate={headerInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.4, duration: 0.6 }}
-          className="hidden md:inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-theme-muted hover:text-theme-text transition-colors duration-300 shrink-0 mb-2"
+          className="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-theme-muted hover:text-theme-text transition-colors duration-300 shrink-0 mb-2"
           data-hover
         >
           View all <span className="text-primary">→</span>
         </motion.a>
       </div>
 
-      <motion.div
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        className="origin-left h-[1px] bg-theme-border mb-0"
-      />
-
-      <div>
+      {/* ── Grid ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-12">
         {PROJECTS.map((project, i) => (
-          <ProjectItem key={project.id} project={project} index={i} />
+          <ProjectCard key={project.id} project={project} index={i} />
         ))}
       </div>
 
@@ -184,7 +191,7 @@ export default function Projects() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 0.4, duration: 0.6 }}
-        className="mt-16 text-[10px] uppercase tracking-[0.35em] text-theme-muted text-center"
+        className="mt-16 text-xs uppercase tracking-[0.35em] text-theme-muted text-center"
       >
         — More work in progress —
       </motion.p>

@@ -46,9 +46,9 @@
   --color-muted: #777777;
   --color-muted-2: #aaaaaa;
 
-  --color-border: rgba(0, 0, 0, 0.09);
-  --color-border-sub: rgba(0, 0, 0, 0.055);
-  --color-border-h: rgba(0, 0, 0, 0.18);
+  --color-border: rgba(0, 0, 0, 0.2);
+  --color-border-sub: rgba(0, 0, 0, 0.1);
+  --color-border-h: rgba(0, 0, 0, 0.38);
 
   --scrollbar-bg: #f2f2f0;
   --fade-color: #f2f2f0;
@@ -149,7 +149,7 @@ body {
 .cursor-dot {
   width: 6px;
   height: 6px;
-  background: var(--color-text);
+  background: #ffffff;
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
@@ -174,7 +174,7 @@ body {
   width: 54px;
   height: 54px;
   border-color: rgba(var(--primary-rgb), 1);
-  background: rgba(var(--primary-rgb), 0.05);
+  background: rgba(var(--primary-rgb), 0.08);
 }
 
 /* Hide custom cursor on touch/coarse-pointer devices */
@@ -250,6 +250,7 @@ body {
 /* ══════════════════════════════════════════════════════════════════════════════
    HERO SECTION  (uses CSS vars so theme switches work without JS)
    ══════════════════════════════════════════════════════════════════════════════ */
+/* .hero-section background dipindah ke video global di App.jsx */
 .hero-section {
   background-color: var(--color-bg);
 }
