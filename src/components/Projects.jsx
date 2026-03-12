@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 const PROJECTS = [
@@ -47,7 +47,6 @@ const PROJECTS = [
 function ProjectCard({ project, index }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-5%' });
-  const [hovered, setHovered] = useState(false);
 
   return (
     <motion.div
@@ -55,9 +54,8 @@ function ProjectCard({ project, index }) {
       initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: index * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
       className="group relative"
+      style={{ '--project-color': project.color }}
       data-hover
     >
       <a href={project.link} className="block">
@@ -69,24 +67,20 @@ function ProjectCard({ project, index }) {
           <img
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
-            style={{ transform: hovered ? 'scale(1.06)' : 'scale(1)' }}
+            className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
           />
 
           {/* Dark overlay */}
           <div
-            className="absolute inset-0 transition-opacity duration-500"
+            className="absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
             style={{
               background: `linear-gradient(to top, ${project.color}30 0%, transparent 60%)`,
-              opacity: hovered ? 1 : 0,
             }}
           />
 
           {/* Corner accent on hover */}
-          <motion.div
-            animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1 : 0.8 }}
-            transition={{ duration: 0.3 }}
-            className="absolute top-4 right-4 w-9 h-9 rounded-full border flex items-center justify-center backdrop-blur-sm"
+          <div
+            className="absolute top-4 right-4 w-9 h-9 rounded-full border flex items-center justify-center backdrop-blur-sm opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300"
             style={{
               borderColor: project.color,
               color: project.color,
@@ -96,7 +90,7 @@ function ProjectCard({ project, index }) {
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
               <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </motion.div>
+          </div>
 
           {/* Project number badge */}
           <div className="absolute top-4 left-4 text-xs font-mono text-white/70 tracking-widest bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
@@ -107,13 +101,11 @@ function ProjectCard({ project, index }) {
         {/* ── Info row ── */}
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <motion.h3
-              animate={{ color: hovered ? project.color : 'var(--color-text)' }}
-              transition={{ duration: 0.3 }}
-              className="text-xl sm:text-2xl font-black tracking-[-0.03em] leading-tight mb-1 truncate"
+            <h3
+              className="text-xl sm:text-2xl font-black tracking-[-0.03em] leading-tight mb-1 truncate text-theme-text group-hover:text-[var(--project-color)] transition-colors duration-300"
             >
               {project.title}
-            </motion.h3>
+            </h3>
             <p className="text-xs text-theme-muted uppercase tracking-[0.2em] truncate">
               {project.tags} · {project.year}
             </p>
@@ -126,10 +118,8 @@ function ProjectCard({ project, index }) {
         </p>
 
         {/* Bottom color bar on hover */}
-        <motion.div
-          animate={{ scaleX: hovered ? 1 : 0, opacity: hovered ? 1 : 0 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-4 h-[2px] rounded-full origin-left"
+        <div
+          className="mt-4 h-[2px] rounded-full origin-left scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
           style={{ background: `linear-gradient(90deg, ${project.color}, transparent)` }}
         />
       </a>
@@ -142,7 +132,7 @@ export default function Projects() {
   const headerInView = useInView(headerRef, { once: true });
 
   return (
-    <section id="projects" className="relative pt-32 pb-16 md:pt-48 md:pb-20 overflow-hidden">
+    <section id="projects" className="relative pt-12 pb-16 md:pt-16 md:pb-20 overflow-hidden">
 
       {/* ── Header ── */}
       <div ref={headerRef} className="flex items-end justify-between mb-16 gap-8">
@@ -186,15 +176,11 @@ export default function Projects() {
         ))}
       </div>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.4, duration: 0.6 }}
-        className="mt-16 text-xs uppercase tracking-[0.35em] text-theme-muted text-center"
+      <p
+        className="mt-16 text-xs uppercase tracking-[0.35em] text-theme-muted text-center opacity-80"
       >
         — More work in progress —
-      </motion.p>
+      </p>
     </section>
   );
 }

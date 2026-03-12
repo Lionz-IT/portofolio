@@ -45,18 +45,30 @@ export default function Navbar() {
       >
         <div className="max-w-screen-2xl mx-auto px-8 md:px-16 py-5 flex justify-between items-center">
 
-          {/* Logo */}
+          {/* Logo & Profile Picture */}
           <motion.a
             href="#home"
             variants={logoVariants}
             initial="hidden"
             animate="visible"
-            className="group flex items-center gap-0 text-xl font-black tracking-[-0.04em] select-none"
+            className="group flex items-center gap-3 text-xl font-black tracking-[-0.04em] select-none"
             data-hover
           >
-            <span className="text-theme-text transition-colors duration-300">Lionz</span>
-            <span className="text-primary transition-all duration-300 group-hover:glow-text">-IT</span>
-            <span className="ml-2 w-1.5 h-1.5 rounded-full bg-primary animate-ping opacity-80" />
+            {/* Profile Picture in Navbar */}
+            <div className="w-9 h-9 md:w-10 md:h-10 flex shrink-0 items-center justify-center">
+              <img 
+                src="/profile.png" 
+                alt="Profile" 
+                className="w-full h-full object-contain scale-[1.5] md:scale-[1.8] drop-shadow-[0_0_8px_rgba(0,122,255,0.15)] group-hover:drop-shadow-[0_0_16px_rgba(0,122,255,0.3)] group-hover:-translate-y-0.5 transition-all duration-500" 
+                style={{ filter: isDark ? 'none' : 'invert(1)' }}
+              />
+            </div>
+
+            <div className="flex items-center gap-0">
+              <span className="text-theme-text transition-colors duration-300">Lionz</span>
+              <span className="text-primary transition-all duration-300 group-hover:glow-text">-IT</span>
+              <span className="ml-2 w-1.5 h-1.5 rounded-full bg-primary animate-ping opacity-80" />
+            </div>
           </motion.a>
 
           {/* Desktop Nav */}

@@ -293,17 +293,13 @@ export default function Skills() {
                             { val: '4', label: 'Domains' },
                             { val: '∞', label: 'Curiosity' },
                         ].map(({ val, label }, i) => (
-                            <motion.div
+                            <div
                                 key={label}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.2 + i * 0.07, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                                 className="p-3 rounded-xl border border-theme-border bg-theme-surface-hover flex flex-col gap-0.5"
                             >
                                 <span className="text-2xl font-black tracking-[-0.04em] text-theme-text">{val}</span>
                                 <span className="text-[11px] uppercase tracking-[0.2em] text-theme-muted">{label}</span>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
 

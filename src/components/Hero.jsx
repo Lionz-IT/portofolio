@@ -21,7 +21,7 @@ const fadeUp = {
   }),
 };
 
-export default function Hero() {
+export default function Hero({ video }) {
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [roleIndex, setRoleIndex] = useState(0);
@@ -46,7 +46,7 @@ export default function Hero() {
     return () => clearTimeout(timeoutRef.current);
   }, [displayText, isDeleting, roleIndex]);
 
-  // ── Scroll parallax (CSS-var based, single listener) ───────────────────────
+  // ── Scroll parallax ─────────────────────────────────────────────────────────
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 600], [0, 80]);
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
@@ -56,16 +56,28 @@ export default function Hero() {
       id="home"
       className="hero-section relative h-screen flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* ── Ambient glow blobs (CSS animation, no JS) ── */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] rounded-full blur-[130px] pointer-events-none animate-glow-pulse hero-blob" />
-      <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] rounded-full blur-[100px] pointer-events-none hero-blob-2" />
+      {/* ── Video background ── */}
+      {video && (
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <video
+            className="w-full h-full object-cover"
+            src={video}
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-black/55" />
+        </div>
+      )}
+
+      {/* ── Ambient glow blobs (subtle, on top of video) ── */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] rounded-full blur-[130px] pointer-events-none animate-glow-pulse hero-blob z-[1]" />
+      <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] rounded-full blur-[100px] pointer-events-none hero-blob-2 z-[1]" />
 
       {/* ── Grid lines (theme-aware via CSS var) ── */}
-      <div className="hero-grid absolute inset-0 pointer-events-none opacity-[0.03]" />
-
-      {/* ── Fade edges ── */}
-      <div className="absolute top-0 left-0 right-0 h-32 fade-top pointer-events-none z-10" />
-      <div className="absolute bottom-0 left-0 right-0 h-32 fade-bottom pointer-events-none z-10" />
+      <div className="hero-grid absolute inset-0 pointer-events-none opacity-[0.03] z-[1]" />
 
       {/* ── Main content ── */}
       <motion.div
@@ -77,7 +89,7 @@ export default function Hero() {
           <div className="overflow-hidden">
             <motion.h1
               variants={itemVariants}
-              className="text-[13vw] md:text-[11vw] leading-[0.88] font-black tracking-[-0.04em] text-theme-text select-none"
+              className="text-[13vw] md:text-[11vw] leading-[0.88] font-black tracking-[-0.04em] text-white select-none drop-shadow-2xl"
             >
               RAFIF
             </motion.h1>
@@ -97,7 +109,7 @@ export default function Hero() {
           variants={fadeUp} initial="hidden" animate="visible" custom={1}
           className="mt-8 h-10 flex items-center justify-center"
         >
-          <p className="text-theme-muted text-base md:text-xl font-light tracking-[0.25em] uppercase">
+          <p className="text-white/75 text-base md:text-xl font-light tracking-[0.25em] uppercase drop-shadow">
             {displayText}
             <span className="text-primary animate-cursor-blink ml-0.5">|</span>
           </p>
@@ -105,7 +117,7 @@ export default function Hero() {
 
         <motion.p
           variants={fadeUp} initial="hidden" animate="visible" custom={2}
-          className="mt-6 max-w-md mx-auto text-theme-muted text-sm leading-relaxed tracking-wide"
+          className="mt-6 max-w-md mx-auto text-white/60 text-sm leading-relaxed tracking-wide drop-shadow"
         >
           Crafting digital experiences where precision engineering meets brutalist aesthetics.
         </motion.p>
@@ -125,7 +137,7 @@ export default function Hero() {
           </a>
           <a
             href="#about"
-            className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] px-8 py-4 border border-theme-border text-theme-muted font-medium rounded-full hover:border-theme-border-hover hover:text-theme-text transition-all duration-500"
+            className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] px-8 py-4 border border-white/30 text-white/80 font-medium rounded-full hover:border-white/60 hover:text-white transition-all duration-500 backdrop-blur-sm"
             data-hover
           >
             About Me
@@ -144,8 +156,8 @@ export default function Hero() {
           { value: '20+', label: 'Projects shipped' },
         ].map(({ value, label }) => (
           <div key={label} className="flex items-baseline gap-3">
-            <span className="text-2xl font-black text-theme-text tracking-tighter">{value}</span>
-            <span className="text-[10px] uppercase tracking-widest text-theme-muted">{label}</span>
+            <span className="text-2xl font-black text-white tracking-tighter drop-shadow">{value}</span>
+            <span className="text-[10px] uppercase tracking-widest text-white/60">{label}</span>
           </div>
         ))}
       </motion.div>

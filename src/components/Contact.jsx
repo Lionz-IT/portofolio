@@ -122,12 +122,9 @@ export default function Contact() {
     };
 
     return (
-        <footer id="contact" className="relative border-t border-theme-border mt-24 overflow-hidden">
+        <footer id="contact" className="relative mt-0 pt-8 pb-6 md:pt-12 md:pb-8 overflow-hidden">
 
-            {/* Ambient glow top */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-primary/[0.06] blur-[100px] rounded-full pointer-events-none" />
-
-            <div ref={ref} className="py-16 md:py-24 relative z-10">
+            <div ref={ref} className="relative z-10">
 
                 {/* ── CTA Block ── */}
                 <div className="text-center mb-14">

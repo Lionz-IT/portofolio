@@ -10,6 +10,10 @@ import SectionWrapper from './components/SectionWrapper';
 import SmoothScroll from './components/SmoothScroll';
 import CustomCursor from './components/CustomCursor';
 
+// Alternating video backgrounds for each section
+const V1 = '/videos/video1.mp4';
+const V2 = '/videos/video2.mp4';
+
 export default function App() {
   return (
     <ThemeProvider>
@@ -18,38 +22,50 @@ export default function App() {
         {/* Noise grain texture overlay */}
         <div className="noise-overlay" aria-hidden="true" />
 
-        {/* Custom cursor (hidden on touch devices via CSS) */}
+        {/* Minimal dot cursor */}
         <CustomCursor />
 
         <div className="bg-theme-bg text-theme-text font-sans transition-colors duration-500">
           <Navbar />
 
-          {/* Hero di luar main agar full-width tanpa padding/max-width */}
-          <Hero />
+          {/* ── Hero — video1 — full width ── */}
+          <Hero video={V1} />
 
-          <main className="px-6 md:px-16 lg:px-24 max-w-screen-2xl mx-auto">
-
-            <SectionWrapper id="about">
+          {/* ── About — kosong — full bleed, content padded inside ── */}
+          <SectionWrapper id="about" video={null}>
+            <div className="px-6 md:px-16 lg:px-24 max-w-screen-2xl mx-auto">
               <About />
-            </SectionWrapper>
+            </div>
+          </SectionWrapper>
 
-            <SectionWrapper id="projects">
+          {/* ── Projects — video2 — full bleed ── */}
+          <SectionWrapper id="projects" video={V2}>
+            <div className="px-6 md:px-16 lg:px-24 max-w-screen-2xl mx-auto">
               <Projects />
-            </SectionWrapper>
+            </div>
+          </SectionWrapper>
 
-            <SectionWrapper id="skills">
+          {/* ── Skills — kosong — full bleed ── */}
+          <SectionWrapper id="skills" video={null}>
+            <div className="px-6 md:px-16 lg:px-24 max-w-screen-2xl mx-auto">
               <Skills />
-            </SectionWrapper>
+            </div>
+          </SectionWrapper>
 
-            <SectionWrapper id="experience">
+          {/* ── Experience — video1 — full bleed ── */}
+          <SectionWrapper id="experience" video={V1}>
+            <div className="px-6 md:px-16 lg:px-24 max-w-screen-2xl mx-auto">
               <Experience />
-            </SectionWrapper>
-          </main>
+            </div>
+          </SectionWrapper>
 
-          {/* Polished Contact + Footer (has its own padding/layout) */}
-          <div className="px-6 md:px-16 lg:px-24 max-w-screen-2xl mx-auto">
-            <Contact />
-          </div>
+          {/* ── Contact / Footer — kosong — full bleed ── */}
+          <SectionWrapper id="contact" video={null}>
+            <div className="px-6 md:px-16 lg:px-24 max-w-screen-2xl mx-auto">
+              <Contact />
+            </div>
+          </SectionWrapper>
+
         </div>
       </SmoothScroll>
     </ThemeProvider>
