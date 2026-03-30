@@ -21,29 +21,29 @@ export default function Navbar() {
     visible: (i) => ({
       opacity: 1,
       y: 0,
-      transition: { delay: 0.1 + i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+      transition: { delay: 0.1 + i * 0.08, duration: 0.8, ease: [0.16, 1, 0.3, 1] },
     }),
   };
 
   const logoVariants = {
     hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] } },
   };
 
   const scrolledBg = isDark
-    ? 'bg-[#050505]/75 backdrop-blur-2xl border-b border-white/[0.04]'
-    : 'bg-[#f5f5f3]/80 backdrop-blur-2xl border-b border-black/[0.06]';
+    ? 'bg-[#1A1528]/80 backdrop-blur-3xl border-b border-primary/20 shadow-[0_4px_40px_var(--glow-gold)]'
+    : 'bg-[#F5F0E8]/90 backdrop-blur-3xl border-b border-primary/20 shadow-[0_4px_30px_var(--glow-purple)]';
 
   return (
     <>
       <motion.nav
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed w-full top-0 z-[990] transition-all duration-700 ${scrolled ? scrolledBg : 'bg-transparent'
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        className={`fixed w-full top-0 z-[990] transition-all duration-1000 ${scrolled ? scrolledBg : 'bg-transparent'
           }`}
       >
-        <div className="max-w-screen-2xl mx-auto px-8 md:px-16 py-5 flex justify-between items-center">
+        <div className="max-w-screen-2xl mx-auto px-8 md:px-16 py-6 flex justify-between items-center">
 
           {/* Logo & Profile Picture */}
           <motion.a
@@ -51,28 +51,28 @@ export default function Navbar() {
             variants={logoVariants}
             initial="hidden"
             animate="visible"
-            className="group flex items-center gap-3 text-xl font-black tracking-[-0.04em] select-none"
+            className="group flex items-center gap-4 text-2xl font-light tracking-[-0.02em] select-none"
             data-hover
           >
             {/* Profile Picture in Navbar */}
-            <div className="w-9 h-9 md:w-10 md:h-10 flex shrink-0 items-center justify-center">
+            <div className="w-10 h-10 md:w-11 md:h-11 flex shrink-0 items-center justify-center rounded-full overflow-hidden border border-primary/30 group-hover:border-primary transition-colors duration-700">
               <img 
                 src="/profile.png" 
                 alt="Profile" 
-                className="w-full h-full object-contain scale-[1.5] md:scale-[1.8] drop-shadow-[0_0_8px_rgba(0,122,255,0.15)] group-hover:drop-shadow-[0_0_16px_rgba(0,122,255,0.3)] group-hover:-translate-y-0.5 transition-all duration-500" 
-                style={{ filter: isDark ? 'none' : 'invert(1)' }}
+                className="w-full h-full object-cover scale-[1.2] drop-shadow-[0_0_20px_var(--primary)] group-hover:scale-[1.3] group-hover:drop-shadow-[0_0_30px_var(--accent)] transition-all duration-700" 
+                style={{ filter: isDark ? 'contrast(1.1) sepia(0.2) hue-rotate(-10deg)' : 'invert(1) contrast(1.1) sepia(0.2) hue-rotate(-10deg)' }}
               />
             </div>
 
             <div className="flex items-center gap-0">
-              <span className="text-theme-text transition-colors duration-300">Lionz</span>
-              <span className="text-primary transition-all duration-300 group-hover:glow-text">-IT</span>
-              <span className="ml-2 w-1.5 h-1.5 rounded-full bg-primary animate-ping opacity-80" />
+              <span className="text-theme-text transition-colors duration-500 font-display italic">Lionz</span>
+              <span className="surreal-gradient-text glow-text transition-all duration-500 font-display">-IT</span>
+              <span className="ml-2 w-1.5 h-1.5 rounded-full animate-surreal-breathe opacity-80" style={{ background: 'var(--primary)', boxShadow: '0 0 10px var(--primary)' }} />
             </div>
           </motion.a>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-10">
+          <div className="hidden md:flex items-center gap-12">
             {NAV_ITEMS.map((item, i) => (
               <motion.a
                 key={item}
@@ -81,7 +81,7 @@ export default function Navbar() {
                 variants={navVariants}
                 initial="hidden"
                 animate="visible"
-                className="nav-link"
+                className="nav-link font-sans text-sm tracking-wide font-light text-theme-muted hover:text-theme-text transition-colors duration-500"
                 data-hover
               >
                 {item}
@@ -105,19 +105,20 @@ export default function Navbar() {
               variants={navVariants}
               initial="hidden"
               animate="visible"
-              className="relative text-xs uppercase tracking-[0.22em] px-7 py-3 text-theme-text font-medium overflow-hidden group"
+              className="surreal-pill relative text-xs uppercase tracking-[0.2em] px-8 py-3.5 text-white font-medium overflow-hidden group shadow-[0_0_20px_var(--glow-gold)] hover:scale-105 hover:shadow-[0_0_30px_var(--glow-purple)] transition-all duration-700 font-sans"
+              style={{ background: 'var(--gradient-surreal)' }}
               data-hover
             >
-              <span className="absolute inset-0 rounded-full border border-theme-border group-hover:border-primary/60 transition-colors duration-500" />
-              <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-primary/5" />
-              <span className="relative z-10 group-hover:text-primary transition-colors duration-300">
+              <span className="absolute inset-0 rounded-full border border-white/20 group-hover:border-white/40 transition-colors duration-700" />
+              <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-white/10 animate-shimmer" />
+              <span className="relative z-10 transition-colors duration-500">
                 Let's Talk
               </span>
             </motion.a>
           </div>
 
           {/* Mobile: theme toggle + hamburger */}
-          <div className="md:hidden flex items-center gap-3">
+          <div className="md:hidden flex items-center gap-4">
             <ThemeToggle />
             <motion.button
               custom={NAV_ITEMS.length + 1}
@@ -125,20 +126,20 @@ export default function Navbar() {
               initial="hidden"
               animate="visible"
               onClick={() => setMenuOpen(!menuOpen)}
-              className="flex flex-col gap-1.5 p-2 z-[991]"
+              className="flex flex-col gap-2 p-2 z-[991]"
               aria-label="Toggle menu"
             >
               <motion.span
-                animate={menuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                className="w-6 h-[1px] bg-theme-text block transition-all"
+                animate={menuOpen ? { rotate: 45, y: 9 } : { rotate: 0, y: 0 }}
+                className="w-7 h-[1px] bg-theme-text block transition-all duration-500"
               />
               <motion.span
                 animate={menuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-                className="w-6 h-[1px] bg-theme-text block transition-all"
+                className="w-7 h-[1px] bg-theme-text block transition-all duration-500"
               />
               <motion.span
-                animate={menuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                className="w-6 h-[1px] bg-theme-text block transition-all"
+                animate={menuOpen ? { rotate: -45, y: -9 } : { rotate: 0, y: 0 }}
+                className="w-7 h-[1px] bg-theme-text block transition-all duration-500"
               />
             </motion.button>
           </div>
@@ -149,21 +150,35 @@ export default function Navbar() {
       <motion.div
         initial={false}
         animate={menuOpen ? { opacity: 1, pointerEvents: 'all' } : { opacity: 0, pointerEvents: 'none' }}
-        transition={{ duration: 0.4, ease: 'easeInOut' }}
-        className={`fixed inset-0 z-[980] backdrop-blur-2xl md:hidden flex flex-col items-center justify-center gap-10 ${isDark ? 'bg-[#050505]/95' : 'bg-[#f5f5f3]/95'
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        className={`fixed inset-0 z-[980] backdrop-blur-3xl md:hidden flex flex-col items-center justify-center gap-12 ${isDark ? 'bg-gradient-to-br from-[#1A1528]/98 to-[#2A1F3D]/98' : 'bg-gradient-to-br from-[#F5F0E8]/98 to-[#EDE6DA]/98'
           }`}
       >
+        <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center opacity-10">
+          <span className="text-[400px] text-primary font-display animate-surreal-rotate mix-blend-overlay">◉</span>
+        </div>
+        
         {NAV_ITEMS.concat(['Contact']).map((item, i) => (
           <motion.a
             key={item}
             href={`#${item.toLowerCase()}`}
             onClick={() => setMenuOpen(false)}
-            initial={{ opacity: 0, y: 30 }}
-            animate={menuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl font-bold tracking-tighter text-theme-muted hover:text-primary transition-colors duration-300"
+            initial={{ opacity: 0, y: 40 }}
+            animate={menuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+            transition={{ delay: i * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="relative text-5xl font-light font-display tracking-wide text-theme-muted hover:text-transparent hover:bg-clip-text hover:bg-[image:var(--gradient-surreal)] transition-all duration-500 hover:scale-[1.05]"
           >
             {item}
+            {menuOpen && (
+              <motion.span 
+                className="absolute -right-8 top-1/2 -translate-y-1/2 text-primary opacity-0 hover:opacity-100 text-2xl"
+                initial={{ opacity: 0, x: -10 }}
+                whileHover={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                ◊
+              </motion.span>
+            )}
           </motion.a>
         ))}
       </motion.div>

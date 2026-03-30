@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 
-// ─── Social Links ───────────────────────────────────────────────────────────────
 const SOCIALS = [
     {
         id: 'github',
@@ -53,7 +52,6 @@ const SOCIALS = [
     },
 ];
 
-// ─── Social Card ────────────────────────────────────────────────────────────────
 function SocialCard({ social, index }) {
     const [hovered, setHovered] = useState(false);
     const ref = useRef(null);
@@ -71,14 +69,13 @@ function SocialCard({ social, index }) {
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             data-hover
-            className="group relative flex items-center justify-between p-4 rounded-2xl border border-theme-border bg-theme-surface hover:border-theme-border-hover transition-all duration-500 overflow-hidden"
+            className="group relative flex items-center justify-between p-4 rounded-2xl border border-theme-border bg-theme-surface hover:border-transparent transition-all duration-500 overflow-hidden before:absolute before:inset-0 before:-z-10 before:-m-[1px] before:rounded-2xl before:bg-gradient-to-r before:from-[var(--primary)] before:to-[var(--accent)] before:opacity-0 hover:before:opacity-100"
         >
-            {/* Glow sweep background */}
             <motion.span
                 className="absolute inset-0 rounded-2xl pointer-events-none"
                 animate={{ opacity: hovered ? 1 : 0 }}
                 transition={{ duration: 0.4 }}
-                style={{ background: `radial-gradient(ellipse at left center, ${social.color}18 0%, transparent 70%)` }}
+                style={{ background: `radial-gradient(ellipse at left center, rgba(var(--primary-rgb), 0.15) 0%, rgba(var(--accent-rgb), 0.08) 70%, transparent 100%)` }}
             />
 
             <div className="flex items-center gap-3 relative z-10">
@@ -90,16 +87,15 @@ function SocialCard({ social, index }) {
                     {social.icon}
                 </motion.div>
                 <div>
-                    <p className="text-sm font-semibold text-theme-text leading-none">{social.label}</p>
-                    <p className="text-xs text-theme-muted mt-0.5 tracking-wide">{social.handle}</p>
+                    <p className="text-sm font-bold text-theme-text leading-none font-sans">{social.label}</p>
+                    <p className="text-xs text-theme-muted mt-0.5 tracking-wide font-sans">{social.handle}</p>
                 </div>
             </div>
 
             <motion.span
                 animate={{ x: hovered ? 0 : 4, opacity: hovered ? 1 : 0.3 }}
                 transition={{ duration: 0.3 }}
-                className="text-theme-muted text-sm relative z-10"
-                style={{ color: hovered ? social.color : undefined }}
+                className={`text-sm relative z-10 ${hovered ? 'surreal-gradient-text' : 'text-theme-muted'}`}
             >
                 →
             </motion.span>
@@ -107,7 +103,6 @@ function SocialCard({ social, index }) {
     );
 }
 
-// ─── Main Contact / Footer ───────────────────────────────────────────────────────
 export default function Contact() {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true, margin: '-10%' });
@@ -126,7 +121,6 @@ export default function Contact() {
 
             <div ref={ref} className="relative z-10">
 
-                {/* ── CTA Block ── */}
                 <div className="text-center mb-14">
                     <motion.span
                         initial={{ opacity: 0, y: 10 }}
@@ -142,7 +136,7 @@ export default function Contact() {
                             initial={{ y: '110%' }}
                             animate={inView ? { y: '0%' } : {}}
                             transition={{ delay: 0.1, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                            className="text-6xl sm:text-7xl md:text-[7vw] font-black tracking-[-0.04em] leading-none text-theme-text"
+                            className="text-6xl sm:text-7xl md:text-[7vw] font-bold tracking-[-0.04em] leading-none text-theme-text font-display"
                         >
                             Let's Build
                         </motion.h2>
@@ -152,7 +146,7 @@ export default function Contact() {
                             initial={{ y: '110%' }}
                             animate={inView ? { y: '0%' } : {}}
                             transition={{ delay: 0.18, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                            className="text-6xl sm:text-7xl md:text-[7vw] font-black tracking-[-0.04em] leading-none text-primary glow-text"
+                            className="text-6xl sm:text-7xl md:text-[7vw] font-bold italic tracking-[-0.04em] leading-none surreal-gradient-text font-display"
                         >
                             Something Great.
                         </motion.h2>
@@ -162,22 +156,21 @@ export default function Contact() {
                         initial={{ opacity: 0, y: 16 }}
                         animate={inView ? { opacity: 1, y: 0 } : {}}
                         transition={{ delay: 0.35, duration: 0.7 }}
-                        className="text-sm text-theme-muted max-w-xs mx-auto leading-relaxed mb-10"
+                        className="text-sm text-theme-muted max-w-xs mx-auto leading-relaxed mb-10 font-sans"
                     >
                         Open to freelance projects, collaborations, and full-time opportunities.
                     </motion.p>
 
-                    {/* ─ Action buttons ─ */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={inView ? { opacity: 1, y: 0 } : {}}
                         transition={{ delay: 0.45, duration: 0.7 }}
                         className="flex flex-wrap items-center justify-center gap-4"
                     >
-                        {/* Email primary CTA */}
                         <a
                             href={`mailto:${EMAIL}`}
-                            className="group relative inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] px-8 py-4 bg-primary text-white font-semibold rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(0,122,255,0.5)]"
+                            className="group relative inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] px-8 py-4 text-white font-bold rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_0_25px_var(--glow-gold)] font-sans"
+                            style={{ background: 'var(--gradient-surreal)' }}
                             data-hover
                         >
                             <span className="relative z-10">Send Email</span>
@@ -185,10 +178,9 @@ export default function Contact() {
                             <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
                         </a>
 
-                        {/* Copy email */}
                         <button
                             onClick={handleCopy}
-                            className="group inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] px-8 py-4 border border-theme-border hover:border-primary/40 text-theme-muted hover:text-theme-text font-medium rounded-full transition-all duration-500"
+                            className="group surreal-pill inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] px-8 py-4 border border-transparent hover:border-transparent text-theme-muted hover:text-theme-text font-bold rounded-full transition-all duration-500 relative before:absolute before:inset-0 before:-z-10 before:-m-[1px] before:rounded-full before:bg-gradient-to-r before:from-[var(--primary)] before:to-[var(--accent)] before:opacity-0 hover:before:opacity-100 font-sans"
                             data-hover
                         >
                             <AnimatePresence mode="wait" initial={false}>
@@ -198,7 +190,7 @@ export default function Contact() {
                                         initial={{ opacity: 0, y: 6 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: -6 }}
-                                        className="text-primary"
+                                        className="surreal-gradient-text"
                                     >
                                         ✓ Copied!
                                     </motion.span>
@@ -215,11 +207,10 @@ export default function Contact() {
                             </AnimatePresence>
                         </button>
 
-                        {/* Resume download */}
                         <a
                             href="/resume.pdf"
                             download
-                            className="group inline-flex items-center gap-2.5 text-xs uppercase tracking-[0.2em] px-8 py-4 border border-theme-border hover:border-primary/40 text-theme-muted hover:text-theme-text font-medium rounded-full transition-all duration-500"
+                            className="group surreal-pill inline-flex items-center gap-2.5 text-xs uppercase tracking-[0.2em] px-8 py-4 border border-transparent hover:border-transparent text-theme-muted hover:text-theme-text font-bold rounded-full transition-all duration-500 relative before:absolute before:inset-0 before:-z-10 before:-m-[1px] before:rounded-full before:bg-gradient-to-r before:from-[var(--primary)] before:to-[var(--accent)] before:opacity-0 hover:before:opacity-100 font-sans"
                             data-hover
                         >
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-y-0.5 transition-transform duration-300">
@@ -232,14 +223,13 @@ export default function Contact() {
                     </motion.div>
                 </div>
 
-                {/* ── Socials Grid ── */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     transition={{ delay: 0.5, duration: 0.7 }}
                     className="max-w-2xl mx-auto mb-12 px-6 md:px-0"
                 >
-                    <p className="text-xs uppercase tracking-[0.4em] text-theme-muted text-center mb-6">Find me on</p>
+                    <p className="section-badge text-center mb-6 mx-auto w-fit">Find me on</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {SOCIALS.map((s, i) => (
                             <SocialCard key={s.id} social={s} index={i} />
@@ -247,26 +237,25 @@ export default function Contact() {
                     </div>
                 </motion.div>
 
-                {/* ── Footer bar ── */}
                 <div className="border-t border-theme-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4 px-6 md:px-0">
                     <motion.a
                         href="#home"
                         initial={{ opacity: 0 }}
                         animate={inView ? { opacity: 1 } : {}}
                         transition={{ delay: 0.65, duration: 0.6 }}
-                        className="text-base font-black tracking-[-0.04em] text-theme-muted hover:text-theme-text transition-colors duration-500"
+                        className="text-base font-bold tracking-[-0.04em] text-theme-muted hover:text-theme-text transition-colors duration-500 font-display italic"
                         data-hover
                     >
-                        Lionz<span className="text-primary/60 hover:text-primary transition-colors duration-300">-IT</span>
+                        Lionz<span className="text-[var(--accent)] hover:drop-shadow-[0_0_8px_var(--accent)] transition-all duration-300">-IT</span>
                     </motion.a>
 
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={inView ? { opacity: 1 } : {}}
                         transition={{ delay: 0.7, duration: 0.6 }}
-                        className="text-xs uppercase tracking-[0.4em] text-theme-muted"
+                        className="text-xs uppercase tracking-[0.4em] text-theme-muted font-bold font-sans"
                     >
-                        © 2026 Rafif Ahmad · Crafted with precision
+                        <span className="text-[var(--primary)]">◉</span> © 2026 Rafif Ahmad · Crafted with precision <span className="text-[var(--accent)]">◉</span>
                     </motion.p>
 
                     <motion.a
@@ -274,7 +263,7 @@ export default function Contact() {
                         initial={{ opacity: 0 }}
                         animate={inView ? { opacity: 1 } : {}}
                         transition={{ delay: 0.75, duration: 0.6 }}
-                        className="text-xs uppercase tracking-[0.2em] text-theme-muted hover:text-primary transition-colors duration-300"
+                        className="text-xs uppercase tracking-[0.2em] text-theme-muted hover:text-[var(--primary)] hover:drop-shadow-[0_0_8px_var(--primary)] transition-all duration-300 font-bold font-sans"
                         data-hover
                     >
                         Back to top ↑

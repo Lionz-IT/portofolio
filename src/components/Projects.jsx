@@ -59,32 +59,35 @@ function ProjectCard({ project, index }) {
       data-hover
     >
       <a href={project.link} className="block">
-        {/* ── Image container ── */}
         <div className="relative overflow-hidden rounded-2xl border border-theme-border mb-5"
           style={{ aspectRatio: '16/9' }}
         >
-          {/* Image */}
           <img
             src={project.image}
             alt={project.title}
             className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
           />
 
-          {/* Dark overlay */}
+          <div
+            className="absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-40"
+            style={{
+              background: 'var(--gradient-surreal)',
+              mixBlendMode: 'color'
+            }}
+          />
           <div
             className="absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
             style={{
-              background: `linear-gradient(to top, ${project.color}30 0%, transparent 60%)`,
+              background: `linear-gradient(to top, rgba(var(--primary-rgb), 0.5) 0%, transparent 60%)`,
             }}
           />
 
-          {/* Corner accent on hover */}
           <div
-            className="absolute top-4 right-4 w-9 h-9 rounded-full border flex items-center justify-center backdrop-blur-sm opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300"
+            className="absolute top-4 right-4 w-9 h-9 rounded-full border flex items-center justify-center backdrop-blur-sm opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-[0_0_15px_var(--glow-gold)]"
             style={{
-              borderColor: project.color,
-              color: project.color,
-              background: `${project.color}18`,
+              borderColor: 'transparent',
+              color: '#fff',
+              background: 'var(--gradient-surreal)',
             }}
           >
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
@@ -92,35 +95,31 @@ function ProjectCard({ project, index }) {
             </svg>
           </div>
 
-          {/* Project number badge */}
-          <div className="absolute top-4 left-4 text-xs font-mono text-white/70 tracking-widest bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
-            {project.id}
+          <div className="absolute top-4 left-4 surreal-pill px-3 py-1 text-xs font-mono text-theme-text shadow-[0_0_10px_var(--glow-purple)]">
+            #{project.id}
           </div>
         </div>
 
-        {/* ── Info row ── */}
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <h3
-              className="text-xl sm:text-2xl font-black tracking-[-0.03em] leading-tight mb-1 truncate text-theme-text group-hover:text-[var(--project-color)] transition-colors duration-300"
+              className="text-xl sm:text-2xl font-display font-bold italic tracking-[-0.03em] leading-tight mb-1 truncate text-theme-text group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-[image:var(--gradient-surreal)] transition-all duration-300"
             >
               {project.title}
             </h3>
-            <p className="text-xs text-theme-muted uppercase tracking-[0.2em] truncate">
+            <p className="text-xs text-theme-muted uppercase tracking-[0.2em] truncate font-sans">
               {project.tags} · {project.year}
             </p>
           </div>
         </div>
 
-        {/* Description */}
-        <p className="mt-3 text-sm text-theme-muted leading-relaxed line-clamp-2">
+        <p className="mt-3 text-sm text-theme-muted leading-relaxed line-clamp-2 font-sans">
           {project.description}
         </p>
 
-        {/* Bottom color bar on hover */}
         <div
-          className="mt-4 h-[2px] rounded-full origin-left scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-          style={{ background: `linear-gradient(90deg, ${project.color}, transparent)` }}
+          className="mt-4 h-[1px] rounded-full origin-left scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          style={{ background: 'var(--gradient-surreal)', boxShadow: '0 0 10px var(--glow-gold)' }}
         />
       </a>
     </motion.div>
@@ -134,7 +133,6 @@ export default function Projects() {
   return (
     <section id="projects" className="relative pt-12 pb-16 md:pt-16 md:pb-20 overflow-hidden">
 
-      {/* ── Header ── */}
       <div ref={headerRef} className="flex items-end justify-between mb-16 gap-8">
         <div>
           <motion.span
@@ -150,7 +148,7 @@ export default function Projects() {
               initial={{ y: '110%' }}
               animate={headerInView ? { y: '0%' } : {}}
               transition={{ delay: 0.1, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="text-5xl md:text-7xl font-black tracking-[-0.04em] leading-none text-theme-text"
+              className="text-5xl md:text-7xl font-display font-bold italic tracking-[-0.04em] leading-none surreal-gradient-text"
             >
               Projects
             </motion.h2>
@@ -162,14 +160,13 @@ export default function Projects() {
           initial={{ opacity: 0 }}
           animate={headerInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.4, duration: 0.6 }}
-          className="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-theme-muted hover:text-theme-text transition-colors duration-300 shrink-0 mb-2"
+          className="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-theme-muted hover:text-theme-text transition-colors duration-300 shrink-0 mb-2 font-sans"
           data-hover
         >
-          View all <span className="text-primary">→</span>
+          View all <span className="surreal-gradient-text font-bold">→</span>
         </motion.a>
       </div>
 
-      {/* ── Grid ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-12">
         {PROJECTS.map((project, i) => (
           <ProjectCard key={project.id} project={project} index={i} />
@@ -177,9 +174,9 @@ export default function Projects() {
       </div>
 
       <p
-        className="mt-16 text-xs uppercase tracking-[0.35em] text-theme-muted text-center opacity-80"
+        className="mt-16 text-xs uppercase tracking-[0.35em] text-theme-muted text-center opacity-80 font-sans"
       >
-        — More work in progress —
+        <span className="text-primary">◉</span> — More work in progress — <span className="text-accent">◉</span>
       </p>
     </section>
   );

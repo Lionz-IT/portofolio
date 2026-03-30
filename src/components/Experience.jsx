@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 
-// ─── Timeline Data ──────────────────────────────────────────────────────────────
 const TIMELINE = [
     {
         id: 'exp-01',
@@ -60,8 +59,7 @@ const TIMELINE = [
     },
 ];
 
-// ─── Floating Particles ─────────────────────────────────────────────────────────
-const PARTICLES = Array.from({ length: 28 }, (_, i) => ({
+const PARTICLES = Array.from({ length: 15 }, (_, i) => ({
     id: i,
     x: Math.random() * 100,
     y: Math.random() * 100,
@@ -80,8 +78,8 @@ function Particle({ p }) {
                 top: `${p.y}%`,
                 width: p.size,
                 height: p.size,
-                background: 'radial-gradient(circle, #38bdf8cc, #0ea5e900)',
-                boxShadow: `0 0 ${p.size * 3}px ${p.size}px #38bdf840`,
+                background: `radial-gradient(circle, var(--primary) 20%, transparent 80%)`,
+                boxShadow: `0 0 ${p.size * 3}px ${p.size}px rgba(var(--primary-rgb), 0.4)`,
             }}
             animate={{
                 y: [0, -18, 0],
@@ -98,7 +96,6 @@ function Particle({ p }) {
     );
 }
 
-// ─── Content Card ───────────────────────────────────────────────────────────────
 function TimelineCard({ item, index, isLeft }) {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true, margin: '-8%' });
@@ -112,73 +109,59 @@ function TimelineCard({ item, index, isLeft }) {
             transition={{ delay: index * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className={`group relative w-full ${isLeft ? 'text-left' : 'text-right'}`}
         >
-            {/* Connector arm: horizontal line from card to center */}
             <div
                 className={`absolute top-5 hidden lg:block h-[1px] w-10 ${isLeft ? 'right-0' : 'left-0'}`}
-                style={{ background: `linear-gradient(${isLeft ? 'to left' : 'to right'}, transparent, ${item.color}60)` }}
+                style={{ background: `linear-gradient(${isLeft ? 'to left' : 'to right'}, transparent, rgba(var(--primary-rgb), 0.4), ${item.color}80)` }}
             />
 
-            {/* Glow blob */}
             <div
                 className="absolute -top-8 w-52 h-52 rounded-full blur-[80px] opacity-0 group-hover:opacity-15 transition-opacity duration-700 pointer-events-none"
-                style={{ background: item.color, [isLeft ? 'right' : 'left']: '-4rem' }}
+                style={{ background: 'var(--primary)', [isLeft ? 'right' : 'left']: '-4rem' }}
             />
 
-            {/* Year + type */}
             <div className={`flex items-center gap-3 mb-2 ${isLeft ? 'justify-start' : 'justify-end'}`}>
                 {!isLeft && (
-                    <span
-                        className="px-2.5 py-0.5 rounded-full text-[11px] uppercase tracking-[0.18em] font-bold border"
-                        style={{ color: item.color, borderColor: `${item.color}50`, background: `${item.color}15` }}
-                    >
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] uppercase tracking-[0.18em] font-bold text-white surreal-pill bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] border-none font-sans">
                         {item.type}
                     </span>
                 )}
-                <span className="text-[10px] uppercase tracking-[0.25em] font-bold" style={{ color: item.color }}>
+                <span className="text-[10px] uppercase tracking-[0.25em] font-bold font-mono" style={{ color: item.color }}>
                     {item.year}
                 </span>
                 {isLeft && (
-                    <span
-                        className="px-2.5 py-0.5 rounded-full text-[11px] uppercase tracking-[0.18em] font-bold border"
-                        style={{ color: item.color, borderColor: `${item.color}50`, background: `${item.color}15` }}
-                    >
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] uppercase tracking-[0.18em] font-bold text-white surreal-pill bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] border-none font-sans">
                         {item.type}
                     </span>
                 )}
             </div>
 
-            {/* Role */}
-            <h3 className="text-xl md:text-2xl font-black tracking-tight text-theme-text leading-snug mb-1">
+            <h3 className="text-xl md:text-2xl font-bold italic tracking-tight text-theme-text leading-snug mb-1 font-display">
                 {item.role}
             </h3>
 
-            {/* Company */}
-            <p className="text-xs text-theme-muted tracking-wide mb-3">{item.company}</p>
+            <p className="text-xs text-theme-muted tracking-wide mb-3 font-sans">{item.company}</p>
 
-            {/* Description */}
-            <p className="text-sm leading-relaxed text-theme-muted mb-4">
+            <p className="text-sm leading-relaxed text-theme-muted mb-4 font-sans">
                 {item.description}
             </p>
 
-            {/* Tags */}
             <div className={`flex flex-wrap gap-1.5 mb-4 ${isLeft ? 'justify-start' : 'justify-end'}`}>
                 {item.tags.map((tag) => (
                     <span
                         key={tag}
-                        className="px-2.5 py-1 text-[11px] uppercase tracking-[0.12em] font-semibold rounded-full border border-theme-border text-theme-muted hover:border-theme-border-hover hover:text-theme-text transition-all duration-300"
+                        className="px-2.5 py-1 text-[11px] uppercase tracking-[0.12em] font-semibold rounded-full border border-theme-border text-theme-muted hover:text-white transition-all duration-300 relative overflow-hidden hover:border-transparent before:absolute before:inset-0 before:-z-10 before:-m-[1px] before:rounded-full before:bg-gradient-to-r before:from-[var(--primary)] before:to-[var(--accent)] before:opacity-0 hover:before:opacity-100 font-sans"
                     >
-                        {tag}
+                        <span className="relative z-10">{tag}</span>
                     </span>
                 ))}
             </div>
 
-            {/* View Details button */}
             <div className={`flex ${isLeft ? 'justify-start' : 'justify-end'}`}>
                 <motion.button
                     whileHover={{ scale: 1.04 }}
                     whileTap={{ scale: 0.96 }}
                     onClick={() => setExpanded(!expanded)}
-                    className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-theme-border text-theme-text text-[11px] uppercase tracking-[0.2em] font-semibold hover:bg-theme-border-hover hover:text-theme-text transition-all duration-300"
+                    className="flex items-center gap-2 px-5 py-2.5 surreal-pill rounded-full border border-transparent text-theme-text text-[11px] uppercase tracking-[0.2em] font-bold transition-all duration-300 relative before:absolute before:inset-0 before:-z-10 before:-m-[1px] before:rounded-full before:bg-gradient-to-r before:from-[var(--primary)] before:to-[var(--accent)] hover:shadow-[0_0_15px_var(--glow-gold)] font-sans"
                     data-hover
                 >
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
@@ -188,7 +171,6 @@ function TimelineCard({ item, index, isLeft }) {
                 </motion.button>
             </div>
 
-            {/* Expandable extra info */}
             <AnimatePresence>
                 {expanded && (
                     <motion.div
@@ -199,8 +181,8 @@ function TimelineCard({ item, index, isLeft }) {
                         className="overflow-hidden"
                     >
                         <div
-                            className="mt-3 p-4 rounded-xl border text-xs text-theme-muted leading-relaxed"
-                            style={{ borderColor: `${item.color}30`, background: `${item.color}0c` }}
+                            className="mt-3 p-4 rounded-xl border border-transparent text-xs text-theme-muted leading-relaxed backdrop-blur-md relative before:absolute before:inset-0 before:-z-10 before:-m-[1px] before:rounded-xl before:bg-gradient-to-r before:from-[var(--primary)] before:to-[var(--accent)] before:opacity-50 font-sans"
+                            style={{ background: 'rgba(var(--primary-rgb), 0.05)' }}
                         >
                             <p className="text-theme-muted font-semibold mb-1 uppercase tracking-widest text-[10px]">
                                 Impact &amp; highlights
@@ -218,7 +200,6 @@ function TimelineCard({ item, index, isLeft }) {
     );
 }
 
-// ─── Center Dot ─────────────────────────────────────────────────────────────────
 function CenterDot({ item, index }) {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true, margin: '-10%' });
@@ -232,24 +213,21 @@ function CenterDot({ item, index }) {
                 className="relative"
                 style={{ width: 18, height: 18 }}
             >
-                {/* Pulse ring */}
                 <motion.span
                     animate={{ scale: [1, 1.9, 1], opacity: [0.4, 0, 0.4] }}
                     transition={{ duration: 2.5, repeat: Infinity, delay: index * 0.35 }}
                     className="absolute inset-0 rounded-full"
                     style={{ background: item.color }}
                 />
-                {/* Core */}
                 <span
-                    className="absolute inset-[3px] rounded-full border-2 border-black/50"
-                    style={{ background: item.color, boxShadow: `0 0 14px ${item.color}90` }}
+                    className="absolute inset-[3px] rounded-full border-2"
+                    style={{ background: item.color, borderColor: 'rgba(var(--color-bg-rgb), 0.5)', boxShadow: `0 0 14px rgba(var(--primary-rgb), 0.6)` }}
                 />
             </motion.div>
         </div>
     );
 }
 
-// ─── Main Component ─────────────────────────────────────────────────────────────
 export default function Experience() {
     const headerRef = useRef(null);
     const headerInView = useInView(headerRef, { once: true });
@@ -257,15 +235,12 @@ export default function Experience() {
     return (
         <section id="experience" className="relative overflow-hidden pb-32 pt-0 md:pb-48 md:pt-0">
 
-            {/* ── Particles ── */}
             <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
                 {PARTICLES.map((p) => <Particle key={p.id} p={p} />)}
             </div>
 
-            {/* ── Content ── */}
             <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 pt-24">
 
-                {/* Section Header */}
                 <div ref={headerRef} className="text-center mb-20">
                     <motion.span
                         initial={{ opacity: 0, y: 20 }}
@@ -281,7 +256,7 @@ export default function Experience() {
                             initial={{ y: '110%' }}
                             animate={headerInView ? { y: '0%' } : {}}
                             transition={{ delay: 0.1, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                            className="text-5xl md:text-7xl font-black tracking-[0.1em] leading-none text-theme-text uppercase"
+                            className="text-5xl md:text-7xl font-bold italic tracking-[0.05em] leading-none surreal-gradient-text uppercase font-display"
                         >
                             My Backstory
                         </motion.h2>
@@ -291,53 +266,47 @@ export default function Experience() {
                         initial={{ scaleX: 0 }}
                         animate={headerInView ? { scaleX: 1 } : {}}
                         transition={{ delay: 0.35, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                        className="mx-auto h-[1px] w-24 bg-theme-border origin-center"
+                        className="mx-auto h-[1px] w-24 origin-center"
+                        style={{ background: 'var(--gradient-surreal)' }}
                     />
                 </div>
 
-                {/* ── Zigzag Timeline ── */}
                 <div className="relative">
 
-                    {/* Central vertical track */}
-                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] hidden lg:block"
-                        style={{ background: 'linear-gradient(to bottom, transparent, var(--color-border) 15%, var(--color-border) 85%, transparent)' }}
+                    <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] hidden lg:block opacity-60"
+                        style={{ background: 'linear-gradient(to bottom, var(--primary), var(--accent))' }}
                     />
 
                     <div className="flex flex-col gap-16">
                         {TIMELINE.map((item, i) => {
-                            const isLeft = i % 2 === 0; // even → content on LEFT, odd → content on RIGHT
+                            const isLeft = i % 2 === 0;
                             return (
                                 <div key={item.id} className="relative flex items-start gap-0 lg:grid lg:grid-cols-[1fr_24px_1fr]">
 
-                                    {/* LEFT COLUMN */}
                                     <div className={`${isLeft ? 'lg:block' : 'lg:block'} w-full lg:pr-10`}>
                                         {isLeft ? (
                                             <TimelineCard item={item} index={i} isLeft={false} />
                                         ) : (
-                                            <div className="hidden lg:block" /> // empty spacer
+                                            <div className="hidden lg:block" />
                                         )}
                                     </div>
 
-                                    {/* CENTER DOT */}
                                     <div className="hidden lg:flex justify-center">
                                         <CenterDot item={item} index={i} />
                                     </div>
 
-                                    {/* RIGHT COLUMN */}
                                     <div className="w-full lg:pl-10">
                                         {!isLeft ? (
                                             <TimelineCard item={item} index={i} isLeft={true} />
                                         ) : (
-                                            <div className="hidden lg:block" /> // empty spacer
+                                            <div className="hidden lg:block" />
                                         )}
                                     </div>
 
-                                    {/* MOBILE: always show full width */}
-                                    <div className="lg:hidden w-full pl-8 relative">
-                                        {/* Mobile dot */}
+                                     <div className="lg:hidden w-full pl-8 relative">
                                         <span
-                                            className="absolute left-0 top-1.5 w-4 h-4 rounded-full border-2 border-black/50"
-                                            style={{ background: item.color, boxShadow: `0 0 8px ${item.color}80` }}
+                                            className="absolute left-0 top-1.5 w-4 h-4 rounded-full border-2"
+                                            style={{ background: item.color, borderColor: 'rgba(var(--color-bg-rgb), 0.5)', boxShadow: `0 0 8px rgba(var(--primary-rgb), 0.5)` }}
                                         />
                                         <TimelineCard item={item} index={i} isLeft={true} />
                                     </div>

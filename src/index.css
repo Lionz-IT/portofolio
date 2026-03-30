@@ -3,87 +3,90 @@
 @tailwind utilities;
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   THEME TOKENS  —  swap by toggling [data-theme] on <html>
+   SURREALISM THEME TOKENS
    ══════════════════════════════════════════════════════════════════════════════ */
 :root,
 [data-theme="dark"] {
-  --primary: #007AFF;
-  --primary-rgb: 0, 122, 255;
+  --primary: #D4A053;
+  --primary-rgb: 212, 160, 83;
 
-  --color-bg: #050505;
-  --color-surface: rgba(255, 255, 255, 0.025);
-  --color-surface-h: rgba(255, 255, 255, 0.045);
+  --accent: #7B6CB7;
+  --accent-rgb: 123, 108, 183;
 
-  --color-text: #ffffff;
-  --color-muted: #ffffff;
-  --color-muted-2: #ffffff;
+  --color-bg: #0B0A10;
+  --color-bg-rgb: 11, 10, 16;
+  --color-surface: rgba(255, 255, 255, 0.03);
+  --color-surface-h: rgba(255, 255, 255, 0.06);
 
-  --color-border: rgba(255, 255, 255, 0.07);
-  --color-border-sub: rgba(255, 255, 255, 0.04);
-  --color-border-h: rgba(255, 255, 255, 0.16);
+  --color-text: #F0EAE0;
+  --color-muted: #8A8298;
+  --color-border: rgba(212, 160, 83, 0.12);
+  --color-border-sub: rgba(212, 160, 83, 0.05);
+  --color-border-h: rgba(123, 108, 183, 0.3);
 
-  --scrollbar-bg: #050505;
-  --fade-color: #050505;
+  --scrollbar-bg: #0B0A10;
 
-  /* hero grid color */
-  --hero-grid-color: rgba(255, 255, 255, 0.4);
-  /* hero blob colors */
-  --hero-blob-bg: rgba(0, 122, 255, 0.07);
-  --hero-blob2-bg: rgba(0, 122, 255, 0.035);
-  /* "Y." */
-  --hero-initial-op: 1;
+  --gradient-surreal: linear-gradient(135deg, #D4A053, #C56B8A, #7B6CB7);
+  --gradient-celestial: radial-gradient(ellipse at 30% 20%, rgba(212, 160, 83, 0.08) 0%, transparent 50%);
+
+  /* Glows */
+  --glow-gold: rgba(212, 160, 83, 0.5);
+  --glow-purple: rgba(123, 108, 183, 0.4);
+  --glow-rose: rgba(197, 107, 138, 0.4);
+
+  /* Hero */
+  --hero-grid-color: rgba(212, 160, 83, 0.06);
+  --hero-blob-bg: rgba(212, 160, 83, 0.08);
+  --hero-blob2-bg: rgba(123, 108, 183, 0.06);
 }
 
 [data-theme="light"] {
-  --primary: #005FCC;
-  --primary-rgb: 0, 95, 204;
+  --primary: #B8862D;
+  --primary-rgb: 184, 134, 45;
 
-  --color-bg: #f2f2f0;
+  --accent: #6356A3;
+  --accent-rgb: 99, 86, 163;
+
+  --color-bg: #F5F0E8;
+  --color-bg-rgb: 245, 240, 232;
   --color-surface: rgba(255, 255, 255, 0.7);
   --color-surface-h: rgba(255, 255, 255, 0.9);
 
-  --color-text: #000000;
-  --color-muted: #000000;
-  --color-muted-2: #000000;
+  --color-text: #1A1520;
+  --color-muted: #6B5F7A;
 
-  --color-border: rgba(0, 0, 0, 0.2);
-  --color-border-sub: rgba(0, 0, 0, 0.1);
-  --color-border-h: rgba(0, 0, 0, 0.38);
+  --color-border: rgba(184, 134, 45, 0.15);
+  --color-border-sub: rgba(184, 134, 45, 0.06);
+  --color-border-h: rgba(99, 86, 163, 0.35);
 
-  --scrollbar-bg: #f2f2f0;
-  --fade-color: #f2f2f0;
+  --scrollbar-bg: #F5F0E8;
 
-  --hero-grid-color: rgba(0, 0, 0, 0.25);
-  --hero-blob-bg: rgba(0, 95, 204, 0.07);
-  --hero-blob2-bg: rgba(0, 95, 204, 0.04);
-  --hero-initial-op: 1;
+  --gradient-surreal: linear-gradient(135deg, #B8862D, #A3567A, #6356A3);
+  --gradient-celestial: radial-gradient(ellipse at 30% 20%, rgba(184, 134, 45, 0.06) 0%, transparent 50%);
+
+  --glow-gold: rgba(184, 134, 45, 0.35);
+  --glow-purple: rgba(99, 86, 163, 0.3);
+  --glow-rose: rgba(163, 86, 122, 0.3);
+
+  --hero-grid-color: rgba(184, 134, 45, 0.04);
+  --hero-blob-bg: rgba(184, 134, 45, 0.07);
+  --hero-blob2-bg: rgba(99, 86, 163, 0.05);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   GLOBAL TRANSITION (smooth theme switch)
+   GLOBAL TRANSITION
    ══════════════════════════════════════════════════════════════════════════════ */
 html {
   scroll-behavior: auto;
-  /* Lenis handles smoothness */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Only transition color-related props — never transform/opacity (would lag) */
 body,
 .bento-card,
 .nav-link,
 a,
-button,
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-span,
-div {
+button {
   transition-property: background-color, border-color, color;
   transition-duration: 0.5s;
   transition-timing-function: ease;
@@ -103,13 +106,13 @@ div {
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'DM Sans', 'Inter', system-ui, sans-serif;
   overflow-x: hidden;
   cursor: none;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   SEMANTIC THEME HELPERS  (used in JSX className)
+   SEMANTIC THEME HELPERS
    ══════════════════════════════════════════════════════════════════════════════ */
 .text-theme-text {
   color: var(--color-text) !important;
@@ -144,62 +147,40 @@ body {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   CUSTOM CURSOR  (compositor-only via transform — no layout thrash)
+   CUSTOM CURSOR — Surreal floating eye
    ══════════════════════════════════════════════════════════════════════════════ */
 .cursor-dot {
-  width: 6px;
-  height: 6px;
-  background: #ffffff;
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 99999;
   will-change: transform;
-  mix-blend-mode: difference;
+  box-shadow: 0 0 16px var(--glow-gold), 0 0 32px rgba(var(--primary-rgb), 0.2);
 }
 
-.cursor-ring {
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(var(--primary-rgb), 0.55);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 99998;
-  will-change: transform;
-  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-}
-
-.cursor-ring.hovering {
-  width: 54px;
-  height: 54px;
-  border-color: rgba(var(--primary-rgb), 1);
-  background: rgba(var(--primary-rgb), 0.08);
-}
-
-/* Hide custom cursor on touch/coarse-pointer devices */
 @media (pointer: coarse) {
-
-  .cursor-dot,
-  .cursor-ring {
+  .cursor-dot {
     display: none;
   }
-
   body {
     cursor: auto;
   }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   NAV LINK
+   NAV LINK — Surreal elegance
    ══════════════════════════════════════════════════════════════════════════════ */
 .nav-link {
   position: relative;
   font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.25em;
   color: var(--color-muted);
-  font-weight: 500;
+  font-weight: 400;
+  font-family: 'DM Sans', sans-serif;
 }
 
 .nav-link::after {
@@ -209,9 +190,9 @@ body {
   left: 50%;
   width: 0;
   height: 1px;
-  background: var(--primary);
-  transition: width 0.4s ease, left 0.4s ease;
-  box-shadow: 0 0 8px rgba(var(--primary-rgb), 0.8);
+  background: var(--gradient-surreal);
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 8px var(--glow-gold);
 }
 
 .nav-link:hover {
@@ -227,12 +208,12 @@ body {
    TEXT SELECTION
    ══════════════════════════════════════════════════════════════════════════════ */
 ::selection {
-  background: rgba(var(--primary-rgb), 0.28);
+  background: rgba(var(--primary-rgb), 0.3);
   color: var(--color-text);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   SCROLLBAR
+   SCROLLBAR — Ethereal
    ══════════════════════════════════════════════════════════════════════════════ */
 ::-webkit-scrollbar {
   width: 3px;
@@ -243,19 +224,17 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary);
+  background: var(--gradient-surreal);
   border-radius: 4px;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   HERO SECTION  (uses CSS vars so theme switches work without JS)
+   HERO SECTION (Surrealism)
    ══════════════════════════════════════════════════════════════════════════════ */
-/* .hero-section background dipindah ke video global di App.jsx */
 .hero-section {
   background-color: var(--color-bg);
 }
 
-/* Ambient blobs rendered with CSS vars */
 .hero-blob {
   background: var(--hero-blob-bg);
 }
@@ -264,154 +243,107 @@ body {
   background: var(--hero-blob2-bg);
 }
 
-/* Grid lines — theme-aware via CSS var */
 .hero-grid {
   background-image:
     linear-gradient(var(--hero-grid-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--hero-grid-color) 1px, transparent 1px);
   background-size: 80px 80px;
 }
-
-/* "Y." faint letter beside AHMAD */
-.hero-initial {
-  opacity: var(--hero-initial-op);
-  color: var(--color-text);
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   GRADIENT FADES  (fade top/bottom of hero)
-   ══════════════════════════════════════════════════════════════════════════════ */
-.fade-top {
-  background: linear-gradient(to bottom, var(--fade-color) 0%, transparent 100%);
-}
-
-.fade-bottom {
-  background: linear-gradient(to top, var(--fade-color) 0%, transparent 100%);
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   SECTION BADGE
-   ══════════════════════════════════════════════════════════════════════════════ */
 .section-badge {
   font-size: 0.625rem;
   letter-spacing: 0.45em;
   text-transform: uppercase;
-  color: var(--primary);
-  font-weight: 700;
+  background: var(--gradient-surreal);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   BENTO CARD
+   BENTO CARD — Surreal dreamscape glass
    ══════════════════════════════════════════════════════════════════════════════ */
 .bento-card {
   padding: 1.75rem;
   border-radius: 1.25rem;
   border: 1px solid var(--color-border);
   background: var(--color-surface);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  /* contain:paint prevents child repaints from bubbling */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   contain: paint;
-}
-
-.bento-card:hover {
-  border-color: var(--color-border-h);
-  box-shadow: 0 0 32px rgba(var(--primary-rgb), 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   PROJECT LINE  (animated top border sweep on hover)
-   ══════════════════════════════════════════════════════════════════════════════ */
-.project-line {
   position: relative;
   overflow: hidden;
 }
 
-.project-line::before {
+.bento-card::before {
   content: '';
   position: absolute;
   top: 0;
-  left: -100%;
-  width: 100%;
+  left: 0;
+  right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(var(--primary-rgb), 0.55), transparent);
-  transition: left 0.55s ease;
+  background: linear-gradient(90deg, transparent, rgba(var(--primary-rgb), 0.25), rgba(var(--accent-rgb), 0.2), transparent);
 }
 
-.project-line:hover::before {
-  left: 100%;
+.bento-card:hover {
+  border-color: var(--color-border-h);
+  box-shadow:
+    0 0 40px rgba(var(--primary-rgb), 0.06),
+    0 0 80px rgba(var(--accent-rgb), 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   GLOW TEXT
+   SURREAL GRADIENT TEXT
+   ══════════════════════════════════════════════════════════════════════════════ */
+.surreal-gradient-text {
+  background: var(--gradient-surreal);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   GLOW TEXT — Dreamlike glow
    ══════════════════════════════════════════════════════════════════════════════ */
 .glow-text {
-  text-shadow: 0 0 40px rgba(var(--primary-rgb), 0.5);
+  text-shadow: 0 0 30px var(--glow-gold), 0 0 60px rgba(var(--primary-rgb), 0.15);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   NOISE OVERLAY  (very cheap — just a fixed pseudo-random pattern)
+   SURREAL PILL BUTTON
+   ══════════════════════════════════════════════════════════════════════════════ */
+.surreal-pill {
+  border-radius: 9999px;
+  border: 1px solid rgba(var(--primary-rgb), 0.2);
+  background: rgba(var(--primary-rgb), 0.04);
+  backdrop-filter: blur(10px);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.surreal-pill:hover {
+  border-color: rgba(var(--primary-rgb), 0.4);
+  box-shadow: 0 0 30px rgba(var(--primary-rgb), 0.1), 0 0 60px rgba(var(--accent-rgb), 0.05);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   NOISE OVERLAY (painterly texture)
    ══════════════════════════════════════════════════════════════════════════════ */
 .noise-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.022;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 180px;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px;
   will-change: auto;
-  /* do NOT put will-change:transform here — wastes VRAM */
+  mix-blend-mode: overlay;
 }
 
 [data-theme="light"] .noise-overlay {
-  opacity: 0.01;
+  opacity: 0.012;
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   HR FADE
-   ══════════════════════════════════════════════════════════════════════════════ */
-.hr-fade {
-  height: 1px;
-  background: linear-gradient(90deg, var(--color-border) 0%, transparent 100%);
-  border: none;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   KEYFRAMES / ANIMATIONS
-   ══════════════════════════════════════════════════════════════════════════════ */
-@keyframes cursor-blink {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0;
-  }
-}
-
-@keyframes glow-pulse {
-
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.7;
-    transform: scale(1.08);
-  }
-}
-
-.animate-cursor-blink {
-  animation: cursor-blink 1s step-end infinite;
-}
-
-.animate-glow-pulse {
-  animation: glow-pulse 5s ease-in-out infinite;
-  will-change: transform, opacity;
-  /* GPU-promote only the animated blob */
-}
+/* Keyframes & .animate-* utilities are generated by Tailwind via tailwind.config.js */

@@ -10,15 +10,16 @@ export default function ThemeToggle() {
             onClick={toggle}
             aria-label="Toggle theme"
             data-hover
-            className="relative w-10 h-10 flex items-center justify-center rounded-full border border-theme-border hover:border-primary/50 transition-colors duration-500 overflow-hidden"
+            className="group relative w-11 h-11 flex items-center justify-center rounded-full border border-theme-border transition-all duration-700 overflow-visible hover:border-transparent hover:shadow-[0_0_20px_var(--glow-gold)]"
             whileTap={{ scale: 0.88 }}
         >
             {/* Glow bg */}
             <motion.span
                 className="absolute inset-0 rounded-full"
-                animate={{ background: isDark ? 'rgba(0,122,255,0.0)' : 'rgba(255,180,0,0.08)' }}
-                transition={{ duration: 0.5 }}
+                animate={{ background: isDark ? 'rgba(212,160,83,0.12)' : 'rgba(123,108,183,0.12)' }}
+                transition={{ duration: 0.7 }}
             />
+            <span className="absolute -inset-[1px] rounded-full bg-[image:var(--gradient-surreal)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
 
             {/* Icon swap */}
             <AnimatePresence mode="wait" initial={false}>
@@ -28,17 +29,17 @@ export default function ThemeToggle() {
                         initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
                         animate={{ rotate: 0, opacity: 1, scale: 1 }}
                         exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
-                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                         xmlns="http://www.w3.org/2000/svg"
-                        width="15"
-                        height="15"
+                        width="16"
+                        height="16"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="1.5"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className="text-white/50 relative z-10"
+                        className="text-accent drop-shadow-[0_0_10px_var(--accent)] relative z-10"
                     >
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                     </motion.svg>
@@ -48,17 +49,17 @@ export default function ThemeToggle() {
                         initial={{ rotate: 90, opacity: 0, scale: 0.6 }}
                         animate={{ rotate: 0, opacity: 1, scale: 1 }}
                         exit={{ rotate: -90, opacity: 0, scale: 0.6 }}
-                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                         xmlns="http://www.w3.org/2000/svg"
-                        width="15"
-                        height="15"
+                        width="16"
+                        height="16"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="1.5"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className="text-amber-500 relative z-10"
+                        className="text-primary drop-shadow-[0_0_10px_var(--primary)] relative z-10"
                     >
                         <circle cx="12" cy="12" r="5" />
                         <line x1="12" y1="1" x2="12" y2="3" />

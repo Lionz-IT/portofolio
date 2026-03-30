@@ -5,7 +5,6 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 const ABOUT_TEXT =
   "I am a passionate creator focused on bridging the gap between aesthetics and functionality. With a background in Front-End development and a deep love for Game Design, I build digital experiences that feel as good as they look. Every pixel has a purpose, every line of code tells a story.";
 
-// ── Theme-aware word reveal — uses CSS var opacity ───────────────────────────
 function SplitReveal({ text, delay = 0 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-10% 0px -10% 0px' });
@@ -14,12 +13,12 @@ function SplitReveal({ text, delay = 0 }) {
   return (
     <h2
       ref={ref}
-      className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-[-0.03em] leading-[1.1] max-w-5xl"
+      className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold tracking-[-0.03em] leading-[1.1] max-w-5xl glow-text"
     >
       {words.map((word, i) => {
         const opacity = Math.min(1, 0.15 + (i / words.length) * 0.85);
         return (
-          <span key={i} className="inline-block overflow-hidden align-top mr-[0.28em] mb-1">
+          <span key={i} className={`inline-block overflow-hidden align-top mr-[0.28em] mb-1 ${i % 3 === 0 ? 'italic' : ''}`}>
             <motion.span
               className="inline-block text-theme-text"
               style={{ opacity }}
@@ -50,11 +49,15 @@ export default function About() {
   return (
     <section ref={sectionRef} id="about" className="relative py-20 md:py-28 overflow-hidden">
 
-      {/* Vertical progress line */}
+      <div className="absolute top-1/3 right-0 w-[400px] h-[400px] rounded-full blur-[120px] pointer-events-none animate-surreal-morph opacity-[0.06]" style={{ background: 'var(--gradient-surreal)' }} />
+
       <div className="hidden lg:block absolute left-0 top-0 w-[1px] h-full bg-theme-border">
         <motion.div
-          style={{ height: lineHeight }}
-          className="w-full bg-gradient-to-b from-primary to-transparent origin-top"
+          style={{ 
+            height: lineHeight,
+            background: 'var(--gradient-surreal)'
+          }}
+          className="w-full origin-top"
         />
       </div>
 
@@ -67,7 +70,9 @@ export default function About() {
           className="flex items-center gap-4 mb-16"
         >
           <span className="section-badge">01 / About Me</span>
+          <span className="text-primary animate-surreal-float">◉</span>
           <div className="flex-1 h-[1px] bg-theme-border max-w-[120px]" />
+          <span className="text-accent animate-surreal-float" style={{ animationDelay: '1s' }}>◊</span>
         </motion.div>
 
         <div>

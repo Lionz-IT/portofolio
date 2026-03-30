@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext';
 
-// ─── Data ──────────────────────────────────────────────────────────────────────
 const SKILL_CATEGORIES = [
     {
         id: 'frontend',
@@ -56,7 +56,6 @@ const SKILL_CATEGORIES = [
     },
 ];
 
-// Featured tech logos shown in the large bento card
 const TECH_BADGES = [
     { name: 'React', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg', color: '#61DAFB' },
     { name: 'Next.js', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg', color: '#ffffff' },
@@ -68,7 +67,6 @@ const TECH_BADGES = [
     { name: 'Framer', logo: 'https://cdn.simpleicons.org/framer/0055FF', color: '#0055FF' },
 ];
 
-// ─── Sub-components ─────────────────────────────────────────────────────────────
 function SkillBar({ name, level, color, index }) {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true });
@@ -76,7 +74,7 @@ function SkillBar({ name, level, color, index }) {
     return (
         <div ref={ref} className="group">
             <div className="flex justify-between items-center mb-1.5">
-                <span className="text-xs uppercase tracking-[0.15em] font-medium text-theme-muted group-hover:text-theme-text transition-colors duration-300">
+                <span className="text-xs uppercase tracking-[0.15em] font-medium text-theme-muted group-hover:text-theme-text transition-colors duration-300 font-sans">
                     {name}
                 </span>
                 <motion.span
@@ -90,21 +88,21 @@ function SkillBar({ name, level, color, index }) {
                 </motion.span>
             </div>
             <div className="h-[1px] bg-theme-border-subtle rounded-full overflow-hidden">
-                <motion.div
-                    initial={{ scaleX: 0 }}
-                    animate={inView ? { scaleX: 1 } : {}}
-                    transition={{
-                        delay: 0.2 + index * 0.06,
-                        duration: 1,
-                        ease: [0.16, 1, 0.3, 1],
-                    }}
-                    className="h-full origin-left rounded-full"
-                    style={{
-                        background: `linear-gradient(90deg, ${color}CC, ${color}40)`,
-                        width: `${level}%`,
-                        boxShadow: `0 0 6px ${color}60`,
-                    }}
-                />
+                    <motion.div
+                        initial={{ scaleX: 0 }}
+                        animate={inView ? { scaleX: 1 } : {}}
+                        transition={{
+                            delay: 0.2 + index * 0.06,
+                            duration: 1,
+                            ease: [0.16, 1, 0.3, 1],
+                        }}
+                        className="h-full origin-left rounded-full"
+                        style={{
+                            background: 'var(--gradient-surreal)',
+                            width: `${level}%`,
+                            boxShadow: '0 0 10px var(--glow-gold), 0 0 5px var(--glow-purple)',
+                        }}
+                    />
             </div>
         </div>
     );
@@ -114,7 +112,7 @@ function CategoryCard({ cat, isActive, onClick }) {
     return (
         <motion.button
             onClick={onClick}
-            className={`relative px-4 py-2.5 text-xs uppercase tracking-[0.2em] font-semibold rounded-full border overflow-hidden ${isActive
+            className={`relative px-4 py-2.5 text-xs uppercase tracking-[0.2em] font-semibold rounded-full border overflow-hidden font-sans ${isActive
                 ? 'text-theme-text border-transparent'
                 : 'text-theme-muted border-theme-border hover:border-theme-border-hover'
                 }`}
@@ -125,20 +123,21 @@ function CategoryCard({ cat, isActive, onClick }) {
                 <motion.span
                     layoutId="active-pill"
                     className="absolute inset-0 rounded-full"
-                    style={{ background: `${cat.color}22`, border: `1px solid ${cat.color}55` }}
+                    style={{ background: 'rgba(var(--primary-rgb), 0.1)', border: '1px solid var(--primary)', boxShadow: 'inset 0 0 10px rgba(var(--primary-rgb), 0.2)' }}
                     transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                 />
             )}
-            <span className="relative z-10" style={isActive ? { color: cat.color } : {}}>
+            <span className="relative z-10" style={isActive ? { color: 'var(--primary)', textShadow: '0 0 8px var(--glow-gold)' } : {}}>
                 {cat.icon} {cat.label}
             </span>
         </motion.button>
     );
 }
 
-function TechBadge({ badge, index }) {
+function TechBadge({ badge, index, isDark }) {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true });
+    const needsInvert = badge.name === 'Next.js' || badge.name === 'Unity';
 
     return (
         <motion.div
@@ -147,46 +146,44 @@ function TechBadge({ badge, index }) {
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ delay: 0.05 * index, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             whileHover={{ scale: 1.08, y: -3 }}
-            className="group relative flex flex-col items-center gap-2 p-3 rounded-xl border border-theme-border bg-theme-surface hover:border-primary/40 transition-all duration-400 cursor-default"
+            className="group relative flex flex-col items-center gap-2 p-3 rounded-xl border border-theme-border bg-theme-surface hover:border-transparent transition-all duration-400 cursor-default"
             style={{ '--badge-color': badge.color }}
             data-hover
         >
-            <div className="w-8 h-8 flex items-center justify-center">
+            <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ padding: '1px', background: 'var(--gradient-surreal)', WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', WebkitMaskComposite: 'xor', maskComposite: 'exclude' }} />
+            <div className="w-8 h-8 flex items-center justify-center relative z-10">
                 <img
                     src={badge.logo}
                     alt={badge.name}
-                    className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
+                    className="w-full h-full object-contain transition-all duration-300 group-hover:scale-110"
                     style={{
-                        filter: badge.name === 'Next.js' || badge.name === 'Unity'
-                            ? 'invert(1)'
-                            : 'none',
+                        filter: needsInvert && isDark ? 'invert(1)' : 'none',
                     }}
                 />
             </div>
-            <span className="text-[11px] uppercase tracking-[0.15em] text-theme-muted group-hover:text-theme-text transition-colors duration-300">
+            <span className="text-[11px] uppercase tracking-[0.15em] text-theme-muted group-hover:text-theme-text transition-colors duration-300 font-sans">
                 {badge.name}
             </span>
-            {/* Hover glow */}
             <motion.span
-                className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{ background: `radial-gradient(ellipse at center, ${badge.color}15 0%, transparent 70%)` }}
+                className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none ${isDark ? 'mix-blend-screen' : 'mix-blend-multiply'}`}
+                style={{ background: `radial-gradient(ellipse at center, rgba(var(--primary-rgb), 0.2) 0%, rgba(var(--accent-rgb), 0.1) 40%, transparent 70%)` }}
             />
         </motion.div>
     );
 }
 
-// ─── Main Component ─────────────────────────────────────────────────────────────
 export default function Skills() {
     const [activeId, setActiveId] = useState('frontend');
     const headerRef = useRef(null);
     const headerInView = useInView(headerRef, { once: true });
+    const { theme } = useTheme();
+    const isDark = theme === 'dark';
 
     const activeCat = SKILL_CATEGORIES.find((c) => c.id === activeId);
 
     return (
         <section id="skills" className="relative pt-16 pb-16 md:pt-20 md:pb-20 overflow-hidden">
 
-            {/* — Section header — */}
             <div ref={headerRef} className="flex items-end justify-between mb-16 gap-8">
                 <div>
                     <motion.span
@@ -202,7 +199,7 @@ export default function Skills() {
                             initial={{ y: '110%' }}
                             animate={headerInView ? { y: '0%' } : {}}
                             transition={{ delay: 0.1, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                            className="text-5xl md:text-7xl font-black tracking-[-0.04em] leading-none text-theme-text"
+                            className="text-5xl md:text-7xl font-display font-bold italic tracking-[-0.04em] leading-none surreal-gradient-text"
                         >
                             Expertise
                         </motion.h2>
@@ -212,16 +209,14 @@ export default function Skills() {
                     initial={{ opacity: 0 }}
                     animate={headerInView ? { opacity: 1 } : {}}
                     transition={{ delay: 0.4, duration: 0.6 }}
-                    className="hidden md:block text-right text-xs text-theme-muted max-w-[180px] leading-relaxed"
+                    className="hidden md:block text-right text-xs text-theme-muted max-w-[180px] leading-relaxed font-sans"
                 >
                     Full-stack creative with a passion for pixel-perfect code.
                 </motion.p>
             </div>
 
-            {/* ─── Bento Grid ─────────────────────────────────────────────────────── */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
-                {/* ── Card 1: Category tabs + skill bars (2 cols wide) ── */}
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -229,13 +224,11 @@ export default function Skills() {
                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     className="lg:col-span-2 bento-card group relative overflow-hidden"
                 >
-                    {/* Ambient glow */}
                     <div
                         className="absolute -top-20 -right-20 w-64 h-64 rounded-full blur-[80px] opacity-20 pointer-events-none transition-all duration-700"
                         style={{ background: activeCat.color }}
                     />
 
-                    {/* Tabs */}
                     <div className="flex flex-wrap gap-2 mb-8">
                         {SKILL_CATEGORIES.map((cat) => (
                             <CategoryCard
@@ -247,7 +240,6 @@ export default function Skills() {
                         ))}
                     </div>
 
-                    {/* Skill bars */}
                     <motion.div
                         key={activeId}
                         initial={{ opacity: 0, y: 15 }}
@@ -266,11 +258,9 @@ export default function Skills() {
                         ))}
                     </motion.div>
 
-                    {/* Corner accent */}
                     <span className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-primary/30" />
                 </motion.div>
 
-                {/* ── Card 2: Stat pills ── */}
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -280,9 +270,9 @@ export default function Skills() {
                 >
                     <div className="mb-6">
                         <p className="section-badge mb-3">Snapshot</p>
-                        <p className="text-2xl font-black tracking-tight text-theme-text leading-snug">
+                        <p className="text-2xl font-display font-bold tracking-tight text-theme-text leading-snug">
                             Building since<br />
-                            <span className="text-primary">2022</span>
+                            <span className="text-primary italic">2022</span>
                         </p>
                     </div>
 
@@ -292,25 +282,28 @@ export default function Skills() {
                             { val: '3+', label: 'Years' },
                             { val: '4', label: 'Domains' },
                             { val: '∞', label: 'Curiosity' },
-                        ].map(({ val, label }, i) => (
+                        ].map(({ val, label }) => (
                             <div
                                 key={label}
-                                className="p-3 rounded-xl border border-theme-border bg-theme-surface-hover flex flex-col gap-0.5"
+                                className="p-3 rounded-xl border border-transparent bg-theme-surface-hover flex flex-col gap-0.5 relative overflow-hidden group"
                             >
-                                <span className="text-2xl font-black tracking-[-0.04em] text-theme-text">{val}</span>
-                                <span className="text-[11px] uppercase tracking-[0.2em] text-theme-muted">{label}</span>
+                                <div className="absolute inset-0 rounded-xl opacity-50 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style={{ padding: '1px', background: 'var(--gradient-surreal)', WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', WebkitMaskComposite: 'xor', maskComposite: 'exclude' }} />
+                                <span className="text-2xl font-display font-bold italic tracking-[-0.04em] text-theme-text relative z-10">{val}</span>
+                                <span className="text-[11px] uppercase tracking-[0.2em] text-theme-muted relative z-10 font-sans">{label}</span>
                             </div>
                         ))}
                     </div>
 
                     <div className="mt-6 pt-6 border-t border-theme-border">
-                        <p className="text-xs uppercase tracking-[0.2em] text-theme-muted mb-2">Primary stack</p>
+                        <p className="text-xs uppercase tracking-[0.2em] text-theme-muted mb-2 font-sans">Primary stack</p>
                         <div className="flex flex-wrap gap-1.5">
                             {['React', 'Unity', 'Figma', 'Next.js'].map((t) => (
                                 <span
                                     key={t}
-                                    className="px-2.5 py-1 rounded-full text-[11px] uppercase tracking-[0.15em] bg-primary/10 text-primary border border-primary/20 font-semibold"
+                                    className="px-2.5 py-1 rounded-full text-[11px] uppercase tracking-[0.15em] text-white font-semibold relative overflow-hidden shadow-[0_0_8px_var(--glow-gold)] font-sans"
+                                    style={{ background: 'var(--primary)' }}
                                 >
+                                    <span className="absolute inset-0 rounded-full" style={{ padding: '1px', background: 'var(--gradient-surreal)', WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', WebkitMaskComposite: 'xor', maskComposite: 'exclude' }} />
                                     {t}
                                 </span>
                             ))}
@@ -318,7 +311,6 @@ export default function Skills() {
                     </div>
                 </motion.div>
 
-                {/* ── Card 3: Tech badges grid (full width) ── */}
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -328,16 +320,15 @@ export default function Skills() {
                 >
                     <div className="flex items-center justify-between mb-6">
                         <p className="section-badge">Technologies</p>
-                        <p className="text-[10px] text-theme-muted uppercase tracking-[0.18em]">Hover to explore</p>
+                        <p className="text-[10px] text-theme-muted uppercase tracking-[0.18em] font-sans">Hover to explore</p>
                     </div>
                     <div className="grid grid-cols-4 sm:grid-cols-8 gap-3">
                         {TECH_BADGES.map((badge, i) => (
-                            <TechBadge key={badge.name} badge={badge} index={i} />
+                            <TechBadge key={badge.name} badge={badge} index={i} isDark={isDark} />
                         ))}
                     </div>
 
-                    {/* Decorative gradient line */}
-                    <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 h-[1px]" style={{ background: 'var(--gradient-surreal)', boxShadow: '0 0 10px var(--glow-gold)' }} />
                 </motion.div>
 
             </div>

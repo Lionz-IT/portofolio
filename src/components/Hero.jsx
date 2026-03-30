@@ -60,7 +60,7 @@ export default function Hero({ video }) {
       {video && (
         <div className="absolute inset-0 z-0 pointer-events-none">
           <video
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover mix-blend-luminosity opacity-80"
             src={video}
             autoPlay
             loop
@@ -68,39 +68,44 @@ export default function Hero({ video }) {
             playsInline
           />
           {/* Dark overlay */}
-          <div className="absolute inset-0 bg-black/55" />
+          <div className="absolute inset-0" style={{ background: 'rgba(var(--color-bg-rgb), 0.7)' }} />
         </div>
       )}
 
       {/* ── Ambient glow blobs (subtle, on top of video) ── */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] rounded-full blur-[130px] pointer-events-none animate-glow-pulse hero-blob z-[1]" />
-      <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] rounded-full blur-[100px] pointer-events-none hero-blob-2 z-[1]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] rounded-full blur-[130px] pointer-events-none animate-glow-pulse hero-blob z-[1]" style={{ background: 'var(--gradient-surreal)' }} />
+      <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] rounded-full blur-[100px] pointer-events-none hero-blob-2 animate-surreal-morph z-[1]" style={{ background: 'var(--gradient-celestial)' }} />
+      <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] rounded-[40%_60%_70%_30%] blur-[120px] pointer-events-none animate-surreal-float z-[1] bg-accent/20" />
+
+      {/* ── Surreal Rotating Eye ── */}
+      <div className="absolute top-[15%] right-[15%] text-[150px] text-primary/20 pointer-events-none animate-surreal-rotate z-[1] font-display select-none">◉</div>
 
       {/* ── Grid lines (theme-aware via CSS var) ── */}
-      <div className="hero-grid absolute inset-0 pointer-events-none opacity-[0.03] z-[1]" />
+      <div className="hero-grid absolute inset-0 pointer-events-none opacity-[0.05] z-[1] mix-blend-overlay" />
 
       {/* ── Main content ── */}
       <motion.div
         style={{ y: heroY, opacity: heroOpacity }}
         className="text-center z-10 px-6 w-full max-w-screen-xl mx-auto"
       >
-
         <motion.div variants={containerVariants} initial="hidden" animate="visible" className="overflow-visible">
           <div className="overflow-hidden">
             <motion.h1
               variants={itemVariants}
-              className="text-[13vw] md:text-[11vw] leading-[0.88] font-black tracking-[-0.04em] text-white select-none drop-shadow-2xl"
+              className="text-[13vw] md:text-[11vw] leading-[0.88] tracking-[-0.02em] text-theme-text select-none drop-shadow-2xl font-display surreal-gradient-text glow-text"
             >
               RAFIF
+              <span className="absolute -top-4 -left-8 text-primary text-4xl animate-surreal-breathe font-sans font-light">◊</span>
+              <span className="absolute -bottom-8 -right-4 text-accent text-3xl animate-surreal-float font-sans font-light">☽</span>
             </motion.h1>
           </div>
-          <div className="overflow-hidden">
+          <div className="overflow-hidden relative">
             <motion.h1
               variants={itemVariants}
-              className="text-[13vw] md:text-[11vw] leading-[0.88] font-black tracking-[-0.04em] select-none"
+              className="text-[13vw] md:text-[11vw] leading-[0.88] tracking-[-0.02em] select-none font-display"
             >
-              <span className="text-primary glow-text">AHMAD</span>
-              <span className="hero-initial"> Y.</span>
+              <span className="surreal-gradient-text glow-text italic">AHMAD</span>
+              <span className="text-theme-text drop-shadow-[0_0_20px_var(--glow-gold)]"> Y.</span>
             </motion.h1>
           </div>
         </motion.div>
@@ -109,7 +114,7 @@ export default function Hero({ video }) {
           variants={fadeUp} initial="hidden" animate="visible" custom={1}
           className="mt-8 h-10 flex items-center justify-center"
         >
-          <p className="text-white/75 text-base md:text-xl font-light tracking-[0.25em] uppercase drop-shadow">
+          <p className="text-theme-text opacity-80 text-base md:text-xl font-light tracking-[0.25em] uppercase drop-shadow font-mono">
             {displayText}
             <span className="text-primary animate-cursor-blink ml-0.5">|</span>
           </p>
@@ -117,27 +122,28 @@ export default function Hero({ video }) {
 
         <motion.p
           variants={fadeUp} initial="hidden" animate="visible" custom={2}
-          className="mt-6 max-w-md mx-auto text-white/60 text-sm leading-relaxed tracking-wide drop-shadow"
+          className="mt-8 max-w-md mx-auto text-theme-muted text-sm md:text-base leading-relaxed tracking-wide drop-shadow font-sans font-light"
         >
-          Crafting digital experiences where precision engineering meets brutalist aesthetics.
+          Sculpting digital experiences where impossible geometry meets precision engineering.
         </motion.p>
 
         <motion.div
           variants={fadeUp} initial="hidden" animate="visible" custom={3}
-          className="mt-12 flex items-center justify-center gap-5"
+          className="mt-14 flex items-center justify-center gap-6"
         >
           <a
             href="#projects"
-            className="group relative inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] px-8 py-4 bg-primary text-white font-semibold rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(0,122,255,0.5)]"
+            className="surreal-pill group relative inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] px-10 py-4 text-white font-medium rounded-full overflow-hidden transition-all duration-700 hover:scale-105"
+            style={{ background: 'var(--gradient-surreal)', boxShadow: '0 0 30px var(--glow-gold)' }}
             data-hover
           >
-            <span className="relative z-10">View Work</span>
-            <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1">→</span>
-            <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+            <span className="relative z-10 font-sans tracking-[0.2em]">View Work</span>
+            <span className="relative z-10 transition-transform duration-500 group-hover:translate-x-1 font-display italic">→</span>
+            <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-500 animate-shimmer" />
           </a>
           <a
             href="#about"
-            className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] px-8 py-4 border border-white/30 text-white/80 font-medium rounded-full hover:border-white/60 hover:text-white transition-all duration-500 backdrop-blur-sm"
+            className="surreal-pill inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] px-10 py-4 border border-primary/50 text-theme-text font-medium rounded-full hover:bg-primary/10 hover:border-primary hover:shadow-[0_0_25px_var(--glow-gold)] transition-all duration-700 backdrop-blur-md font-sans"
             data-hover
           >
             About Me
@@ -145,19 +151,18 @@ export default function Hero({ video }) {
         </motion.div>
       </motion.div>
 
-
       {/* ── Stats row bottom-left ── */}
       <motion.div
         variants={fadeUp} initial="hidden" animate="visible" custom={4}
-        className="absolute bottom-10 left-8 md:left-16 z-20 hidden md:flex flex-col gap-4"
+        className="absolute bottom-12 left-8 md:left-16 z-20 hidden md:flex flex-col gap-5"
       >
         {[
-          { value: '3+', label: 'Years of experience' },
-          { value: '20+', label: 'Projects shipped' },
+          { value: '3+', label: 'Years of craft' },
+          { value: '20+', label: 'Visions realized' },
         ].map(({ value, label }) => (
-          <div key={label} className="flex items-baseline gap-3">
-            <span className="text-2xl font-black text-white tracking-tighter drop-shadow">{value}</span>
-            <span className="text-[10px] uppercase tracking-widest text-white/60">{label}</span>
+          <div key={label} className="surreal-pill flex items-baseline gap-4 border border-primary/30 backdrop-blur-2xl px-6 py-2.5 rounded-full shadow-[0_0_20px_var(--glow-gold)]" style={{ background: `rgba(var(--color-bg-rgb), 0.4)` }}>
+            <span className="text-2xl font-display italic surreal-gradient-text glow-text tracking-tighter drop-shadow">{value}</span>
+            <span className="text-[10px] font-mono tracking-widest text-theme-text opacity-80 uppercase">{label}</span>
           </div>
         ))}
       </motion.div>
