@@ -1,7 +1,8 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import IntroAnimation from './components/IntroAnimation';
 import SectionWrapper from './components/SectionWrapper';
 import SmoothScroll from './components/SmoothScroll';
 import CustomCursor from './components/CustomCursor';
@@ -19,8 +20,12 @@ function SectionContent({ children }) {
 }
 
 export default function App() {
+  const [introDone, setIntroDone] = useState(false);
+
   return (
     <ThemeProvider>
+      {!introDone && <IntroAnimation onComplete={() => setIntroDone(true)} />}
+
       <SmoothScroll>
         <CustomCursor />
 
