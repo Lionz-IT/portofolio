@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import VideoBackdrop from './VideoBackdrop';
 
 const ROLES = ['Front-End Developer', 'Game Developer', 'UI/UX Designer'];
 
@@ -57,31 +58,11 @@ export default function Hero({ video }) {
       className="hero-section relative h-screen flex flex-col items-center justify-center overflow-hidden"
     >
       {/* ── Video background ── */}
-      {video && (
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <video
-            className="w-full h-full object-cover mix-blend-luminosity opacity-80"
-            src={video}
-            autoPlay
-            loop
-            muted
-            playsInline
-          />
-          {/* Dark overlay */}
-          <div className="absolute inset-0" style={{ background: 'rgba(var(--color-bg-rgb), 0.7)' }} />
-        </div>
-      )}
+      <VideoBackdrop video={video} overlayOpacity={0.7} fallbackTone="gold" />
 
-      {/* ── Ambient glow blobs (subtle, on top of video) ── */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] rounded-full blur-[130px] pointer-events-none animate-glow-pulse hero-blob z-[1]" style={{ background: 'var(--gradient-surreal)' }} />
-      <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] rounded-full blur-[100px] pointer-events-none hero-blob-2 animate-surreal-morph z-[1]" style={{ background: 'var(--gradient-celestial)' }} />
-      <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] rounded-[40%_60%_70%_30%] blur-[120px] pointer-events-none animate-surreal-float z-[1] bg-accent/20" />
-
-      {/* ── Surreal Rotating Eye ── */}
-      <div className="absolute top-[15%] right-[15%] text-[150px] text-primary/20 pointer-events-none animate-surreal-rotate z-[1] font-display select-none">◉</div>
-
-      {/* ── Grid lines (theme-aware via CSS var) ── */}
-      <div className="hero-grid absolute inset-0 pointer-events-none opacity-[0.05] z-[1] mix-blend-overlay" />
+      {/* ── Ambient glow blobs ── */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] rounded-full blur-[130px] pointer-events-none animate-glow-pulse z-[1]" style={{ background: 'var(--gradient-surreal)', contain: 'strict', transform: 'translate(-50%, -50%) translateZ(0)' }} />
+      <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] rounded-full blur-[100px] pointer-events-none animate-surreal-morph z-[1]" style={{ background: 'var(--gradient-celestial)', contain: 'strict', transform: 'translateZ(0)' }} />
 
       {/* ── Main content ── */}
       <motion.div

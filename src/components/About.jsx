@@ -47,9 +47,9 @@ export default function About() {
   const lineHeight = useTransform(scrollYProgress, [0.1, 0.5], ['0%', '100%']);
 
   return (
-    <section ref={sectionRef} id="about" className="relative py-20 md:py-28 overflow-hidden">
+    <section ref={sectionRef} className="relative py-20 md:py-28 overflow-hidden">
 
-      <div className="absolute top-1/3 right-0 w-[400px] h-[400px] rounded-full blur-[120px] pointer-events-none animate-surreal-morph opacity-[0.06]" style={{ background: 'var(--gradient-surreal)' }} />
+      <div className="absolute top-1/3 right-0 w-[400px] h-[400px] rounded-full blur-[120px] pointer-events-none animate-surreal-morph opacity-[0.06]" style={{ background: 'var(--gradient-surreal)', contain: 'strict', transform: 'translateZ(0)' }} />
 
       <div className="hidden lg:block absolute left-0 top-0 w-[1px] h-full bg-theme-border">
         <motion.div

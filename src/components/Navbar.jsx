@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import ThemeToggle from './ThemeToggle';
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '../context/useTheme';
 
 const NAV_ITEMS = ['Home', 'About', 'Projects', 'Skills', 'Experience'];
 
@@ -13,7 +13,8 @@ export default function Navbar() {
   const isDark = theme === 'dark';
 
   useMotionValueEvent(scrollY, 'change', (y) => {
-    setScrolled(y > 60);
+    const nextScrolled = y > 60;
+    setScrolled((current) => (current === nextScrolled ? current : nextScrolled));
   });
 
   const navVariants = {
@@ -58,7 +59,11 @@ export default function Navbar() {
             <div className="w-10 h-10 md:w-11 md:h-11 flex shrink-0 items-center justify-center rounded-full overflow-hidden border border-primary/30 group-hover:border-primary transition-colors duration-700">
               <img 
                 src="/profile.png" 
-                alt="Profile" 
+                alt="Profile"
+                width={44}
+                height={44}
+                decoding="async"
+                fetchPriority="high"
                 className="w-full h-full object-cover scale-[1.2] drop-shadow-[0_0_20px_var(--primary)] group-hover:scale-[1.3] group-hover:drop-shadow-[0_0_30px_var(--accent)] transition-all duration-700" 
                 style={{ filter: isDark ? 'contrast(1.1) sepia(0.2) hue-rotate(-10deg)' : 'invert(1) contrast(1.1) sepia(0.2) hue-rotate(-10deg)' }}
               />

@@ -117,7 +117,7 @@ export default function Contact() {
     };
 
     return (
-        <footer id="contact" className="relative mt-0 pt-8 pb-6 md:pt-12 md:pb-8 overflow-hidden">
+        <footer className="relative mt-0 pt-8 pb-6 md:pt-12 md:pb-8 overflow-hidden">
 
             <div ref={ref} className="relative z-10">
 

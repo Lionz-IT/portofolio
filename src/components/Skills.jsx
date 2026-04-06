@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '../context/useTheme';
 
 const SKILL_CATEGORIES = [
     {
@@ -155,6 +155,10 @@ function TechBadge({ badge, index, isDark }) {
                 <img
                     src={badge.logo}
                     alt={badge.name}
+                    loading="lazy"
+                    decoding="async"
+                    width={32}
+                    height={32}
                     className="w-full h-full object-contain transition-all duration-300 group-hover:scale-110"
                     style={{
                         filter: needsInvert && isDark ? 'invert(1)' : 'none',
@@ -182,7 +186,7 @@ export default function Skills() {
     const activeCat = SKILL_CATEGORIES.find((c) => c.id === activeId);
 
     return (
-        <section id="skills" className="relative pt-16 pb-16 md:pt-20 md:pb-20 overflow-hidden">
+        <section className="relative pt-16 pb-16 md:pt-20 md:pb-20 overflow-hidden">
 
             <div ref={headerRef} className="flex items-end justify-between mb-16 gap-8">
                 <div>

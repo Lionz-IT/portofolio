@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 
 const TIMELINE = [
@@ -59,20 +59,22 @@ const TIMELINE = [
     },
 ];
 
-const PARTICLES = Array.from({ length: 15 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 3 + 1.5,
-    delay: Math.random() * 6,
-    duration: Math.random() * 6 + 5,
-    opacity: Math.random() * 0.45 + 0.1,
-}));
+function createParticles(count) {
+    return Array.from({ length: count }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: Math.random() * 3 + 1.5,
+        delay: Math.random() * 6,
+        duration: Math.random() * 6 + 5,
+        opacity: Math.random() * 0.45 + 0.1,
+    }));
+}
 
 function Particle({ p }) {
     return (
-        <motion.span
-            className="pointer-events-none absolute rounded-full"
+        <span
+            className="css-particle"
             style={{
                 left: `${p.x}%`,
                 top: `${p.y}%`,
@@ -80,17 +82,10 @@ function Particle({ p }) {
                 height: p.size,
                 background: `radial-gradient(circle, var(--primary) 20%, transparent 80%)`,
                 boxShadow: `0 0 ${p.size * 3}px ${p.size}px rgba(var(--primary-rgb), 0.4)`,
-            }}
-            animate={{
-                y: [0, -18, 0],
-                opacity: [p.opacity * 0.5, p.opacity, p.opacity * 0.5],
-                scale: [0.8, 1.2, 0.8],
-            }}
-            transition={{
-                duration: p.duration,
-                repeat: Infinity,
-                delay: p.delay,
-                ease: 'easeInOut',
+                '--p-duration': `${p.duration}s`,
+                '--p-delay': `${p.delay}s`,
+                '--p-opacity': p.opacity,
+                '--p-opacity-low': p.opacity * 0.5,
             }}
         />
     );
@@ -213,10 +208,8 @@ function CenterDot({ item, index }) {
                 className="relative"
                 style={{ width: 18, height: 18 }}
             >
-                <motion.span
-                    animate={{ scale: [1, 1.9, 1], opacity: [0.4, 0, 0.4] }}
-                    transition={{ duration: 2.5, repeat: Infinity, delay: index * 0.35 }}
-                    className="absolute inset-0 rounded-full"
+                <span
+                    className="absolute inset-0 rounded-full opacity-40"
                     style={{ background: item.color }}
                 />
                 <span
@@ -231,12 +224,24 @@ function CenterDot({ item, index }) {
 export default function Experience() {
     const headerRef = useRef(null);
     const headerInView = useInView(headerRef, { once: true });
+    const particleCount = useMemo(() => {
+        if (typeof window === 'undefined') return 12;
+
+        const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (reducedMotion) return 0;
+
+        return coarsePointer ? 4 : 12;
+    }, []);
+
+    const particles = useMemo(() => createParticles(particleCount), [particleCount]);
 
     return (
-        <section id="experience" className="relative overflow-hidden pb-32 pt-0 md:pb-48 md:pt-0">
+        <section className="relative overflow-hidden pb-32 pt-0 md:pb-48 md:pt-0">
 
             <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-                {PARTICLES.map((p) => <Particle key={p.id} p={p} />)}
+                {particles.map((p) => <Particle key={p.id} p={p} />)}
             </div>
 
             <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 pt-24">

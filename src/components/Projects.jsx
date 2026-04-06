@@ -65,6 +65,10 @@ function ProjectCard({ project, index }) {
           <img
             src={project.image}
             alt={project.title}
+            loading="lazy"
+            decoding="async"
+            width={800}
+            height={450}
             className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
           />
 
@@ -131,7 +135,7 @@ export default function Projects() {
   const headerInView = useInView(headerRef, { once: true });
 
   return (
-    <section id="projects" className="relative pt-12 pb-16 md:pt-16 md:pb-20 overflow-hidden">
+    <section className="relative pt-12 pb-16 md:pt-16 md:pb-20 overflow-hidden">
 
       <div ref={headerRef} className="flex items-end justify-between mb-16 gap-8">
         <div>

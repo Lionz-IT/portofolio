@@ -1,6 +1,12 @@
 import { motion } from 'framer-motion';
+import VideoBackdrop from './VideoBackdrop';
 
-export default function SectionWrapper({ children, id, video }) {
+export default function SectionWrapper({
+  children,
+  id,
+  video,
+  backdropTone,
+}) {
   return (
     <motion.section
       id={id}
@@ -8,26 +14,15 @@ export default function SectionWrapper({ children, id, video }) {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: '-5%' }}
       transition={{ duration: 0.8, ease: 'easeOut' }}
-      className="relative w-full overflow-hidden min-h-screen"
+      className="relative w-full overflow-hidden min-h-screen section-contain"
     >
-      <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden mix-blend-soft-light">
-        <span className="absolute top-[20%] right-[10%] text-primary/5 text-8xl font-display animate-surreal-rotate">◉</span>
-        <span className="absolute bottom-[20%] left-[10%] text-accent/5 text-9xl font-display animate-surreal-float">◊</span>
-      </div>
-
-      {video && (
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <video
-            className="w-full h-full object-cover opacity-80 mix-blend-luminosity"
-            src={video}
-            autoPlay
-            loop
-            muted
-            playsInline
-          />
-          <div className="absolute inset-0" style={{ background: 'rgba(var(--color-bg-rgb), 0.8)' }} />
-        </div>
-      )}
+      {backdropTone ? (
+        <VideoBackdrop
+          video={video}
+          overlayOpacity={0.8}
+          fallbackTone={backdropTone}
+        />
+      ) : null}
 
       <div className="relative z-10 w-full h-full flex flex-col justify-center py-20">
         {children}

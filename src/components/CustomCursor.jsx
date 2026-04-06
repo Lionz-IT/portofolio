@@ -7,17 +7,29 @@ export default function CustomCursor() {
         const dot = dotRef.current;
         if (!dot) return;
 
-        // Touch-only device — skip entirely
         if (window.matchMedia('(pointer: coarse)').matches) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        let rafId = 0;
+        let nextX = 0;
+        let nextY = 0;
 
         const onMove = (e) => {
-            // Move dot immediately
-            dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+            nextX = e.clientX;
+            nextY = e.clientY;
+
+            if (rafId) return;
+
+            rafId = requestAnimationFrame(() => {
+                dot.style.transform = `translate3d(${nextX}px, ${nextY}px, 0) translate(-50%, -50%)`;
+                rafId = 0;
+            });
         };
 
         window.addEventListener('mousemove', onMove, { passive: true });
 
         return () => {
+            if (rafId) cancelAnimationFrame(rafId);
             window.removeEventListener('mousemove', onMove);
         };
     }, []);

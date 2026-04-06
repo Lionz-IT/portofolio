@@ -1,27 +1,28 @@
 import { useEffect } from 'react';
-import Lenis from '@studio-freight/lenis';
+import Lenis from 'lenis';
 
 export default function SmoothScroll({ children }) {
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return undefined;
+    }
+
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      return undefined;
+    }
+
     const lenis = new Lenis({
-      duration: 1.0,              // was 1.4 — shorter = more responsive feel
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),  // expo-out
+      duration: 0.8,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.0,       // neutral multiplier
-      touchMultiplier: 1.8,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1,
       infinite: false,
+      autoRaf: true,
     });
 
-    let rafId;
-    function raf(time) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-    rafId = requestAnimationFrame(raf);
-
     return () => {
-      cancelAnimationFrame(rafId);
       lenis.destroy();
     };
   }, []);
