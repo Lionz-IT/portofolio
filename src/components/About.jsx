@@ -1,33 +1,48 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 
 
 const ABOUT_TEXT =
   "I am a passionate creator focused on bridging the gap between aesthetics and functionality. With a background in Front-End development and a deep love for Game Design, I build digital experiences that feel as good as they look. Every pixel has a purpose, every line of code tells a story.";
 
-function SplitReveal({ text, delay = 0 }) {
+function SplitReveal({ text }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-10% 0px -10% 0px' });
+  const [visible, setVisible] = useState(false);
   const words = text.split(' ');
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { rootMargin: '-10% 0px -10% 0px' }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <h2
       ref={ref}
-      className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold tracking-[-0.03em] leading-[1.1] max-w-5xl glow-text"
+      className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold tracking-[-0.03em] leading-[1.1] max-w-5xl"
     >
       {words.map((word, i) => {
         const opacity = Math.min(1, 0.15 + (i / words.length) * 0.85);
         return (
           <span key={i} className={`inline-block overflow-hidden align-top mr-[0.28em] mb-1 ${i % 3 === 0 ? 'italic' : ''}`}>
-            <motion.span
-              className="inline-block text-theme-text"
-              style={{ opacity }}
-              initial={{ y: '110%' }}
-              animate={isInView ? { y: '0%' } : { y: '110%' }}
-              transition={{ delay: delay + i * 0.03, duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            <span
+              className="inline-block text-theme-text split-word"
+              style={{
+                opacity,
+                transform: visible ? 'translateY(0)' : 'translateY(110%)',
+                transitionProperty: 'transform',
+                transitionDuration: '0.75s',
+                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                transitionDelay: `${i * 0.03}s`,
+              }}
             >
               {word}
-            </motion.span>
+            </span>
           </span>
         );
       })}
@@ -49,7 +64,7 @@ export default function About() {
   return (
     <section ref={sectionRef} className="relative py-20 md:py-28 overflow-hidden">
 
-      <div className="absolute top-1/3 right-0 w-[400px] h-[400px] rounded-full blur-[120px] pointer-events-none animate-surreal-morph opacity-[0.06]" style={{ background: 'var(--gradient-surreal)', contain: 'strict', transform: 'translateZ(0)' }} />
+      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.06] z-0" style={{ background: 'radial-gradient(ellipse at center, rgba(212,160,83,0.8) 0%, rgba(189,146,72,0.4) 35%, rgba(166,130,60,0.2) 60%, transparent 80%)', contain: 'strict', transform: 'translateZ(0)' }} />
 
       <div className="hidden lg:block absolute left-0 top-0 w-[1px] h-full bg-theme-border">
         <motion.div
@@ -76,7 +91,7 @@ export default function About() {
         </motion.div>
 
         <div>
-          <SplitReveal text={ABOUT_TEXT} delay={0} />
+          <SplitReveal text={ABOUT_TEXT} />
         </div>
 
       </div>

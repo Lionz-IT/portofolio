@@ -210,7 +210,7 @@ export default function Contact() {
                         <a
                             href="/resume.pdf"
                             download
-                            className="group surreal-pill inline-flex items-center gap-2.5 text-xs uppercase tracking-[0.2em] px-8 py-4 border border-transparent hover:border-transparent text-theme-muted hover:text-theme-text font-bold rounded-full transition-all duration-500 relative before:absolute before:inset-0 before:-z-10 before:-m-[1px] before:rounded-full before:bg-gradient-to-r before:from-[var(--primary)] before:to-[var(--accent)] before:opacity-0 hover:before:opacity-100 font-sans"
+                            className="group surreal-pill inline-flex items-center gap-2.5 text-xs uppercase tracking-[0.2em] px-8 py-4 border border-transparent hover:border-transparent text-theme-muted hover:text-theme-text font-bold rounded-full transition-all duration-500 relative before:absolute before:inset-0 before:-z-10 before:-m-[1px] before:rounded-full before:bg-gradient-to-r before:from-[var(--primary)] before:to-[var(--primary)] before:opacity-0 hover:before:opacity-100 font-sans"
                             data-hover
                         >
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-y-0.5 transition-transform duration-300">
@@ -255,7 +255,7 @@ export default function Contact() {
                         transition={{ delay: 0.7, duration: 0.6 }}
                         className="text-xs uppercase tracking-[0.4em] text-theme-muted font-bold font-sans"
                     >
-                        <span className="text-[var(--primary)]">◉</span> © 2026 Rafif Ahmad · Crafted with precision <span className="text-[var(--accent)]">◉</span>
+                        © 2026 Rafif Ahmad · Crafted with precision
                     </motion.p>
 
                     <motion.a

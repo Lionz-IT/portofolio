@@ -32,8 +32,8 @@ export default function Navbar() {
   };
 
   const scrolledBg = isDark
-    ? 'bg-[#1A1528]/80 backdrop-blur-3xl border-b border-primary/20 shadow-[0_4px_40px_var(--glow-gold)]'
-    : 'bg-[#F5F0E8]/90 backdrop-blur-3xl border-b border-primary/20 shadow-[0_4px_30px_var(--glow-purple)]';
+    ? 'bg-[#1A1528]/80 backdrop-blur-xl border-b border-primary/20 shadow-[0_4px_40px_var(--glow-gold)]'
+    : 'bg-[#F5F0E8]/90 backdrop-blur-xl border-b border-primary/20 shadow-[0_4px_30px_var(--glow-gold)]';
 
   return (
     <>
@@ -64,15 +64,14 @@ export default function Navbar() {
                 height={44}
                 decoding="async"
                 fetchPriority="high"
-                className="w-full h-full object-cover scale-[1.2] drop-shadow-[0_0_20px_var(--primary)] group-hover:scale-[1.3] group-hover:drop-shadow-[0_0_30px_var(--accent)] transition-all duration-700" 
+                className="w-full h-full object-cover scale-[1.2] group-hover:scale-[1.3] transition-all duration-700" 
                 style={{ filter: isDark ? 'contrast(1.1) sepia(0.2) hue-rotate(-10deg)' : 'invert(1) contrast(1.1) sepia(0.2) hue-rotate(-10deg)' }}
               />
             </div>
 
             <div className="flex items-center gap-0">
               <span className="text-theme-text transition-colors duration-500 font-display italic">Lionz</span>
-              <span className="surreal-gradient-text glow-text transition-all duration-500 font-display">-IT</span>
-              <span className="ml-2 w-1.5 h-1.5 rounded-full animate-surreal-breathe opacity-80" style={{ background: 'var(--primary)', boxShadow: '0 0 10px var(--primary)' }} />
+              <span className="surreal-gradient-text transition-all duration-500 font-display">-IT</span>
             </div>
           </motion.a>
 
@@ -156,11 +155,11 @@ export default function Navbar() {
         initial={false}
         animate={menuOpen ? { opacity: 1, pointerEvents: 'all' } : { opacity: 0, pointerEvents: 'none' }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed inset-0 z-[980] backdrop-blur-3xl md:hidden flex flex-col items-center justify-center gap-12 ${isDark ? 'bg-gradient-to-br from-[#1A1528]/98 to-[#2A1F3D]/98' : 'bg-gradient-to-br from-[#F5F0E8]/98 to-[#EDE6DA]/98'
+        className={`fixed inset-0 z-[980] backdrop-blur-xl md:hidden flex flex-col items-center justify-center gap-12 ${isDark ? 'bg-gradient-to-br from-[#1A1528]/98 to-[#2A1F3D]/98' : 'bg-gradient-to-br from-[#F5F0E8]/98 to-[#EDE6DA]/98'
           }`}
       >
         <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center opacity-10">
-          <span className="text-[400px] text-primary font-display animate-surreal-rotate mix-blend-overlay">◉</span>
+          <span className="text-[400px] text-primary font-display">◉</span>
         </div>
         
         {NAV_ITEMS.concat(['Contact']).map((item, i) => (

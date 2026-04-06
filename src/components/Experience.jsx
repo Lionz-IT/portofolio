@@ -110,8 +110,8 @@ function TimelineCard({ item, index, isLeft }) {
             />
 
             <div
-                className="absolute -top-8 w-52 h-52 rounded-full blur-[80px] opacity-0 group-hover:opacity-15 transition-opacity duration-700 pointer-events-none"
-                style={{ background: 'var(--primary)', [isLeft ? 'right' : 'left']: '-4rem' }}
+                className="absolute -top-8 w-64 h-64 rounded-full opacity-0 group-hover:opacity-15 transition-opacity duration-700 pointer-events-none"
+                style={{ background: `radial-gradient(circle at center, ${item.color}40 0%, transparent 65%)`, [isLeft ? 'right' : 'left']: '-4rem' }}
             />
 
             <div className={`flex items-center gap-3 mb-2 ${isLeft ? 'justify-start' : 'justify-end'}`}>
@@ -176,7 +176,7 @@ function TimelineCard({ item, index, isLeft }) {
                         className="overflow-hidden"
                     >
                         <div
-                            className="mt-3 p-4 rounded-xl border border-transparent text-xs text-theme-muted leading-relaxed backdrop-blur-md relative before:absolute before:inset-0 before:-z-10 before:-m-[1px] before:rounded-xl before:bg-gradient-to-r before:from-[var(--primary)] before:to-[var(--accent)] before:opacity-50 font-sans"
+                            className="mt-3 p-4 rounded-xl border border-transparent text-xs text-theme-muted leading-relaxed relative before:absolute before:inset-0 before:-z-10 before:-m-[1px] before:rounded-xl before:bg-gradient-to-r before:from-[var(--primary)] before:to-[var(--accent)] before:opacity-50 font-sans"
                             style={{ background: 'rgba(var(--primary-rgb), 0.05)' }}
                         >
                             <p className="text-theme-muted font-semibold mb-1 uppercase tracking-widest text-[10px]">
@@ -232,7 +232,7 @@ export default function Experience() {
 
         if (reducedMotion) return 0;
 
-        return coarsePointer ? 4 : 12;
+        return coarsePointer ? 3 : 6;
     }, []);
 
     const particles = useMemo(() => createParticles(particleCount), [particleCount]);

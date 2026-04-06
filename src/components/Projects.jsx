@@ -87,7 +87,7 @@ function ProjectCard({ project, index }) {
           />
 
           <div
-            className="absolute top-4 right-4 w-9 h-9 rounded-full border flex items-center justify-center backdrop-blur-sm opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-[0_0_15px_var(--glow-gold)]"
+            className="absolute top-4 right-4 w-9 h-9 rounded-full border flex items-center justify-center opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 shadow-[0_0_15px_var(--glow-gold)]"
             style={{
               borderColor: 'transparent',
               color: '#fff',

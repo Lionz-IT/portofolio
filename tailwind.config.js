@@ -14,15 +14,13 @@ export default {
         primary: "#D4A053",
         "primary-dim": "rgba(212,160,83,0.10)",
         "primary-glow": "rgba(212,160,83,0.20)",
-        accent: "#7B6CB7",
-        "accent-dim": "rgba(123,108,183,0.10)",
-        "accent-glow": "rgba(123,108,183,0.20)",
-        rose: "#C56B8A",
-        "rose-dim": "rgba(197,107,138,0.10)",
-        muted: "#8A8298",
-        "muted-light": "#6B6480",
+        accent: "#D4A053",
+        "accent-dim": "rgba(212,160,83,0.10)",
+        "accent-glow": "rgba(212,160,83,0.20)",
+        muted: "#9A9490",
+        "muted-light": "#7A7470",
         border: "rgba(212,160,83,0.12)",
-        "border-hover": "rgba(123,108,183,0.3)",
+        "border-hover": "rgba(212,160,83,0.3)",
       },
       fontFamily: {
         sans: ['DM Sans', 'Inter', 'system-ui', 'sans-serif'],
@@ -40,10 +38,7 @@ export default {
       },
       animation: {
         'cursor-blink': 'cursor-blink 1s step-end infinite',
-        'glow-pulse': 'glow-pulse 6s ease-in-out infinite',
         'surreal-float': 'surreal-float 8s ease-in-out infinite',
-        'surreal-morph': 'surreal-morph 15s ease-in-out infinite',
-        'surreal-breathe': 'surreal-breathe 5s ease-in-out infinite',
         'shimmer': 'shimmer 4s linear infinite',
       },
       keyframes: {
@@ -51,25 +46,11 @@ export default {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0' },
         },
-        'glow-pulse': {
-          '0%, 100%': { opacity: '0.3', transform: 'scale(1)' },
-          '50%': { opacity: '0.6', transform: 'scale(1.05)' },
-        },
         'surreal-float': {
           '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
           '25%': { transform: 'translateY(-12px) rotate(2deg)' },
           '50%': { transform: 'translateY(-6px) rotate(-1deg)' },
           '75%': { transform: 'translateY(-15px) rotate(1.5deg)' },
-        },
-        'surreal-morph': {
-          '0%, 100%': { borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%' },
-          '25%': { borderRadius: '30% 60% 70% 40% / 50% 60% 30% 60%' },
-          '50%': { borderRadius: '50% 60% 40% 60% / 40% 70% 40% 60%' },
-          '75%': { borderRadius: '40% 60% 60% 40% / 60% 40% 60% 40%' },
-        },
-        'surreal-breathe': {
-          '0%, 100%': { transform: 'scale(1)', opacity: '0.6' },
-          '50%': { transform: 'scale(1.08)', opacity: '1' },
         },
         'shimmer': {
           '0%': { backgroundPosition: '-200% center' },
@@ -77,7 +58,7 @@ export default {
         },
       },
       backgroundImage: {
-        'gradient-surreal': 'linear-gradient(135deg, #D4A053, #C56B8A, #7B6CB7)',
+        'gradient-surreal': 'linear-gradient(135deg, #E8C580, #D4A053, #B8862D)',
       },
     },
   },

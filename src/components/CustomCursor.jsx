@@ -35,6 +35,6 @@ export default function CustomCursor() {
     }, []);
 
     return (
-        <div ref={dotRef} className="cursor-dot mix-blend-difference pointer-events-none z-[9999]" style={{ left: 0, top: 0 }} />
+        <div ref={dotRef} className="cursor-dot pointer-events-none z-[9999]" style={{ left: 0, top: 0 }} />
     );
 }

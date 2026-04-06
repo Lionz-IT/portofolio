@@ -60,9 +60,9 @@ export default function Hero({ video }) {
       {/* ── Video background ── */}
       <VideoBackdrop video={video} overlayOpacity={0.7} fallbackTone="gold" />
 
-      {/* ── Ambient glow blobs ── */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] rounded-full blur-[130px] pointer-events-none animate-glow-pulse z-[1]" style={{ background: 'var(--gradient-surreal)', contain: 'strict', transform: 'translate(-50%, -50%) translateZ(0)' }} />
-      <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] rounded-full blur-[100px] pointer-events-none animate-surreal-morph z-[1]" style={{ background: 'var(--gradient-celestial)', contain: 'strict', transform: 'translateZ(0)' }} />
+      {/* ── Ambient glow (static radial-gradient, no blur filter) ── */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] rounded-full pointer-events-none z-[1]" style={{ background: 'radial-gradient(ellipse at center, rgba(212,160,83,0.12) 0%, rgba(189,146,72,0.06) 40%, rgba(166,130,60,0.03) 65%, transparent 85%)', contain: 'strict', transform: 'translate(-50%, -50%) translateZ(0)' }} />
+      <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none z-[1]" style={{ background: 'radial-gradient(ellipse at center, rgba(212,160,83,0.06) 0%, transparent 60%)', contain: 'strict', transform: 'translateZ(0)' }} />
 
       {/* ── Main content ── */}
       <motion.div
@@ -73,7 +73,7 @@ export default function Hero({ video }) {
           <div className="overflow-hidden">
             <motion.h1
               variants={itemVariants}
-              className="text-[13vw] md:text-[11vw] leading-[0.88] tracking-[-0.02em] text-theme-text select-none drop-shadow-2xl font-display surreal-gradient-text glow-text"
+              className="text-[13vw] md:text-[11vw] leading-[0.88] tracking-[-0.02em] text-theme-text select-none font-display surreal-gradient-text"
             >
               RAFIF
               <span className="absolute -top-4 -left-8 text-primary text-4xl animate-surreal-breathe font-sans font-light">◊</span>
@@ -85,8 +85,8 @@ export default function Hero({ video }) {
               variants={itemVariants}
               className="text-[13vw] md:text-[11vw] leading-[0.88] tracking-[-0.02em] select-none font-display"
             >
-              <span className="surreal-gradient-text glow-text italic">AHMAD</span>
-              <span className="text-theme-text drop-shadow-[0_0_20px_var(--glow-gold)]"> Y.</span>
+              <span className="surreal-gradient-text italic">AHMAD</span>
+              <span className="text-theme-text"> Y.</span>
             </motion.h1>
           </div>
         </motion.div>
@@ -95,7 +95,7 @@ export default function Hero({ video }) {
           variants={fadeUp} initial="hidden" animate="visible" custom={1}
           className="mt-8 h-10 flex items-center justify-center"
         >
-          <p className="text-theme-text opacity-80 text-base md:text-xl font-light tracking-[0.25em] uppercase drop-shadow font-mono">
+          <p className="text-theme-text opacity-80 text-base md:text-xl font-light tracking-[0.25em] uppercase font-mono">
             {displayText}
             <span className="text-primary animate-cursor-blink ml-0.5">|</span>
           </p>
@@ -103,7 +103,7 @@ export default function Hero({ video }) {
 
         <motion.p
           variants={fadeUp} initial="hidden" animate="visible" custom={2}
-          className="mt-8 max-w-md mx-auto text-theme-muted text-sm md:text-base leading-relaxed tracking-wide drop-shadow font-sans font-light"
+          className="mt-8 max-w-md mx-auto text-theme-muted text-sm md:text-base leading-relaxed tracking-wide font-sans font-light"
         >
           Sculpting digital experiences where impossible geometry meets precision engineering.
         </motion.p>
@@ -124,7 +124,7 @@ export default function Hero({ video }) {
           </a>
           <a
             href="#about"
-            className="surreal-pill inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] px-10 py-4 border border-primary/50 text-theme-text font-medium rounded-full hover:bg-primary/10 hover:border-primary hover:shadow-[0_0_25px_var(--glow-gold)] transition-all duration-700 backdrop-blur-md font-sans"
+            className="surreal-pill inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] px-10 py-4 border border-primary/50 text-theme-text font-medium rounded-full hover:bg-primary/10 hover:border-primary hover:shadow-[0_0_25px_var(--glow-gold)] transition-all duration-700 font-sans"
             data-hover
           >
             About Me
@@ -141,8 +141,8 @@ export default function Hero({ video }) {
           { value: '3+', label: 'Years of craft' },
           { value: '20+', label: 'Visions realized' },
         ].map(({ value, label }) => (
-          <div key={label} className="surreal-pill flex items-baseline gap-4 border border-primary/30 backdrop-blur-2xl px-6 py-2.5 rounded-full shadow-[0_0_20px_var(--glow-gold)]" style={{ background: `rgba(var(--color-bg-rgb), 0.4)` }}>
-            <span className="text-2xl font-display italic surreal-gradient-text glow-text tracking-tighter drop-shadow">{value}</span>
+          <div key={label} className="surreal-pill flex items-baseline gap-4 border border-primary/30 px-6 py-2.5 rounded-full shadow-[0_0_20px_var(--glow-gold)]" style={{ background: `rgba(var(--color-bg-rgb), 0.7)` }}>
+            <span className="text-2xl font-display italic surreal-gradient-text tracking-tighter">{value}</span>
             <span className="text-[10px] font-mono tracking-widest text-theme-text opacity-80 uppercase">{label}</span>
           </div>
         ))}
