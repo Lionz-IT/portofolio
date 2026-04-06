@@ -64,8 +64,6 @@ export default function About() {
   return (
     <section ref={sectionRef} className="relative py-20 md:py-28 overflow-hidden">
 
-      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full pointer-events-none opacity-[0.06] z-0" style={{ background: 'radial-gradient(ellipse at center, rgba(212,160,83,0.8) 0%, rgba(189,146,72,0.4) 35%, rgba(166,130,60,0.2) 60%, transparent 80%)', contain: 'strict', transform: 'translateZ(0)' }} />
-
       <div className="hidden lg:block absolute left-0 top-0 w-[1px] h-full bg-theme-border">
         <motion.div
           style={{ 

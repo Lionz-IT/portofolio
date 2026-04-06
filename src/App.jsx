@@ -18,9 +18,6 @@ function SectionContent({ children }) {
   return <div className={SECTION_CONTENT_CLASS}>{children}</div>;
 }
 
-const V1 = null;
-const V2 = null;
-
 export default function App() {
   return (
     <ThemeProvider>
@@ -31,40 +28,34 @@ export default function App() {
 
           <Navbar />
 
-          {/* ── Hero — video1 — full width ── */}
-          <Hero video={V1} />
+          <Hero />
 
           <Suspense fallback={null}>
-            {/* ── About — kosong — full bleed, content padded inside ── */}
-            <SectionWrapper id="about" video={null}>
+            <SectionWrapper id="about">
               <SectionContent>
                 <About />
               </SectionContent>
             </SectionWrapper>
 
-            {/* ── Projects — video2 — full bleed ── */}
-            <SectionWrapper id="projects" video={V2} backdropTone="accent">
+            <SectionWrapper id="projects">
               <SectionContent>
                 <Projects />
               </SectionContent>
             </SectionWrapper>
 
-            {/* ── Skills — kosong — full bleed ── */}
-            <SectionWrapper id="skills" video={null}>
+            <SectionWrapper id="skills">
               <SectionContent>
                 <Skills />
               </SectionContent>
             </SectionWrapper>
 
-            {/* ── Experience — video1 — full bleed ── */}
-            <SectionWrapper id="experience" video={V1} backdropTone="gold">
+            <SectionWrapper id="experience">
               <SectionContent>
                 <Experience />
               </SectionContent>
             </SectionWrapper>
 
-            {/* ── Contact / Footer — kosong — full bleed ── */}
-            <SectionWrapper id="contact" video={null}>
+            <SectionWrapper id="contact">
               <SectionContent>
                 <Contact />
               </SectionContent>
