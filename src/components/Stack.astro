@@ -1,0 +1,85 @@
+---
+import { stack } from '../data/stack';
+
+const languages = stack.filter((s) => s.category === 'language');
+const frameworks = stack.filter((s) => s.category === 'framework');
+const tools = stack.filter((s) => s.category === 'tool');
+const databases = stack.filter((s) => s.category === 'database');
+---
+
+<section class="stack section" id="stack">
+  <div class="section-label">
+    <span>03 / Stack</span>
+  </div>
+  <h2 class="section-title" data-animate="split">Tech Stack</h2>
+  <div class="stack__grid">
+    <div class="stack__col" data-animate="fade-up">
+      <h3 class="stack__heading">Languages</h3>
+      <ul class="stack__list">
+        {languages.map((item) => <li class="stack__item">{item.name}</li>)}
+      </ul>
+    </div>
+    <div class="stack__col" data-animate="fade-up">
+      <h3 class="stack__heading">Frameworks</h3>
+      <ul class="stack__list">
+        {frameworks.map((item) => <li class="stack__item">{item.name}</li>)}
+      </ul>
+    </div>
+    <div class="stack__col" data-animate="fade-up">
+      <h3 class="stack__heading">Tools</h3>
+      <ul class="stack__list">
+        {tools.map((item) => <li class="stack__item">{item.name}</li>)}
+      </ul>
+    </div>
+    <div class="stack__col" data-animate="fade-up">
+      <h3 class="stack__heading">Databases</h3>
+      <ul class="stack__list">
+        {databases.map((item) => <li class="stack__item">{item.name}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stack__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .stack__heading {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-xs);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .stack__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .stack__item {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-text);
+    padding-bottom: var(--space-xs);
+    border-bottom: 1px solid var(--color-border);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .stack__item:hover {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 768px) {
+    .stack__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

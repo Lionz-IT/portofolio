@@ -1,0 +1,58 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__left">
+      <span class="footer__copy">&copy; {currentYear} Rafif Ahmad Yudhistira</span>
+    </div>
+    <div class="footer__right">
+      <a href="https://github.com/Lionz-IT" target="_blank" rel="noopener" class="footer__link" data-cursor-hover>GitHub</a>
+      <a href="https://www.linkedin.com/in/rafif-ahmad-yudhistira-04836331b/" target="_blank" rel="noopener" class="footer__link" data-cursor-hover>LinkedIn</a>
+      <a href="https://instagram.com/ray.lionz" target="_blank" rel="noopener" class="footer__link" data-cursor-hover>Instagram</a>
+      <a href="https://www.roblox.com/users/profile?username=LionNichBoss" target="_blank" rel="noopener" class="footer__link" data-cursor-hover>Roblox</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-md) var(--gutter);
+  }
+
+  .footer__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .footer__copy {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono);
+    color: var(--color-text-secondary);
+  }
+
+  .footer__right {
+    display: flex;
+    gap: var(--space-md);
+  }
+
+  .footer__link {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .footer__link:hover {
+    color: var(--color-accent);
+  }
+</style>

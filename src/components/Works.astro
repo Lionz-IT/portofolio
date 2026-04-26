@@ -1,0 +1,127 @@
+---
+import { projects } from '../data/projects';
+---
+
+<section class="works section" id="works">
+  <div class="section-label">
+    <span>02 / Works</span>
+  </div>
+  <h2 class="section-title" data-animate="split">Selected Projects</h2>
+  <ul class="works__list">
+    {
+      projects.map((project, i) => (
+        <li class="works__item" data-animate="fade-up">
+          <div class="works__item-header">
+            <span class="works__index">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="works__title">{project.title}</h3>
+            <span class="works__year">{project.year}</span>
+          </div>
+          <div class="works__item-body">
+            <p class="works__desc">{project.description}</p>
+            <div class="works__tech">
+              {project.tech.map((t) => (
+                <span class="works__tag">{t}</span>
+              ))}
+            </div>
+          </div>
+          <div class="works__divider" />
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .works__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .works__item {
+    padding: var(--space-md) 0;
+  }
+
+  .works__item-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-md);
+  }
+
+  .works__index {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono);
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+  }
+
+  .works__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    flex: 1;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .works__item:hover .works__title {
+    color: var(--color-text);
+  }
+
+  .works__year {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono);
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+  }
+
+  .works__item-body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-md);
+    margin-top: var(--space-xs);
+    padding-left: calc(var(--text-mono) + var(--space-md) + 1.5ch);
+  }
+
+  .works__desc {
+    font-size: var(--text-small);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 480px;
+  }
+
+  .works__tech {
+    display: flex;
+    gap: var(--space-xs);
+    flex-shrink: 0;
+  }
+
+  .works__tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+  }
+
+  .works__divider {
+    height: 1px;
+    background-color: var(--color-border);
+    margin-top: var(--space-md);
+  }
+
+  @media (max-width: 768px) {
+    .works__item-header {
+      flex-wrap: wrap;
+    }
+
+    .works__item-body {
+      flex-direction: column;
+      padding-left: 0;
+    }
+  }
+</style>

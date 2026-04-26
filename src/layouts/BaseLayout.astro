@@ -1,0 +1,46 @@
+---
+import { SEO } from 'astro-seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Rafif Ahmad Yudhistira — Developer',
+  description = 'Personal portfolio of Rafif Ahmad Yudhistira. Mobile & web developer specializing in Flutter and Next.js.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <SEO
+      title={title}
+      description={description}
+      openGraph={{
+        basic: {
+          title,
+          type: 'website',
+          image: '/profile.png',
+        },
+      }}
+    />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/globals.css';
+</style>

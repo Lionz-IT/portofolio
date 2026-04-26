@@ -1,0 +1,77 @@
+---
+const navLinks = [
+  { label: 'Works', href: '#works' },
+  { label: 'About', href: '#about' },
+  { label: 'Contact', href: '#contact' },
+];
+---
+
+<header class="navbar">
+  <a href="/" class="navbar__logo-wrapper" data-cursor-hover>
+    <img src="/profile.png" alt="Lionz Logo" class="navbar__logo-img" width="32" height="32" />
+    <span class="navbar__logo-text">LIONZ</span>
+  </a>
+  <nav class="navbar__nav" aria-label="Main navigation">
+    {
+      navLinks.map((link) => (
+        <a href={link.href} class="navbar__link" data-cursor-hover>
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
+</header>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-nav);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-sm) var(--gutter);
+    mix-blend-mode: difference;
+  }
+
+  .navbar__logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .navbar__logo-img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.2);
+  }
+
+  .navbar__logo-text {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+  }
+
+  .navbar__nav {
+    display: flex;
+    gap: var(--space-md);
+  }
+
+  .navbar__link {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-text-secondary);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .navbar__link:hover {
+    color: var(--color-accent);
+  }
+</style>

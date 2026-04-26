@@ -1,0 +1,107 @@
+---
+---
+
+<section class="contact section" id="contact">
+  <div class="section-label">
+    <span>05 / Contact</span>
+  </div>
+  <h2 class="section-title" data-animate="split">Let's Work Together</h2>
+  <div class="contact__body" data-animate="fade-up">
+    <p class="contact__text">
+      Have a project in mind or just want to say hello? I'm always open to
+      discussing new opportunities and ideas.
+    </p>
+    <a href="mailto:raymlg2005@gmail.com" class="contact__email" data-cursor-hover>
+      raymlg2005@gmail.com
+    </a>
+    <div class="contact__links">
+      <a href="/resume.pdf" target="_blank" rel="noopener" class="contact__link" data-cursor-hover>
+        <span>Resume</span>
+        <span class="contact__arrow">↗</span>
+      </a>
+      <a href="https://github.com/Lionz-IT" target="_blank" rel="noopener" class="contact__link" data-cursor-hover>
+        <span>GitHub</span>
+        <span class="contact__arrow">↗</span>
+      </a>
+      <a href="https://www.linkedin.com/in/rafif-ahmad-yudhistira-04836331b/" target="_blank" rel="noopener" class="contact__link" data-cursor-hover>
+        <span>LinkedIn</span>
+        <span class="contact__arrow">↗</span>
+      </a>
+      <a href="https://instagram.com/ray.lionz" target="_blank" rel="noopener" class="contact__link" data-cursor-hover>
+        <span>Instagram</span>
+        <span class="contact__arrow">↗</span>
+      </a>
+      <a href="https://www.roblox.com/users/profile?username=LionNichBoss" target="_blank" rel="noopener" class="contact__link" data-cursor-hover>
+        <span>Roblox</span>
+        <span class="contact__arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .contact__text {
+    font-size: var(--text-subtitle);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 500px;
+  }
+
+  .contact__email {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-accent);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 0.15em;
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .contact__email:hover {
+    border-color: var(--color-accent);
+  }
+
+  .contact__links {
+    display: flex;
+    gap: var(--space-md);
+    margin-top: var(--space-sm);
+  }
+
+  .contact__link {
+    display: flex;
+    align-items: center;
+    gap: 0.35em;
+    font-family: var(--font-mono);
+    font-size: var(--text-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .contact__link:hover {
+    color: var(--color-accent);
+  }
+
+  .contact__arrow {
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .contact__link:hover .contact__arrow {
+    transform: translate(2px, -2px);
+  }
+
+  @media (max-width: 768px) {
+    .contact__links {
+      flex-wrap: wrap;
+    }
+  }
+</style>

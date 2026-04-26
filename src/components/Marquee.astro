@@ -1,0 +1,70 @@
+---
+const items = [
+  'Flutter Developer',
+  '×',
+  'Web Engineer',
+  '×',
+  'UI Enthusiast',
+  '×',
+  'Mobile First',
+  '×',
+  'Clean Code',
+  '×',
+  'Open Source',
+  '×',
+];
+---
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    {[...Array(3)].map(() => (
+      <div class="marquee__group">
+        {items.map((item) => (
+          <span class:list={['marquee__item', item === '×' && 'marquee__sep']}>
+            {item}
+          </span>
+        ))}
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-sm) 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marqueeScroll 30s linear infinite;
+  }
+
+  .marquee__group {
+    display: flex;
+    gap: var(--space-md);
+    padding-right: var(--space-md);
+  }
+
+  .marquee__item {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.5vw, 2rem);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+  }
+
+  .marquee__sep {
+    color: var(--color-border);
+  }
+
+  @keyframes marqueeScroll {
+    to {
+      transform: translateX(-33.333%);
+    }
+  }
+</style>

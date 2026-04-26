@@ -1,0 +1,84 @@
+---
+import { experiences } from '../data/experience';
+---
+
+<section class="experience section" id="experience">
+  <div class="section-label">
+    <span>04 / Experience</span>
+  </div>
+  <h2 class="section-title" data-animate="split">Experience</h2>
+  <ul class="exp__list">
+    {
+      experiences.map((exp) => (
+        <li class="exp__item" data-animate="fade-up">
+          <div class="exp__header">
+            <div>
+              <h3 class="exp__role">{exp.role}</h3>
+              <span class="exp__company">{exp.company}</span>
+            </div>
+            <span class="exp__period">{exp.period}</span>
+          </div>
+          <p class="exp__desc">{exp.description}</p>
+          <div class="exp__divider" />
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .exp__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .exp__item {
+    padding: var(--space-md) 0;
+  }
+
+  .exp__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .exp__role {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .exp__company {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--text-body);
+    color: var(--color-text-secondary);
+  }
+
+  .exp__period {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+  }
+
+  .exp__desc {
+    margin-top: var(--space-xs);
+    font-size: var(--text-small);
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+  }
+
+  .exp__divider {
+    height: 1px;
+    background-color: var(--color-border);
+    margin-top: var(--space-md);
+  }
+</style>

@@ -1,0 +1,194 @@
+﻿---
+---
+
+<section class="hero" id="hero">
+  <canvas class="hero__canvas" aria-hidden="true"></canvas>
+
+  <div class="hero__content">
+    <div class="hero__left">
+      <div class="hero__portrait" data-cursor-hover>
+        <img
+          src="/avatar1.png"
+          alt="Rafif Ahmad Yudhistira"
+          class="hero__portrait-img hero__portrait-img--default"
+          loading="eager"
+        />
+        <img
+          src="/avatar2.png"
+          alt=""
+          class="hero__portrait-img hero__portrait-img--hover"
+          loading="eager"
+          aria-hidden="true"
+        />
+      </div>
+    </div>
+
+    <div class="hero__right">
+      <div class="hero__text-content">
+        <p class="hero__tagline" data-animate="fade-up">
+          I wasn't born, I was made.<br />
+          <span class="hero__tagline-em">Made in complexity, designed for simplicity.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+  }
+
+  .hero__canvas {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-bg);
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: var(--z-content);
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+    height: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .hero__left {
+    width: 50vw;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Anchor image to bottom */
+  }
+
+  .hero__portrait {
+    width: 100%;
+    height: 95vh; /* Huge, almost full height */
+    position: relative;
+  }
+
+  .hero__portrait-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: bottom center;
+    position: absolute;
+    bottom: 0;
+  }
+
+  .hero__portrait-img--default {
+    z-index: 1;
+  }
+
+  .hero__portrait-img--hover {
+    z-index: 2;
+    opacity: 1;
+  }
+
+  .hero__right {
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-right: var(--gutter);
+    padding-left: 2vw;
+  }
+
+  .hero__text-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .hero__tagline {
+    max-width: 800px;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    line-height: 1.1;
+    color: var(--color-text-secondary);
+    margin: 0; /* Menghapus margin-bottom agar benar-benar berada di tengah */
+  }
+
+  .hero__tagline-em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--color-accent);
+    font-size: 1.1em;
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .hero__btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 1px solid var(--color-accent);
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+    transition: background-color var(--duration-fast, 0.3s) var(--ease-out, ease),
+      color var(--duration-fast, 0.3s) var(--ease-out, ease);
+  }
+
+  .hero__btn:hover {
+    background-color: transparent;
+    color: var(--color-accent);
+  }
+
+  .hero__btn--ghost {
+    background-color: transparent;
+    color: var(--color-accent);
+  }
+
+  .hero__btn--ghost:hover {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+  }
+
+  @media (max-width: 1024px) {
+    .hero__content {
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    
+    .hero__left {
+      width: 100%;
+      height: 50vh;
+      order: 1; /* Posisikan foto di atas pada HP */
+    }
+
+    .hero__right {
+      width: 100%;
+      height: 50vh;
+      padding: var(--space-md) var(--gutter);
+      align-items: center;
+      order: 2; /* Posisikan teks di bawah pada HP */
+    }
+
+    .hero__text-content {
+      align-items: center;
+      text-align: center;
+    }
+    
+    .hero__cta {
+      justify-content: center;
+    }
+  }
+</style>
