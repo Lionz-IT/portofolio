@@ -7,121 +7,186 @@ import { projects } from '../data/projects';
     <span>02 / Works</span>
   </div>
   <h2 class="section-title" data-animate="split">Selected Projects</h2>
-  <ul class="works__list">
+  <div class="works__grid">
     {
-      projects.map((project, i) => (
-        <li class="works__item" data-animate="fade-up">
-          <div class="works__item-header">
-            <span class="works__index">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="works__title">{project.title}</h3>
-            <span class="works__year">{project.year}</span>
-          </div>
-          <div class="works__item-body">
-            <p class="works__desc">{project.description}</p>
-            <div class="works__tech">
-              {project.tech.map((t) => (
-                <span class="works__tag">{t}</span>
-              ))}
+      projects.map((project, i) => {
+        return (
+          <a href={project.url || '#'} target={project.url ? "_blank" : "_self"} class="works__card" data-animate="fade-up">
+            <div class="works__card-header">
+              <h3 class="works__card-title">{project.title}</h3>
             </div>
-          </div>
-          <div class="works__divider" />
-        </li>
-      ))
+            
+            <div class="works__card-body">
+              <p class="works__card-desc">{project.description}</p>
+              
+              <div class="works__card-footer">
+                <div class="works__card-tech">
+                  {project.tech.map((t) => (
+                    <span class="works__card-tag">{t}</span>
+                  ))}
+                </div>
+                <span class="works__card-year">{project.year}</span>
+              </div>
+            </div>
+
+            {project.image && (
+              <div class="works__image-wrapper">
+                <img src={project.image} alt={project.title} class="works__card-image" loading="lazy" />
+              </div>
+            )}
+          </a>
+        );
+      })
     }
-  </ul>
+  </div>
 </section>
 
 <style>
-  .works__list {
+  .works__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+
+  @media (min-width: 768px) {
+    .works__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* 
+      Pattern:
+      Item 1: span 2 (Wide)
+      Item 2: span 1 (Square)
+      Item 3: span 1 (Square)
+      Item 4: span 2 (Wide)
+      ...and so on
+      
+      Using :nth-child(3n + 1) targets 1st, 4th, 7th items
+    */
+    .works__card:nth-child(3n + 1) {
+      grid-column: span 2;
+    }
+  }
+
+  .works__card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 1.5rem; /* ~24px for a nice bento box feel */
+    padding: var(--space-lg);
     display: flex;
     flex-direction: column;
-  }
-
-  .works__item {
-    padding: var(--space-md) 0;
-  }
-
-  .works__item-header {
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-md);
-  }
-
-  .works__index {
-    font-family: var(--font-mono);
-    font-size: var(--text-mono);
-    color: var(--color-text-secondary);
-    flex-shrink: 0;
-  }
-
-  .works__title {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 4vw, 3rem);
-    font-weight: 400;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-    flex: 1;
-    transition: color var(--duration-fast) var(--ease-out);
-  }
-
-  .works__item:hover .works__title {
-    color: var(--color-text);
-  }
-
-  .works__year {
-    font-family: var(--font-mono);
-    font-size: var(--text-mono);
-    color: var(--color-text-secondary);
-    flex-shrink: 0;
-  }
-
-  .works__item-body {
-    display: flex;
-    align-items: flex-start;
     justify-content: space-between;
-    gap: var(--space-md);
-    margin-top: var(--space-xs);
-    padding-left: calc(var(--text-mono) + var(--space-md) + 1.5ch);
+    min-height: 400px;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: border-color var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out);
   }
 
-  .works__desc {
-    font-size: var(--text-small);
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-    max-width: 480px;
+  .works__card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-4px);
   }
 
-  .works__tech {
+  .works__card-header {
+    position: relative;
+    z-index: 2;
+  }
+
+  .works__card-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    font-weight: 400;
+    margin: 0;
+    max-width: 80%;
+  }
+
+  .works__card-body {
+    position: relative;
+    z-index: 2;
+    margin-top: auto;
     display: flex;
-    gap: var(--space-xs);
-    flex-shrink: 0;
+    flex-direction: column;
+    gap: var(--space-md);
   }
 
-  .works__tag {
+  .works__card-desc {
+    font-size: var(--text-base);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    max-width: 80%;
+    margin: 0;
+  }
+
+  @media (min-width: 768px) {
+    /* For wide cards, limit description width further so it doesn't overlap images if added */
+    .works__card:nth-child(3n + 1) .works__card-desc {
+      max-width: 60%;
+    }
+    .works__card:nth-child(3n + 1) .works__card-title {
+      max-width: 60%;
+    }
+  }
+
+  .works__card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-sm);
+  }
+
+  .works__card-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .works__card-tag {
     font-family: var(--font-mono);
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
     border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-surface);
     color: var(--color-text-secondary);
   }
 
-  .works__divider {
-    height: 1px;
-    background-color: var(--color-border);
-    margin-top: var(--space-md);
+  .works__card-year {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    opacity: 0.7;
   }
 
-  @media (max-width: 768px) {
-    .works__item-header {
-      flex-wrap: wrap;
-    }
+  .works__image-wrapper {
+    position: absolute;
+    right: -5%;
+    bottom: -10%;
+    width: 50%;
+    height: 80%;
+    z-index: 1;
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
 
-    .works__item-body {
-      flex-direction: column;
-      padding-left: 0;
-    }
+  .works__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1rem;
+    opacity: 0.7;
+    filter: grayscale(20%);
+    transition: filter var(--duration-normal) var(--ease-out);
+  }
+
+  .works__card:hover .works__image-wrapper {
+    transform: scale(1.03) translate(-1%, -1%);
+  }
+
+  .works__card:hover .works__card-image {
+    opacity: 1;
+    filter: grayscale(0%);
   }
 </style>
