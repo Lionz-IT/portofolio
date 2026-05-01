@@ -1,5 +1,6 @@
 ---
 import { stack } from '../data/stack';
+import SectionLayout from '../layouts/SectionLayout.astro';
 
 const languages = stack.filter((s) => s.category === 'language');
 const frameworks = stack.filter((s) => s.category === 'framework');
@@ -7,11 +8,7 @@ const tools = stack.filter((s) => s.category === 'tool');
 const databases = stack.filter((s) => s.category === 'database');
 ---
 
-<section class="stack section" id="stack">
-  <div class="section-label">
-    <span>03 / Stack</span>
-  </div>
-  <h2 class="section-title" data-animate="split">Tech Stack</h2>
+<SectionLayout id="stack" className="stack" label="03 / Stack" title="Tech Stack">
   <div class="stack__grid">
     <div class="stack__col" data-animate="fade-up">
       <h3 class="stack__heading">Languages</h3>
@@ -38,7 +35,7 @@ const databases = stack.filter((s) => s.category === 'database');
       </ul>
     </div>
   </div>
-</section>
+</SectionLayout>
 
 <style>
   .stack__grid {

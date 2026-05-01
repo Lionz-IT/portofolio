@@ -14,6 +14,8 @@
             alt="Rafif Ahmad Yudhistira"
             class="hero__portrait-img"
             loading="eager"
+            fetchpriority="high"
+            decoding="sync"
           />
         </div>
       </div>
@@ -39,6 +41,8 @@
             alt=""
             class="hero__portrait-img"
             loading="eager"
+            fetchpriority="high"
+            decoding="sync"
           />
         </div>
       </div>
@@ -224,12 +228,14 @@
     .hero__left {
       width: 100%;
       height: 50vh;
+      min-height: 300px;
       order: 1;
     }
 
     .hero__right {
       width: 100%;
-      height: 50vh;
+      height: auto;
+      min-height: 50vh;
       padding: var(--space-md) var(--gutter);
       align-items: center;
       order: 2;

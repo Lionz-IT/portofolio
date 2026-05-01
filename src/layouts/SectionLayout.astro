@@ -1,0 +1,18 @@
+---
+interface Props {
+  id: string;
+  className?: string;
+  label: string;
+  title: string;
+}
+
+const { id, className = '', label, title } = Astro.props;
+---
+
+<section class={`${className} section`} id={id}>
+  <div class="section-label">
+    <span>{label}</span>
+  </div>
+  <h2 class="section-title" data-animate="split">{title}</h2>
+  <slot />
+</section>

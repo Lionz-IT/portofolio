@@ -1,12 +1,9 @@
 ---
 import { experiences } from '../data/experience';
+import SectionLayout from '../layouts/SectionLayout.astro';
 ---
 
-<section class="experience section" id="experience">
-  <div class="section-label">
-    <span>04 / Experience</span>
-  </div>
-  <h2 class="section-title" data-animate="split">Experience</h2>
+<SectionLayout id="experience" className="experience" label="04 / Experience" title="Experience">
   <ul class="exp__list">
     {
       experiences.map((exp) => (
@@ -24,7 +21,7 @@ import { experiences } from '../data/experience';
       ))
     }
   </ul>
-</section>
+</SectionLayout>
 
 <style>
   .exp__list {

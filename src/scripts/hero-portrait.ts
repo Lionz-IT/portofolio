@@ -33,8 +33,24 @@ if (hero) {
     let time = 0;
     let animationFrameId: number;
 
+    let isVisible = false;
+
+    // Use Intersection Observer to pause requestAnimationFrame when Hero is not in viewport
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && target.r > 0.1) {
+          // Restart animation if it was paused while visible
+          cancelAnimationFrame(animationFrameId);
+          renderTornPaperEffect();
+        }
+      });
+    }, { threshold: 0 });
+    
+    observer.observe(hero);
+
     const renderTornPaperEffect = () => {
-      if (target.r <= 0.1) return;
+      if (target.r <= 0.1 || !isVisible) return;
 
       time += 0.03;
 

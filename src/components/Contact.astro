@@ -1,43 +1,59 @@
 ---
+import SectionLayout from '../layouts/SectionLayout.astro';
+
+const socialLinks = [
+  { label: 'Resume', href: '/resume.pdf' },
+  { label: 'GitHub', href: 'https://github.com/Lionz-IT' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/rafif-ahmad-yudhistira-04836331b/' },
+  { label: 'Instagram', href: 'https://instagram.com/ray.lionz' },
+  { label: 'Roblox', href: 'https://www.roblox.com/users/profile?username=LionNichBoss' },
+];
 ---
 
-<section class="contact section" id="contact">
-  <div class="section-label">
-    <span>05 / Contact</span>
-  </div>
-  <h2 class="section-title" data-animate="split">Let's Work Together</h2>
+<SectionLayout id="contact" className="contact" label="05 / Contact" title="Let's Work Together">
   <div class="contact__body" data-animate="fade-up">
     <p class="contact__text">
       Have a project in mind or just want to say hello? I'm always open to
       discussing new opportunities and ideas.
     </p>
-    <a href="mailto:raymlg2005@gmail.com" class="contact__email" data-cursor-hover>
-      raymlg2005@gmail.com
+    
+    <a href="#" class="contact__email" data-contact-mail data-user="raymlg2005" data-domain="gmail.com" data-cursor-hover>
+      Click to reveal email
     </a>
+    
     <div class="contact__links">
-      <a href="/resume.pdf" target="_blank" rel="noopener" class="contact__link" data-cursor-hover>
-        <span>Resume</span>
-        <span class="contact__arrow">↗</span>
-      </a>
-      <a href="https://github.com/Lionz-IT" target="_blank" rel="noopener" class="contact__link" data-cursor-hover>
-        <span>GitHub</span>
-        <span class="contact__arrow">↗</span>
-      </a>
-      <a href="https://www.linkedin.com/in/rafif-ahmad-yudhistira-04836331b/" target="_blank" rel="noopener" class="contact__link" data-cursor-hover>
-        <span>LinkedIn</span>
-        <span class="contact__arrow">↗</span>
-      </a>
-      <a href="https://instagram.com/ray.lionz" target="_blank" rel="noopener" class="contact__link" data-cursor-hover>
-        <span>Instagram</span>
-        <span class="contact__arrow">↗</span>
-      </a>
-      <a href="https://www.roblox.com/users/profile?username=LionNichBoss" target="_blank" rel="noopener" class="contact__link" data-cursor-hover>
-        <span>Roblox</span>
-        <span class="contact__arrow">↗</span>
-      </a>
+      {socialLinks.map((link) => (
+        <a href={link.href} target="_blank" rel="noopener noreferrer" class="contact__link" data-cursor-hover>
+          <span>{link.label}</span>
+          <span class="contact__arrow">↗</span>
+        </a>
+      ))}
     </div>
   </div>
-</section>
+</SectionLayout>
+
+<script>
+  // Anti-spambot email obfuscation
+  const mailBtn = document.querySelector('[data-contact-mail]');
+  if (mailBtn) {
+    // Only construct the email when hovered or interacted with
+    const revealEmail = () => {
+      const user = mailBtn.getAttribute('data-user');
+      const domain = mailBtn.getAttribute('data-domain');
+      if (user && domain) {
+        const email = `${user}@${domain}`;
+        mailBtn.setAttribute('href', `mailto:${email}`);
+        mailBtn.textContent = email;
+        // Clean up listeners after revealing
+        mailBtn.removeEventListener('mouseenter', revealEmail);
+        mailBtn.removeEventListener('focus', revealEmail);
+      }
+    };
+    
+    mailBtn.addEventListener('mouseenter', revealEmail);
+    mailBtn.addEventListener('focus', revealEmail);
+  }
+</script>
 
 <style>
   .contact__body {

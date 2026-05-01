@@ -1,17 +1,17 @@
 ---
 import { projects } from '../data/projects';
+import SectionLayout from '../layouts/SectionLayout.astro';
 ---
 
-<section class="works section" id="works">
-  <div class="section-label">
-    <span>02 / Works</span>
-  </div>
-  <h2 class="section-title" data-animate="split">Selected Projects</h2>
+<SectionLayout id="works" className="works" label="02 / Works" title="Selected Projects">
   <div class="works__grid">
     {
       projects.map((project, i) => {
+        const CardTag = project.url ? 'a' : 'div';
+        const linkProps = project.url ? { href: project.url, target: '_blank', rel: 'noopener noreferrer' } : {};
+        
         return (
-          <a href={project.url || '#'} target={project.url ? "_blank" : "_self"} class="works__card" data-animate="fade-up">
+          <CardTag {...linkProps} class="works__card" data-animate="fade-up">
             <div class="works__card-header">
               <h3 class="works__card-title">{project.title}</h3>
             </div>
@@ -31,15 +31,15 @@ import { projects } from '../data/projects';
 
             {project.image && (
               <div class="works__image-wrapper">
-                <img src={project.image} alt={project.title} class="works__card-image" loading="lazy" />
+                <img src={project.image} alt={project.title} class="works__card-image" loading="lazy" decoding="async" />
               </div>
             )}
-          </a>
+          </CardTag>
         );
       })
     }
   </div>
-</section>
+</SectionLayout>
 
 <style>
   .works__grid {
