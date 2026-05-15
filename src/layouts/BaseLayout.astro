@@ -1,5 +1,6 @@
 ---
 import { SEO } from 'astro-seo';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title?: string;
@@ -35,6 +36,7 @@ const {
         },
       }}
     />
+    <ClientRouter />
   </head>
   <body>
     <slot />

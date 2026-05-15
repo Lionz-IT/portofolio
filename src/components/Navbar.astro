@@ -1,4 +1,7 @@
 ﻿---
+import { Image } from 'astro:assets';
+import profileImg from '../assets/profile.png';
+
 const navLinks = [
   { label: 'About', href: '#about' },
   { label: 'Works', href: '#works' },
@@ -10,7 +13,7 @@ const navLinks = [
 
 <header class="navbar">
   <a href="/" class="navbar__logo-wrapper" data-cursor-hover>
-    <img src="/profile.png" alt="Lionz Logo" class="navbar__logo-img" width="32" height="32" />
+    <Image src={profileImg} alt="Lionz Logo" class="navbar__logo-img" width={32} height={32} />
     <span class="navbar__logo-text">LIONZ</span>
   </a>
 

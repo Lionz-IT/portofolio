@@ -1,10 +1,11 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import icon from 'astro-icon';
 
 export default defineConfig({
-  site: 'https://rafif.dev',
+  site: 'https://lionz.my.id',
   output: 'static',
-  integrations: [sitemap()],
+  integrations: [sitemap(), icon()],
   vite: {
     ssr: {
       noExternal: ['gsap'],

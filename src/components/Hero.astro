@@ -1,4 +1,7 @@
 ﻿---
+import { Image } from 'astro:assets';
+import avatar1 from '../assets/avatar1.png';
+import avatar2 from '../assets/avatar2.png';
 ---
 
 <section class="hero" id="hero">
@@ -9,8 +12,8 @@
     <div class="hero__content">
       <div class="hero__left">
         <div class="hero__portrait" data-cursor-hover>
-          <img
-            src="/avatar1.png"
+          <Image
+            src={avatar1}
             alt="Rafif Ahmad Yudhistira"
             class="hero__portrait-img"
             loading="eager"
@@ -36,8 +39,8 @@
     <div class="hero__content">
       <div class="hero__left">
         <div class="hero__portrait">
-          <img
-            src="/avatar2.png"
+          <Image
+            src={avatar2}
             alt=""
             class="hero__portrait-img"
             loading="eager"

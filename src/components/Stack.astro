@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-icon/components';
 import { stack } from '../data/stack';
 import SectionLayout from '../layouts/SectionLayout.astro';
 
@@ -15,7 +16,7 @@ const databases = stack.filter((s) => s.category === 'database');
       <ul class="stack__list">
         {languages.map((item) => (
           <li class="stack__item" data-cursor-hover style={`--brand-color: ${item.color || 'var(--color-accent)'}`}>
-            <span class="stack__item-icon" set:html={item.icon || ''} />
+            <span class="stack__item-icon"><Icon name={item.icon} /></span>
             <span class="stack__item-text">{item.name}</span>
           </li>
         ))}
@@ -26,7 +27,7 @@ const databases = stack.filter((s) => s.category === 'database');
       <ul class="stack__list">
         {frameworks.map((item) => (
           <li class="stack__item" data-cursor-hover style={`--brand-color: ${item.color || 'var(--color-accent)'}`}>
-            <span class="stack__item-icon" set:html={item.icon || ''} />
+            <span class="stack__item-icon"><Icon name={item.icon} /></span>
             <span class="stack__item-text">{item.name}</span>
           </li>
         ))}
@@ -37,7 +38,7 @@ const databases = stack.filter((s) => s.category === 'database');
       <ul class="stack__list">
         {tools.map((item) => (
           <li class="stack__item" data-cursor-hover style={`--brand-color: ${item.color || 'var(--color-accent)'}`}>
-            <span class="stack__item-icon" set:html={item.icon || ''} />
+            <span class="stack__item-icon"><Icon name={item.icon} /></span>
             <span class="stack__item-text">{item.name}</span>
           </li>
         ))}
@@ -48,7 +49,7 @@ const databases = stack.filter((s) => s.category === 'database');
       <ul class="stack__list">
         {databases.map((item) => (
           <li class="stack__item" data-cursor-hover style={`--brand-color: ${item.color || 'var(--color-accent)'}`}>
-            <span class="stack__item-icon" set:html={item.icon || ''} />
+            <span class="stack__item-icon"><Icon name={item.icon} /></span>
             <span class="stack__item-text">{item.name}</span>
           </li>
         ))}
