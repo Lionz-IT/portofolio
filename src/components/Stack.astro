@@ -13,25 +13,45 @@ const databases = stack.filter((s) => s.category === 'database');
     <div class="stack__col" data-animate="fade-up">
       <h3 class="stack__heading">Languages</h3>
       <ul class="stack__list">
-        {languages.map((item) => <li class="stack__item">{item.name}</li>)}
+        {languages.map((item) => (
+          <li class="stack__item" data-cursor-hover style={`--brand-color: ${item.color || 'var(--color-accent)'}`}>
+            <span class="stack__item-icon" set:html={item.icon || ''} />
+            <span class="stack__item-text">{item.name}</span>
+          </li>
+        ))}
       </ul>
     </div>
     <div class="stack__col" data-animate="fade-up">
       <h3 class="stack__heading">Frameworks</h3>
       <ul class="stack__list">
-        {frameworks.map((item) => <li class="stack__item">{item.name}</li>)}
+        {frameworks.map((item) => (
+          <li class="stack__item" data-cursor-hover style={`--brand-color: ${item.color || 'var(--color-accent)'}`}>
+            <span class="stack__item-icon" set:html={item.icon || ''} />
+            <span class="stack__item-text">{item.name}</span>
+          </li>
+        ))}
       </ul>
     </div>
     <div class="stack__col" data-animate="fade-up">
       <h3 class="stack__heading">Tools</h3>
       <ul class="stack__list">
-        {tools.map((item) => <li class="stack__item">{item.name}</li>)}
+        {tools.map((item) => (
+          <li class="stack__item" data-cursor-hover style={`--brand-color: ${item.color || 'var(--color-accent)'}`}>
+            <span class="stack__item-icon" set:html={item.icon || ''} />
+            <span class="stack__item-text">{item.name}</span>
+          </li>
+        ))}
       </ul>
     </div>
     <div class="stack__col" data-animate="fade-up">
       <h3 class="stack__heading">Databases</h3>
       <ul class="stack__list">
-        {databases.map((item) => <li class="stack__item">{item.name}</li>)}
+        {databases.map((item) => (
+          <li class="stack__item" data-cursor-hover style={`--brand-color: ${item.color || 'var(--color-accent)'}`}>
+            <span class="stack__item-icon" set:html={item.icon || ''} />
+            <span class="stack__item-text">{item.name}</span>
+          </li>
+        ))}
       </ul>
     </div>
   </div>
@@ -67,16 +87,80 @@ const databases = stack.filter((s) => s.category === 'database');
     color: var(--color-text);
     padding-bottom: var(--space-xs);
     border-bottom: 1px solid var(--color-border);
-    transition: color var(--duration-fast) var(--ease-out);
+    transition: all var(--duration-fast) var(--ease-out);
+    position: relative;
+    cursor: default;
+    display: flex;
+    align-items: center;
   }
 
+  .stack__item-icon {
+    display: flex;
+    align-items: center;
+    width: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateX(-10px);
+  }
+
+  .stack__item-icon :global(svg) {
+    width: 20px !important;
+    height: 20px !important;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .stack__item-text {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Hover Ide 2 Effect */
   .stack__item:hover {
-    color: var(--color-accent);
+    border-color: var(--brand-color);
+    color: var(--brand-color);
   }
 
-  @media (max-width: 768px) {
+  /* Make sure the hover isn't lost if mouse moves slightly off text but still in li */
+  .stack__item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .stack__item-icon,
+  .stack__item-text {
+    position: relative;
+    z-index: 2; /* keep above the invisible clickable area */
+  }
+
+  .stack__item:hover .stack__item-icon {
+    width: 28px; /* 20px svg + 8px gap */
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  }
+
+  .stack__item:hover .stack__item-text {
+    transform: translateX(0);
+  }
+
+  @media (max-width: 1024px) {
+    .stack__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-xl) var(--space-md);
+    }
+  }
+
+  @media (max-width: 640px) {
     .stack__grid {
       grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+    
+    .stack__item {
+      padding: var(--space-xs) 0;
     }
   }
 </style>

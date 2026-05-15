@@ -35,9 +35,17 @@ import SectionLayout from '../layouts/SectionLayout.astro';
 
   .exp__header {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: flex-start;
-    gap: var(--space-md);
+    gap: var(--space-xs);
+  }
+
+  @media (min-width: 768px) {
+    .exp__header {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
   }
 
   .exp__role {

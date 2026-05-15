@@ -73,16 +73,23 @@ import SectionLayout from '../layouts/SectionLayout.astro';
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 1.5rem; /* ~24px for a nice bento box feel */
-    padding: var(--space-lg);
+    padding: var(--space-md);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 400px;
+    min-height: 320px;
     position: relative;
     overflow: hidden;
     text-decoration: none;
     color: var(--color-text);
     transition: border-color var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out);
+  }
+
+  @media (min-width: 768px) {
+    .works__card {
+      padding: var(--space-lg);
+      min-height: 400px;
+    }
   }
 
   .works__card:hover {
@@ -101,7 +108,7 @@ import SectionLayout from '../layouts/SectionLayout.astro';
     line-height: 1.1;
     font-weight: 400;
     margin: 0;
-    max-width: 80%;
+    max-width: 100%;
   }
 
   .works__card-body {
@@ -117,11 +124,15 @@ import SectionLayout from '../layouts/SectionLayout.astro';
     font-size: var(--text-base);
     color: var(--color-text-secondary);
     line-height: 1.5;
-    max-width: 80%;
+    max-width: 100%;
     margin: 0;
   }
 
   @media (min-width: 768px) {
+    .works__card-title,
+    .works__card-desc {
+      max-width: 80%;
+    }
     /* For wide cards, limit description width further so it doesn't overlap images if added */
     .works__card:nth-child(3n + 1) .works__card-desc {
       max-width: 60%;
@@ -133,9 +144,20 @@ import SectionLayout from '../layouts/SectionLayout.astro';
 
   .works__card-footer {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: var(--space-sm);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+    margin-top: var(--space-xs);
+  }
+
+  @media (min-width: 768px) {
+    .works__card-footer {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: var(--space-sm);
+      margin-top: 0;
+    }
   }
 
   .works__card-tech {
