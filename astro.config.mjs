@@ -10,8 +10,16 @@ export default defineConfig({
     ssr: {
       noExternal: ['gsap'],
     },
-    // We remove the explicit manualChunks for three.js and gsap.
-    // Astro 4.x/5.x/6.x + Rollup 4 has stricter chunking behavior. 
-    // Three.js and GSAP will automatically be chunked properly by Vite's defaults.
+    build: {
+      chunkSizeWarningLimit: 800,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            three: ['three'],
+            gsap: ['gsap'],
+          },
+        },
+      },
+    },
   },
 });
