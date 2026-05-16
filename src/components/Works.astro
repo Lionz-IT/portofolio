@@ -78,6 +78,9 @@ import SectionLayout from '../layouts/SectionLayout.astro';
     overflow: hidden;
     position: relative;
     padding: var(--space-lg) 0;
+    min-height: calc(50vh + var(--space-lg) * 2 + 50px); /* Adjust to card height */
+    display: flex;
+    align-items: center;
   }
 
   .works__container {
@@ -91,14 +94,11 @@ import SectionLayout from '../layouts/SectionLayout.astro';
   @media (max-width: 767px) {
     .works__wrapper {
       padding: var(--space-md) 0;
-      width: 100%;
-      margin-left: 0;
-      overflow: visible;
+      /* removed mobile overrides so it keeps horizontal viewport style */
     }
     .works__container {
-      flex-direction: column;
-      width: 100%;
-      padding: 0;
+      /* Keep flex row */
+      padding: 0 var(--space-md);
     }
   }
 
@@ -110,9 +110,9 @@ import SectionLayout from '../layouts/SectionLayout.astro';
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    /* Landscape card layout for mobile */
-    width: 100%;
-    min-height: 280px;
+    /* Base sizes for mobile */
+    width: 85vw; /* Almost full screen width for mobile horizontal scroll */
+    height: 400px;
     position: relative;
     overflow: hidden;
     text-decoration: none;
@@ -123,11 +123,12 @@ import SectionLayout from '../layouts/SectionLayout.astro';
 
   @media (min-width: 768px) {
     .works__card {
-      width: 560px; /* Landscape width */
-      height: 340px; /* Landscape height */
-      padding: var(--space-md);
+      width: 560px; /* Landscape width (Original value) */
+      height: clamp(340px, 50vh, 600px); /* Height bound to 50% of viewport height */
+      padding: var(--space-lg);
       transform-origin: center bottom;
       will-change: transform;
+      margin-top: 16px; /* Allow space for the upward hover translation */
     }
   }
 

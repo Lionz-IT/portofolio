@@ -58,7 +58,7 @@ const worksContainer = document.querySelector('.works__container');
 if (worksWrapper && worksContainer) {
   let mm = gsap.matchMedia();
 
-  mm.add("(min-width: 768px)", () => {
+  mm.add("all", () => {
     const cards = gsap.utils.toArray('.works__card');
     
     gsap.set(cards, {
