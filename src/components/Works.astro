@@ -4,160 +4,212 @@ import SectionLayout from '../layouts/SectionLayout.astro';
 ---
 
 <SectionLayout id="works" className="works" label="02 / Works" title="Selected Projects">
-  <div class="works__grid">
-    {
-      projects.map((project, i) => {
-        const CardTag = project.url ? 'a' : 'div';
-        const linkProps = project.url ? { href: project.url, target: '_blank', rel: 'noopener noreferrer' } : {};
-        
-        return (
-          <CardTag {...linkProps} class="works__card" data-animate="fade-up">
-            <div class="works__card-header">
-              <h3 class="works__card-title">{project.title}</h3>
-            </div>
-            
-            <div class="works__card-body">
-              <p class="works__card-desc">{project.description}</p>
+  <div class="works__wrapper">
+    <div class="works__container">
+      {
+        projects.map((project, i) => {
+          // If project has a gallery, use a div so we can trigger the modal.
+          // Otherwise, if it has a URL, wrap in an anchor. Otherwise fallback to div.
+          const CardTag = project.gallery ? 'div' : (project.url ? 'a' : 'div');
+          
+          let linkProps = {};
+          if (!project.gallery && project.url) {
+            linkProps = { href: project.url, target: '_blank', rel: 'noopener noreferrer' };
+          }
+          
+          return (
+            <CardTag 
+              {...linkProps} 
+              class={`works__card ${project.gallery ? 'has-gallery' : ''}`} 
+              data-animate="fade-up"
+              role={project.gallery ? 'button' : undefined}
+              tabindex={project.gallery ? '0' : undefined}
+              data-gallery={project.gallery ? JSON.stringify(project.gallery) : undefined}
+            >
+              <div class="works__card-header">
+                <span class="works__card-year">{project.year}</span>
+                <h3 class="works__card-title">{project.title}</h3>
+              </div>
               
-              <div class="works__card-footer">
+              <div class="works__card-body">
+                <p class="works__card-desc">{project.description}</p>
+                
                 <div class="works__card-tech">
                   {project.tech.map((t) => (
                     <span class="works__card-tag">{t}</span>
                   ))}
                 </div>
-                <span class="works__card-year">{project.year}</span>
               </div>
-            </div>
 
-            {project.image && (
-              <div class="works__image-wrapper">
-                <img src={project.image} alt={project.title} class="works__card-image" loading="lazy" decoding="async" />
-              </div>
-            )}
-          </CardTag>
-        );
-      })
-    }
+              {project.image && (
+                <div class="works__image-wrapper">
+                  <img src={project.image} alt={project.title} class="works__card-image" loading="lazy" decoding="async" />
+                </div>
+              )}
+            </CardTag>
+          );
+        })
+      }
+    </div>
   </div>
 </SectionLayout>
 
+<!-- Modal Container -->
+<div class="works__modal" id="gallery-modal" aria-hidden="true" role="dialog">
+  <div class="works__modal-backdrop" id="gallery-backdrop"></div>
+  <button class="works__modal-close" id="gallery-close" aria-label="Close Gallery">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+  <div class="works__modal-content">
+    <div class="works__modal-track" id="gallery-track">
+      <!-- Images injected here via JS -->
+    </div>
+  </div>
+</div>
+
 <style>
-  .works__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
-    margin-top: var(--space-lg);
+  .works__wrapper {
+    /* Create a viewport window for horizontal scrolling */
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    overflow: hidden;
+    position: relative;
+    padding: var(--space-lg) 0;
   }
 
-  @media (min-width: 768px) {
-    .works__grid {
-      grid-template-columns: repeat(2, 1fr);
+  .works__container {
+    display: flex;
+    gap: var(--space-md);
+    padding: 0 var(--space-xl) 0 var(--gutter);
+    width: max-content;
+    /* On mobile, allow native scroll or wrap, GSAP will take over on larger screens */
+  }
+
+  @media (max-width: 767px) {
+    .works__wrapper {
+      padding: var(--space-md) 0;
+      width: 100%;
+      margin-left: 0;
+      overflow: visible;
     }
-    
-    /* 
-      Pattern:
-      Item 1: span 2 (Wide)
-      Item 2: span 1 (Square)
-      Item 3: span 1 (Square)
-      Item 4: span 2 (Wide)
-      ...and so on
-      
-      Using :nth-child(3n + 1) targets 1st, 4th, 7th items
-    */
-    .works__card:nth-child(3n + 1) {
-      grid-column: span 2;
+    .works__container {
+      flex-direction: column;
+      width: 100%;
+      padding: 0;
     }
   }
 
   .works__card {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 1.5rem; /* ~24px for a nice bento box feel */
+    border-radius: 1rem;
     padding: var(--space-md);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    min-height: 320px;
+    justify-content: flex-end;
+    /* Landscape card layout for mobile */
+    width: 100%;
+    min-height: 280px;
     position: relative;
     overflow: hidden;
     text-decoration: none;
     color: var(--color-text);
-    transition: border-color var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out);
+    transition: transform var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
+    flex-shrink: 0;
   }
 
   @media (min-width: 768px) {
     .works__card {
-      padding: var(--space-lg);
-      min-height: 400px;
+      width: 560px; /* Landscape width */
+      height: 340px; /* Landscape height */
+      padding: var(--space-md);
+      transform-origin: center bottom;
+      will-change: transform;
     }
   }
 
   .works__card:hover {
     border-color: var(--color-accent);
-    transform: translateY(-4px);
+  }
+
+  @media (min-width: 768px) {
+    /* Hover brings card up and subtle scale */
+    .works__card:hover {
+      transform: translateY(-16px) scale(1.02);
+      z-index: 2;
+    }
+    /* Sibling scaling for authentic carousel feel */
+    .works__container:hover .works__card:not(:hover) {
+      transform: scale(0.95);
+      opacity: 0.5;
+    }
   }
 
   .works__card-header {
-    position: relative;
+    position: absolute;
+    top: var(--space-md);
+    left: var(--space-md);
+    right: var(--space-md);
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    /* Adding text shadow to ensure readability against bright images */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.5);
+  }
+
+  @media (min-width: 768px) {
+    .works__card-header {
+      top: var(--space-lg);
+      left: var(--space-lg);
+      right: var(--space-lg);
+    }
   }
 
   .works__card-title {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
     line-height: 1.1;
     font-weight: 400;
     margin: 0;
-    max-width: 100%;
+    color: #ffffff; /* Force white color for titles against backgrounds */
+  }
+
+  .works__card-year {
+    font-family: var(--font-mono);
+    font-size: var(--text-mono);
+    color: rgba(255, 255, 255, 0.85); /* Brighten year slightly */
   }
 
   .works__card-body {
     position: relative;
     z-index: 2;
-    margin-top: auto;
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
+    transition: opacity var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out);
+  }
+
+  @media (min-width: 768px) {
+    .works__card-body {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .works__card:hover .works__card-body {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .works__card-desc {
-    font-size: var(--text-base);
-    color: var(--color-text-secondary);
+    font-size: var(--text-small);
+    color: rgba(255, 255, 255, 0.9); /* Force bright text */
     line-height: 1.5;
-    max-width: 100%;
     margin: 0;
-  }
-
-  @media (min-width: 768px) {
-    .works__card-title,
-    .works__card-desc {
-      max-width: 80%;
-    }
-    /* For wide cards, limit description width further so it doesn't overlap images if added */
-    .works__card:nth-child(3n + 1) .works__card-desc {
-      max-width: 60%;
-    }
-    .works__card:nth-child(3n + 1) .works__card-title {
-      max-width: 60%;
-    }
-  }
-
-  .works__card-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-    margin-top: var(--space-xs);
-  }
-
-  @media (min-width: 768px) {
-    .works__card-footer {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: var(--space-sm);
-      margin-top: 0;
-    }
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); /* Readability shadow */
   }
 
   .works__card-tech {
@@ -172,43 +224,261 @@ import SectionLayout from '../layouts/SectionLayout.astro';
     padding: 0.25rem 0.75rem;
     border: 1px solid var(--color-border);
     border-radius: 999px;
-    background: var(--color-surface);
+    background: rgba(10, 10, 10, 0.8); /* Semi-transparent bg */
     color: var(--color-text-secondary);
-  }
-
-  .works__card-year {
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    opacity: 0.7;
+    backdrop-filter: blur(4px);
   }
 
   .works__image-wrapper {
     position: absolute;
-    right: -5%;
-    bottom: -10%;
-    width: 50%;
-    height: 80%;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     z-index: 1;
-    transition: transform var(--duration-slow) var(--ease-out);
+    background: linear-gradient(
+      to bottom,
+      var(--color-surface) 0%,
+      rgba(17, 17, 17, 0.4) 40%,
+      var(--color-surface) 100%
+    );
+  }
+
+  /* Optional noise texture over the card */
+  .works__card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
   }
 
   .works__card-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 1rem;
-    opacity: 0.7;
-    filter: grayscale(20%);
-    transition: filter var(--duration-normal) var(--ease-out);
-  }
-
-  .works__card:hover .works__image-wrapper {
-    transform: scale(1.03) translate(-1%, -1%);
+    object-fit: cover; /* Cover is fine, but we'll position it better */
+    object-position: top center; /* Focus on the top part of the dashboard image */
+    opacity: 0.4;
+    filter: grayscale(100%);
+    transition: filter var(--duration-normal) var(--ease-out), transform var(--duration-slow) var(--ease-out), opacity var(--duration-normal) var(--ease-out);
+    z-index: -1;
+    position: relative;
   }
 
   .works__card:hover .works__card-image {
+    opacity: 0.8;
+    filter: grayscale(20%);
+    transform: scale(1.05);
+  }
+
+  /* Modal Styles */
+  .works__modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .works__modal.is-active {
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  .works__modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity var(--duration-normal) var(--ease-out);
+  }
+
+  .works__modal.is-active .works__modal-backdrop {
     opacity: 1;
-    filter: grayscale(0%);
+  }
+
+  .works__modal-close {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    z-index: 102;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: background-color var(--duration-fast), color var(--duration-fast);
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  .works__modal.is-active .works__modal-close {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.2s; /* wait for backdrop */
+  }
+
+  .works__modal-close:hover {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+  }
+
+  .works__modal-content {
+    position: relative;
+    z-index: 101;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: var(--space-xl) var(--space-md) var(--space-md);
+    
+    /* Hide scrollbar for cleaner look */
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .works__modal-content::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  .works__modal-track {
+    display: flex;
+    gap: var(--space-md);
+    height: 80vh; /* Takes up most of viewport height */
+    padding: 0 var(--space-lg);
+    /* GSAP will animate this */
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity var(--duration-slow) var(--ease-out), transform var(--duration-slow) var(--ease-out);
+  }
+
+  .works__modal.is-active .works__modal-track {
+    opacity: 1;
+    transform: scale(1);
+    transition-delay: 0.1s;
+  }
+
+  :global(.works__modal-image) {
+    height: 100%;
+    width: auto;
+    max-width: 85vw; /* don't get too wide on ultrawide monitors */
+    object-fit: contain;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   }
 </style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  function initGalleryModal() {
+    const cards = document.querySelectorAll('.works__card.has-gallery');
+    const modal = document.getElementById('gallery-modal');
+    const backdrop = document.getElementById('gallery-backdrop');
+    const closeBtn = document.getElementById('gallery-close');
+    const track = document.getElementById('gallery-track');
+    
+    if (!cards.length || !modal || !track || !closeBtn || !backdrop) return;
+
+    let isOpen = false;
+
+    const openModal = (galleryDataString) => {
+      if (isOpen) return;
+      isOpen = true;
+
+      try {
+        const gallery = JSON.parse(galleryDataString);
+        
+        // Clear previous images
+        track.innerHTML = '';
+        
+        // Inject new images
+        gallery.forEach(src => {
+          const img = document.createElement('img');
+          img.src = src;
+          // You might want slightly more descriptive alt text based on project title, 
+          // but for now generic works.
+          img.alt = "Project gallery image"; 
+          img.className = 'works__modal-image';
+          img.loading = 'lazy';
+          track.appendChild(img);
+        });
+
+        // Add active class for CSS transitions
+        modal.classList.add('is-active');
+        
+        // Disable body scroll
+        document.body.style.overflow = 'hidden';
+      } catch (e) {
+        console.error("Failed to parse gallery data", e);
+        isOpen = false;
+      }
+    };
+
+    const closeModal = () => {
+      if (!isOpen) return;
+      isOpen = false;
+      
+      // Remove class to trigger CSS exit transitions
+      modal.classList.remove('is-active');
+      
+      // Re-enable body scroll
+      document.body.style.overflow = '';
+      
+      // Wait for transition to finish before clearing DOM (optional, but cleaner)
+      setTimeout(() => {
+        if (!isOpen && track) {
+          track.innerHTML = '';
+        }
+      }, 500); // Matches var(--duration-normal)/slow roughly
+    };
+
+    cards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        e.preventDefault(); 
+        const galleryData = card.getAttribute('data-gallery');
+        if (galleryData) {
+          openModal(galleryData);
+        }
+      });
+      
+      card.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const galleryData = card.getAttribute('data-gallery');
+          if (galleryData) {
+            openModal(galleryData);
+          }
+        }
+      });
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+    
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        closeModal();
+      }
+    });
+  }
+
+  // Run on first load
+  initGalleryModal();
+  
+  // Re-run after Astro View Transitions (if enabled)
+  document.addEventListener('astro:page-load', initGalleryModal);
+</script>
+

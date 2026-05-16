@@ -6,7 +6,7 @@
 }
 
 export const stack: StackItem[] = [
-  { name: 'Next.js 14/15', category: 'framework', color: '#000000', icon: 'simple-icons:nextdotjs' },
+  { name: 'Next.js 14/15', category: 'framework', color: '#ffffff', icon: 'simple-icons:nextdotjs' },
   { name: 'Laravel', category: 'framework', color: '#FF2D20', icon: 'simple-icons:laravel' },
   { name: 'Flutter', category: 'framework', color: '#02569B', icon: 'simple-icons:flutter' },
   { name: 'React.js', category: 'framework', color: '#61DAFB', icon: 'simple-icons:react' },
@@ -14,11 +14,11 @@ export const stack: StackItem[] = [
   { name: 'Tailwind CSS', category: 'framework', color: '#06B6D4', icon: 'simple-icons:tailwindcss' },
   { name: 'Bootstrap', category: 'framework', color: '#7952B3', icon: 'simple-icons:bootstrap' },
   { name: 'Git', category: 'tool', color: '#F05032', icon: 'simple-icons:git' },
-  { name: 'GitHub', category: 'tool', color: '#181717', icon: 'simple-icons:github' },
+  { name: 'GitHub', category: 'tool', color: '#ffffff', icon: 'simple-icons:github' },
   { name: 'Figma (UI/UX)', category: 'tool', color: '#F24E1E', icon: 'simple-icons:figma' },
   { name: 'Supabase', category: 'tool', color: '#3FCF8E', icon: 'simple-icons:supabase' },
   { name: 'AWS', category: 'tool', color: '#FF9900', icon: 'simple-icons:amazonaws' },
-  { name: 'Vercel', category: 'tool', color: '#000000', icon: 'simple-icons:vercel' },
+  { name: 'Vercel', category: 'tool', color: '#ffffff', icon: 'simple-icons:vercel' },
   { name: 'Render', category: 'tool', color: '#46E3B7', icon: 'simple-icons:render' },
   { name: 'MySQL', category: 'database', color: '#4479A1', icon: 'simple-icons:mysql' },
   { name: 'PostgreSQL', category: 'database', color: '#4169E1', icon: 'simple-icons:postgresql' },

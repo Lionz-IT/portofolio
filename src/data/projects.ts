@@ -6,6 +6,7 @@
   url?: string;
   github?: string;
   year: string;
+  gallery?: string[];
 }
 
 export const projects: Project[] = [
@@ -47,5 +48,16 @@ export const projects: Project[] = [
     description: 'Aplikasi manajemen operasional laundry. Meliputi perancangan UI panel admin dan pengembangan frontend yang dioptimalkan kecepatannya menggunakan Bun.',
     tech: ['Frontend', 'UI Design', 'Bun'],
     year: '2025 - 2026',
+    image: '/washup/Dashboard.png',
+    gallery: [
+      '/washup/Dashboard.png',
+      '/washup/Add Employee.jpg',
+      '/washup/Create Service.jpg',
+      '/washup/Create Voucher.jpg',
+      '/washup/Customer List.jpg',
+      '/washup/Detail Customers.jpg',
+      '/washup/Employee List.jpg',
+      '/washup/Voucher List.jpg'
+    ]
   },
 ];
