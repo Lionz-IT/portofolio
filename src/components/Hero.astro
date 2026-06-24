@@ -1,64 +1,9 @@
-﻿---
-import { Image } from 'astro:assets';
-import avatar1 from '../assets/avatar1.png';
-import avatar2 from '../assets/avatar2.png';
+---
 ---
 
 <section class="hero" id="hero">
-  <canvas class="hero__canvas" aria-hidden="true"></canvas>
-
-  <!-- DEFAULT LAYER -->
-  <div class="hero__layer hero__layer--default">
-    <div class="hero__content">
-      <div class="hero__left">
-        <div class="hero__portrait" data-cursor-hover>
-          <Image
-            src={avatar1}
-            alt="Rafif Ahmad Yudhistira"
-            class="hero__portrait-img"
-            loading="eager"
-            fetchpriority="high"
-            decoding="sync"
-          />
-        </div>
-      </div>
-
-      <div class="hero__right">
-        <div class="hero__text-content">
-          <p class="hero__tagline" data-animate="fade-up">
-            <span class="hero__tagline-char">I wasn't born, I was made.</span><br />
-            <span class="hero__tagline-em hero__tagline-char">Made in complexity, designed for simplicity.</span>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- HOVER LAYER -->
-  <div class="hero__layer hero__layer--hover" aria-hidden="true">
-    <div class="hero__content">
-      <div class="hero__left">
-        <div class="hero__portrait">
-          <Image
-            src={avatar2}
-            alt=""
-            class="hero__portrait-img"
-            loading="eager"
-            fetchpriority="high"
-            decoding="sync"
-          />
-        </div>
-      </div>
-
-      <div class="hero__right">
-        <div class="hero__text-content">
-          <p class="hero__tagline" data-animate="fade-up">
-            <span class="hero__tagline-char is-glitching">I wasn't born, I was made.</span><br />
-            <span class="hero__tagline-em hero__tagline-char is-glitching">Made in complexity, designed for simplicity.</span>
-          </p>
-        </div>
-      </div>
-    </div>
+  <div class="hero__content">
+    <canvas id="hero-sequence-canvas" class="hero__fullscreen-canvas"></canvas>
   </div>
 </section>
 
@@ -68,219 +13,22 @@ import avatar2 from '../assets/avatar2.png';
     height: 100vh;
     width: 100vw;
     overflow: hidden;
-  }
-
-  .hero__canvas {
-    position: absolute;
-    inset: 0;
-    z-index: var(--z-bg);
-    width: 100%;
-    height: 100%;
-  }
-
-  .hero__layer {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .hero__layer--default {
-    z-index: 1;
-  }
-
-  .hero__layer--hover {
-    z-index: 2;
-    clip-path: polygon(50% 50%, 50% 50%, 50% 50%); /* initial state */
-    pointer-events: none; /* Let events pass to the default layer */
-  }
-
-  .hero__layer--hover .hero__portrait-img {
-    height: 100%; /* Slightly shorter to perfectly match avatar1 offset */
-    margin-bottom: -1px; /* Fine-tune vertical positioning */
+    background-color: var(--color-bg, #0A0A0A);
   }
 
   .hero__content {
     position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
     width: 100%;
     height: 100%;
-    max-width: var(--max-width);
-    margin: 0 auto;
-  }
-
-  .hero__left {
-    width: 50vw;
-    position: relative;
+    z-index: 1;
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
   }
 
-  .hero__portrait {
+  .hero__fullscreen-canvas {
     width: 100%;
-    height: 95vh;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-  }
-
-  .hero__portrait-img {
-    width: auto;
     height: 100%;
-    max-width: 100%;
-    object-fit: contain;
-    object-position: bottom center;
     display: block;
-    position: relative;
-  }
-
-  .hero__right {
-    width: 50vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding-right: var(--gutter);
-    padding-left: 6vw;
-  }
-
-  .hero__text-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .hero__tagline {
-    max-width: 800px;
-    font-family: var(--font-display);
-    font-size: clamp(3rem, 7vw, 6rem);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    line-height: 1;
-    color: var(--color-text);
-    margin: 0;
-  }
-
-  .hero__tagline-char {
-    display: inline;
-  }
-
-  .hero__tagline-em {
-    font-family: var(--font-body);
-    font-style: normal;
-    text-transform: none;
-    letter-spacing: normal;
-    color: var(--color-text-secondary);
-    font-size: clamp(1rem, 2vw, 1.5rem);
-    display: block;
-    margin-top: var(--space-sm);
-  }
-
-  @keyframes hero-glitch {
-    0% { transform: translate(0, 0); }
-    10% { transform: translate(-2px, 1px); }
-    20% { transform: translate(2px, -1px); }
-    30% { transform: translate(-1px, -2px); }
-    40% { transform: translate(1px, 2px); }
-    50% { transform: translate(-2px, -1px); }
-    60% { transform: translate(2px, 1px); }
-    70% { transform: translate(0, -2px); }
-    80% { transform: translate(-1px, 1px); }
-    90% { transform: translate(1px, 0); }
-    100% { transform: translate(0, 0); }
-  }
-
-  @keyframes fade-glitch {
-    0% { opacity: 1; }
-    5% { opacity: 0; }
-    15% { opacity: 1; }
-    20% { opacity: 1; }
-    25% { opacity: 0; }
-    35% { opacity: 1; }
-    45% { opacity: 1; }
-    50% { opacity: 0.3; }
-    55% { opacity: 1; }
-    65% { opacity: 1; }
-    70% { opacity: 0; }
-    80% { opacity: 1; }
-    85% { opacity: 0.5; }
-    95% { opacity: 1; }
-    100% { opacity: 1; }
-  }
-
-  .hero__tagline-char.is-glitching {
-    animation: hero-glitch 0.3s steps(1) infinite;
-    text-shadow:
-      2px 0 var(--color-accent),
-      -2px 0 var(--color-text-secondary);
-  }
-
-  /* Override animation for the secondary text */
-  .hero__tagline-em.is-glitching {
-    animation: fade-glitch 1.2s steps(1) infinite;
-    text-shadow: none;
-    transform: none;
-  }
-
-  @media (max-width: 1024px) {
-    .hero__content {
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-    
-    .hero__left {
-      width: 100%;
-      height: 55vh;
-      order: 2;
-    }
-
-    .hero__portrait {
-      height: 100%;
-    }
-
-    .hero__right {
-      width: 100%;
-      height: 45vh;
-      padding: clamp(2rem, 5vh, 4rem) var(--gutter) 0;
-      align-items: center;
-      justify-content: center;
-      order: 1;
-    }
-
-    .hero__text-content {
-      align-items: center;
-      text-align: center;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .hero__tagline {
-      font-size: clamp(2.5rem, 8vw, 4rem);
-    }
-    
-    .hero__tagline-em {
-      font-size: clamp(0.875rem, 3vw, 1.125rem);
-      margin-top: 0.5rem;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .hero__left {
-      height: 50vh;
-    }
-
-    .hero__right {
-      height: 50vh;
-      padding-top: clamp(4rem, 10vh, 6rem);
-    }
-
-    .hero__tagline {
-      font-size: clamp(2rem, 10vw, 3rem);
-    }
   }
 </style>

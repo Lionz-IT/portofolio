@@ -1,0 +1,76 @@
+---
+---
+
+<div id="preloader" class="preloader">
+  <div class="preloader__content">
+    <div class="preloader__logo">LIONZ</div>
+    <div class="preloader__bar-container">
+      <div id="preloader-bar" class="preloader__bar"></div>
+    </div>
+    <div class="preloader__progress">
+      <span id="preloader-pct">0</span><span class="preloader__pct-sign">%</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background-color: var(--color-bg, #0A0A0A);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .preloader__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 300px;
+    padding: 0 2rem;
+  }
+
+  .preloader__logo {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--color-text);
+    letter-spacing: 0.2em;
+    margin-right: -0.2em; /* offset letter-spacing on last char */
+  }
+
+  .preloader__bar-container {
+    width: 100%;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .preloader__bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background-color: var(--color-accent, #F5F0EB);
+    transition: width 0.1s linear;
+  }
+
+  .preloader__progress {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: baseline;
+    gap: 0.1em;
+  }
+
+  .preloader__pct-sign {
+    font-size: 0.75rem;
+    opacity: 0.6;
+  }
+</style>

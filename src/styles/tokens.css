@@ -15,8 +15,8 @@
   --font-mono: 'JetBrains Mono', monospace;
 
   /* Fluid type scale */
-  --text-hero: clamp(3.5rem, 10vw, 9rem);
-  --text-section: clamp(2rem, 5vw, 4rem);
+  --text-hero: clamp(4rem, 12vw, 10rem);
+  --text-section: clamp(3rem, 8vw, 6rem);
   --text-subtitle: clamp(1rem, 2vw, 1.5rem);
   --text-body: 1rem;
   --text-small: 0.875rem;
@@ -46,5 +46,4 @@
   --z-content: 1;
   --z-nav: 100;
   --z-cursor: 200;
-  --z-grain: 300;
 }

@@ -4,86 +4,150 @@ import SectionLayout from '../layouts/SectionLayout.astro';
 ---
 
 <SectionLayout id="experience" className="experience" label="04 / Experience" title="Experience">
-  <ul class="exp__list">
+  <div class="timeline">
+    <div class="timeline__line" aria-hidden="true"></div>
     {
-      experiences.map((exp) => (
-        <li class="exp__item" data-animate="fade-up">
-          <div class="exp__header">
-            <div>
-              <h3 class="exp__role">{exp.role}</h3>
-              <span class="exp__company">{exp.company}</span>
-            </div>
-            <span class="exp__period">{exp.period}</span>
+      experiences.map((exp, i) => (
+        <div class:list={['timeline__item', i % 2 === 0 ? 'timeline__item--left' : 'timeline__item--right']} data-animate="fade-up">
+          <div class="timeline__dot" aria-hidden="true"></div>
+          <div class="timeline__content">
+            <span class="timeline__period">{exp.period}</span>
+            <h3 class="timeline__role">{exp.role}</h3>
+            <span class="timeline__company">{exp.company}</span>
+            <p class="timeline__desc">{exp.description}</p>
           </div>
-          <p class="exp__desc">{exp.description}</p>
-          <div class="exp__divider" />
-        </li>
+        </div>
       ))
     }
-  </ul>
+  </div>
 </SectionLayout>
 
 <style>
-  .exp__list {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .exp__item {
+  .timeline {
+    position: relative;
     padding: var(--space-md) 0;
+    margin-top: var(--space-md);
   }
 
-  .exp__header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-xs);
+  /* Garis Vertikal (Kiri di Mobile) */
+  .timeline__line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 15px; 
+    width: 2px;
+    background-color: var(--color-border);
   }
 
-  @media (min-width: 768px) {
-    .exp__header {
-      flex-direction: row;
-      justify-content: space-between;
-      gap: var(--space-md);
-    }
+  .timeline__item {
+    position: relative;
+    margin-bottom: var(--space-lg);
+    padding-left: 45px; /* Jarak teks dari garis di mobile */
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .exp__role {
-    font-family: var(--font-display);
-    font-size: clamp(1.25rem, 3vw, 2rem);
-    font-weight: 400;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--color-accent);
+  .timeline__item:last-child {
+    margin-bottom: 0;
   }
 
-  .exp__company {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: var(--text-body);
-    color: var(--color-text-secondary);
+  /* Titik/Node Timeline */
+  .timeline__dot {
+    position: absolute;
+    top: 5px; /* Sesuaikan dengan tinggi badge period */
+    left: 10px; /* Posisi di tengah garis (15px + 1px) - (12px/2) = 10px */
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--color-bg);
+    border: 2px solid var(--color-accent);
+    z-index: 2;
+    transition: transform 0.3s ease, background-color 0.3s ease;
   }
 
-  .exp__period {
+  .timeline__item:hover .timeline__dot {
+    transform: scale(1.3);
+    background-color: var(--color-accent);
+  }
+
+  /* Konten Teks */
+  .timeline__period {
     font-family: var(--font-mono);
     font-size: var(--text-mono);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--color-text-secondary);
-    flex-shrink: 0;
+    color: var(--color-bg);
+    background-color: var(--color-text-secondary);
+    display: inline-block;
+    margin-bottom: var(--space-sm);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 500;
   }
 
-  .exp__desc {
-    margin-top: var(--space-xs);
-    font-size: var(--text-small);
+  .timeline__role {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    line-height: 1.1;
+    margin-bottom: 0.25rem;
+  }
+
+  .timeline__company {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--text-subtitle);
+    color: var(--color-text-secondary);
+    display: block;
+    margin-bottom: var(--space-sm);
+  }
+
+  .timeline__desc {
+    font-size: var(--text-body);
     line-height: 1.7;
     color: var(--color-text-secondary);
-    max-width: 600px;
   }
 
-  .exp__divider {
-    height: 1px;
-    background-color: var(--color-border);
-    margin-top: var(--space-md);
+  /* ========================================================
+     DESKTOP LAYOUT (Kanan-Kiri Alternating)
+     ======================================================== */
+  @media (min-width: 768px) {
+    .timeline__line {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .timeline__item {
+      width: 50%;
+      padding-left: 0;
+      margin-bottom: 4rem; /* Jarak vertikal antar item */
+    }
+
+    /* KIRI */
+    .timeline__item--left {
+      margin-left: 0;
+      padding-right: 3rem; /* Beri jarak ke garis tengah */
+      text-align: right;
+    }
+    
+    .timeline__item--left .timeline__dot {
+      left: auto;
+      right: -6px; /* Titik tepat di pinggir kanan box (tengah garis) */
+    }
+
+    /* KANAN */
+    .timeline__item--right {
+      margin-left: 50%; /* Geser seluruh box ke kanan */
+      padding-left: 3rem; /* Beri jarak ke garis tengah */
+      text-align: left;
+    }
+
+    .timeline__item--right .timeline__dot {
+      left: -6px; /* Titik tepat di pinggir kiri box (tengah garis) */
+      right: auto;
+    }
   }
 </style>

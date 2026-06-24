@@ -70,6 +70,15 @@ ul, ol {
   padding: var(--space-section) var(--gutter);
   max-width: var(--max-width);
   margin: 0 auto;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.section:last-child {
+  border-bottom: none;
 }
 
 .section-label {
