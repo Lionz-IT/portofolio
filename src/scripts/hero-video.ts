@@ -22,7 +22,7 @@ const initHeroSequence = () => {
   if (!context) return;
 
   const frameCount = 240;
-  // Update path to the new webp frames provided by the user
+  // Gunakan file webp seperti request user
   const currentFrame = (index: number) => 
     `/videos/frames/frame_${(index + 1).toString().padStart(4, '0')}.webp`;
 
@@ -85,6 +85,7 @@ const initHeroSequence = () => {
           ease: "power2.inOut",
           onComplete: () => {
             if (preloaderEl) preloaderEl.style.display = 'none';
+            ScrollTrigger.refresh();
           }
         });
       });
@@ -118,7 +119,8 @@ const initHeroSequence = () => {
     render();
   }
 
-  // Create a master timeline linked to the scroll position
+  let uiVisible = false;
+
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: heroSection,
@@ -127,34 +129,50 @@ const initHeroSequence = () => {
       pin: true,
       scrub: 0.5,
       invalidateOnRefresh: true,
-      onUpdate: () => render()
+      onUpdate: (self) => {
+        render();
+        
+        if (self.progress > 0.9) {
+          if (!uiVisible) {
+            uiVisible = true;
+            if (navContainer) {
+              gsap.to(navContainer, {
+                autoAlpha: 1,
+                duration: 0.5,
+                overwrite: "auto"
+              });
+            }
+          }
+        } else {
+          if (uiVisible) {
+            uiVisible = false;
+            if (navContainer) {
+              gsap.to(navContainer, {
+                autoAlpha: 0,
+                duration: 0.5,
+                overwrite: "auto"
+              });
+            }
+          }
+        }
+      }
     }
   });
 
-  // 1. Play the image sequence for the first 80% of the scroll
+  // Animasi frame singa mengambil 80% dari total scroll
   tl.to(lion, {
     frame: frameCount - 1,
     snap: "frame",
     ease: "none",
-    duration: 8 // Relative duration unit
+    duration: 8
   });
 
-  // 2. Fade out the canvas in the last 20% of the scroll for a smooth transition
+  // Kanvas perlahan memudar di 20% terakhir
   tl.to(canvas, {
     opacity: 0,
     ease: "power1.inOut",
-    duration: 2 // Relative duration unit
+    duration: 2
   }, 8);
-
-  // 3. Fade in the Navbar and Floating Socials at the same time
-  if (navContainer) {
-    tl.to(navContainer, {
-      autoAlpha: 1,
-      ease: "power1.inOut",
-      duration: 2,
-      onComplete: () => ScrollTrigger.refresh()
-    }, 8);
-  }
 };
 
 if (document.readyState === 'loading') {

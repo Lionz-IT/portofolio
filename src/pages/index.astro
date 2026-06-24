@@ -26,7 +26,8 @@ import Preloader from '../components/Preloader.astro';
   <main>
     <Hero />
     
-    <div id="next-section">
+    <!-- Menerapkan margin-top: -100vh agar section ini tumpang tindih dengan akhir dari pin spacer Hero -->
+    <div id="next-section" style="margin-top: -100vh; position: relative; z-index: 10; background-color: var(--color-bg);">
       <Marquee />
       <About />
       <Works />
