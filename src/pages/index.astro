@@ -3,7 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Cursor from '../components/Cursor.astro';
 import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
-import Marquee from '../components/Marquee.astro';
 import About from '../components/About.astro';
 import Works from '../components/Works.astro';
 import Stack from '../components/Stack.astro';
@@ -26,9 +25,28 @@ import Preloader from '../components/Preloader.astro';
   <main>
     <Hero />
     
-    <!-- Menerapkan margin-top: -100vh agar section ini tumpang tindih dengan akhir dari pin spacer Hero -->
     <div id="next-section" style="margin-top: -100vh; position: relative; z-index: 10; background-color: var(--color-bg);">
-      <Marquee />
+      
+      <!-- Claw/Scratch SVG Edge -->
+      <svg class="scratch-divider" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 100" preserveAspectRatio="none">
+        <path fill="currentColor" d="
+          M 0 100
+          L 1200 100
+          L 1200 70
+          L 1150 10 L 1120 80
+          L 1050 30 L 1020 90
+          L 950 0 L 900 85
+          L 820 20 L 780 80
+          L 700 10 L 650 90
+          L 550 5 L 500 85
+          L 420 30 L 380 80
+          L 280 0 L 240 90
+          L 180 20 L 150 80
+          L 80 10 L 40 70
+          L 0 70 Z
+        "></path>
+      </svg>
+
       <About />
       <Works />
       <Stack />
@@ -38,6 +56,19 @@ import Preloader from '../components/Preloader.astro';
     </div>
   </main>
 </BaseLayout>
+
+<style>
+  .scratch-divider {
+    position: absolute;
+    top: -99px; /* Sit right above the section, 1px overlap to avoid gaps */
+    left: 0;
+    width: 100%;
+    height: 100px;
+    color: var(--color-bg); /* Use the exact background color so it blends */
+    pointer-events: none;
+    z-index: 10;
+  }
+</style>
 
 <script>
   import '../scripts/lenis';

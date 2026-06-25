@@ -14,31 +14,36 @@ const socialLinks = [
     </p>
     
     <a href="#" class="contact__email" data-contact-mail data-user="raymlg2005" data-domain="gmail.com" data-cursor-hover>
-      Click to reveal email
+      Hover to reveal email
     </a>
   </div>
 </SectionLayout>
 
 <script>
-  // Anti-spambot email obfuscation
+  // Anti-spambot email obfuscation that hides email again on mouseleave
   const mailBtn = document.querySelector('[data-contact-mail]');
   if (mailBtn) {
-    // Only construct the email when hovered or interacted with
-    const revealEmail = () => {
-      const user = mailBtn.getAttribute('data-user');
-      const domain = mailBtn.getAttribute('data-domain');
-      if (user && domain) {
-        const email = `${user}@${domain}`;
+    const originalText = mailBtn.textContent?.trim() || "Hover to reveal email";
+    const user = mailBtn.getAttribute('data-user');
+    const domain = mailBtn.getAttribute('data-domain');
+    
+    if (user && domain) {
+      const email = `${user}@${domain}`;
+      
+      const revealEmail = () => {
         mailBtn.setAttribute('href', `mailto:${email}`);
         mailBtn.textContent = email;
-        // Clean up listeners after revealing
-        mailBtn.removeEventListener('mouseenter', revealEmail);
-        mailBtn.removeEventListener('focus', revealEmail);
-      }
-    };
-    
-    mailBtn.addEventListener('mouseenter', revealEmail);
-    mailBtn.addEventListener('focus', revealEmail);
+      };
+
+      const hideEmail = () => {
+        mailBtn.textContent = originalText;
+      };
+      
+      mailBtn.addEventListener('mouseenter', revealEmail);
+      mailBtn.addEventListener('focus', revealEmail);
+      mailBtn.addEventListener('mouseleave', hideEmail);
+      mailBtn.addEventListener('blur', hideEmail);
+    }
   }
 </script>
 
