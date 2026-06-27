@@ -51,6 +51,11 @@ import SectionLayout from '../layouts/SectionLayout.astro';
         })
       }
     </div>
+    <!-- Bottom Quote Animation -->
+    <div class="works__decor-bottom" aria-hidden="true">
+      <p class="works__quote" id="works-quote">GOOD DESIGN IS OBVIOUS. GREAT DESIGN IS TRANSPARENT.</p>
+    </div>
+
   </div>
 </SectionLayout>
 
@@ -71,17 +76,48 @@ import SectionLayout from '../layouts/SectionLayout.astro';
 </div>
 
 <style>
+  
   .works__wrapper {
-    /* Create a viewport window for horizontal scrolling */
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     overflow: hidden;
     position: relative;
-    padding: var(--space-lg) 0;
-    min-height: calc(50vh + var(--space-lg) * 2 + 50px); /* Adjust to card height */
+    padding-top: var(--space-lg); /* Jarak normal dengan judul */
+    padding-bottom: 25vh; /* Ruang untuk quote di bawah */
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* Kartu menempel ke atas agar dekat dengan judul */
   }
+
+  /* --- Bottom Decor Styles --- */
+  .works__decor-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 25vh; /* Ruang tepat di bawah kartu */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Berada tepat di tengah antara kartu dan dasar layar */
+    opacity: 0;
+    visibility: hidden;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .works__quote {
+    font-family: var(--font-mono);
+    font-size: clamp(0.9rem, 2.2vw, 2.5rem); /* Ukuran font diperbesar */
+    color: var(--color-text-secondary);
+    letter-spacing: 0.15em;
+    white-space: nowrap;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0;
+    margin-right: -0.15em; /* Kompensasi letter-spacing */
+    text-align: center;
+    line-height: 1;
+  }
+
 
   .works__container {
     display: flex;
@@ -94,7 +130,7 @@ import SectionLayout from '../layouts/SectionLayout.astro';
   @media (max-width: 767px) {
     .works__wrapper {
       padding: var(--space-md) 0;
-      /* removed mobile overrides so it keeps horizontal viewport style */
+      padding-bottom: 25vh;
     }
     .works__container {
       /* Keep flex row */

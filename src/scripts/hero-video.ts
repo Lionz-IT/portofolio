@@ -15,6 +15,7 @@ const initHeroSequence = () => {
   const preloaderEl = document.getElementById('preloader');
   const preloaderPct = document.getElementById('preloader-pct');
   const preloaderBar = document.getElementById('preloader-bar');
+  const scrollIndicator = document.getElementById('scroll-indicator');
   
   if (!canvas || !heroSection) return;
 
@@ -22,7 +23,6 @@ const initHeroSequence = () => {
   if (!context) return;
 
   const frameCount = 240;
-  // Gunakan file webp seperti request user
   const currentFrame = (index: number) => 
     `/videos/frames/frame_${(index + 1).toString().padStart(4, '0')}.webp`;
 
@@ -131,6 +131,15 @@ const initHeroSequence = () => {
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         render();
+
+        // Sembunyikan scroll indicator begitu user mulai scroll
+        if (scrollIndicator) {
+          if (self.progress > 0.01) {
+            scrollIndicator.style.opacity = '0';
+          } else {
+            scrollIndicator.style.opacity = '1';
+          }
+        }
         
         if (self.progress > 0.9) {
           if (!uiVisible) {
@@ -159,7 +168,6 @@ const initHeroSequence = () => {
     }
   });
 
-  // Animasi frame singa mengambil 80% dari total scroll
   tl.to(lion, {
     frame: frameCount - 1,
     snap: "frame",
@@ -167,7 +175,6 @@ const initHeroSequence = () => {
     duration: 8
   });
 
-  // Kanvas perlahan memudar di 20% terakhir
   tl.to(canvas, {
     opacity: 0,
     ease: "power1.inOut",

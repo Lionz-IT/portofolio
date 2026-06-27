@@ -29,6 +29,12 @@ import SectionLayout from '../layouts/SectionLayout.astro';
     margin-top: var(--space-md);
   }
 
+  /* Hover effect for siblings (Dim other items when timeline is hovered) */
+  .timeline:hover .timeline__item:not(:hover) {
+    opacity: 0.3;
+    filter: grayscale(100%);
+  }
+
   /* Garis Vertikal (Kiri di Mobile) */
   .timeline__line {
     position: absolute;
@@ -45,6 +51,11 @@ import SectionLayout from '../layouts/SectionLayout.astro';
     padding-left: 45px; /* Jarak teks dari garis di mobile */
     width: 100%;
     box-sizing: border-box;
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1); /* Smooth fade for sibling hover */
+  }
+
+  .timeline__content {
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
 
   .timeline__item:last-child {
@@ -54,20 +65,27 @@ import SectionLayout from '../layouts/SectionLayout.astro';
   /* Titik/Node Timeline */
   .timeline__dot {
     position: absolute;
-    top: 5px; /* Sesuaikan dengan tinggi badge period */
-    left: 10px; /* Posisi di tengah garis (15px + 1px) - (12px/2) = 10px */
-    width: 12px;
-    height: 12px;
+    top: 50%; /* Center vertically */
+    left: 9px; /* Posisi di tengah garis (15px + 1px) - (14px/2) = 9px */
+    width: 14px;
+    height: 14px;
+    transform: translateY(-50%);
     border-radius: 50%;
     background-color: var(--color-bg);
     border: 2px solid var(--color-accent);
     z-index: 2;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
 
+  /* Hover Effects on Item */
   .timeline__item:hover .timeline__dot {
-    transform: scale(1.3);
+    transform: translateY(-50%) scale(1.4);
     background-color: var(--color-accent);
+    box-shadow: 0 0 20px rgba(245, 240, 235, 0.5); /* Glowing effect */
+  }
+
+  .timeline__item:hover .timeline__content {
+    transform: translateX(10px); /* Slightly shift text right on mobile */
   }
 
   /* Konten Teks */
@@ -129,25 +147,33 @@ import SectionLayout from '../layouts/SectionLayout.astro';
     /* KIRI */
     .timeline__item--left {
       margin-left: 0;
-      padding-right: 3rem; /* Beri jarak ke garis tengah */
+      padding-right: 4rem; /* Beri jarak ke garis tengah */
       text-align: right;
     }
     
     .timeline__item--left .timeline__dot {
       left: auto;
-      right: -6px; /* Titik tepat di pinggir kanan box (tengah garis) */
+      right: -7px; /* Titik tepat di pinggir kanan box (-14px/2) */
+    }
+
+    .timeline__item--left:hover .timeline__content {
+      transform: translateX(-15px); /* Shift left on hover for left items */
     }
 
     /* KANAN */
     .timeline__item--right {
       margin-left: 50%; /* Geser seluruh box ke kanan */
-      padding-left: 3rem; /* Beri jarak ke garis tengah */
+      padding-left: 4rem; /* Beri jarak ke garis tengah */
       text-align: left;
     }
 
     .timeline__item--right .timeline__dot {
-      left: -6px; /* Titik tepat di pinggir kiri box (tengah garis) */
+      left: -7px; /* Titik tepat di pinggir kiri box (-14px/2) */
       right: auto;
+    }
+
+    .timeline__item--right:hover .timeline__content {
+      transform: translateX(15px); /* Shift right on hover for right items */
     }
   }
 </style>

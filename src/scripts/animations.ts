@@ -46,7 +46,7 @@ document.querySelectorAll<HTMLElement>('[data-animate="fade-in"]').forEach((el) 
     ease: 'power2.out',
     scrollTrigger: {
       trigger: el,
-      start: 'top 90%',
+      start: 'top 85%',
       once: true,
     },
   });
@@ -54,6 +54,8 @@ document.querySelectorAll<HTMLElement>('[data-animate="fade-in"]').forEach((el) 
 
 const worksWrapper = document.querySelector('.works__wrapper');
 const worksContainer = document.querySelector('.works__container');
+const decorBottom = document.querySelector('.works__decor-bottom');
+const quoteEl = document.getElementById('works-quote');
 
 if (worksWrapper && worksContainer) {
   let mm = gsap.matchMedia();
@@ -84,24 +86,47 @@ if (worksWrapper && worksContainer) {
 
     const getScrollAmount = () => -(worksContainer.scrollWidth - window.innerWidth + 100);
 
-    const tween = gsap.to(worksContainer, {
+    let quoteSplit: SplitText | null = null;
+    if (quoteEl) {
+      quoteSplit = new SplitText(quoteEl, { type: "chars" });
+      gsap.set(quoteSplit.chars, { opacity: 0 });
+    }
+
+    const tl = gsap.timeline();
+    
+    tl.to(worksContainer, {
       x: getScrollAmount,
       ease: "none",
-    });
+      duration: 1
+    }, 0);
+
+    if (quoteSplit) {
+      tl.to(quoteSplit.chars, {
+        opacity: 1,
+        stagger: 1 / quoteSplit.chars.length,
+        duration: 0.05,
+        ease: "none"
+      }, 0);
+    }
 
     ScrollTrigger.create({
       trigger: worksWrapper,
-      start: "center center",
+      start: "top 20%",
       end: () => `+=${worksContainer.scrollWidth}`,
       pin: true,
-      animation: tween,
+      animation: tl,
       scrub: 1,
       invalidateOnRefresh: true,
+      onEnter: () => {
+        if (decorBottom) gsap.to(decorBottom, { autoAlpha: 1, duration: 0.5 });
+      },
+      onLeaveBack: () => {
+        if (decorBottom) gsap.to(decorBottom, { autoAlpha: 0, duration: 0.3 });
+      }
     });
     
     return () => {
-      tween.kill();
+      tl.kill();
     };
   });
 }
-
