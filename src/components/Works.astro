@@ -53,7 +53,7 @@ import SectionLayout from '../layouts/SectionLayout.astro';
     </div>
     <!-- Bottom Quote Animation -->
     <div class="works__decor-bottom" aria-hidden="true">
-      <p class="works__quote" id="works-quote">GOOD DESIGN IS OBVIOUS. GREAT DESIGN IS TRANSPARENT.</p>
+      <div class="works__quote" id="works-quote">GOOD DESIGN IS OBVIOUS. <br class="quote-break" />GREAT DESIGN IS TRANSPARENT.</div>
     </div>
 
   </div>
@@ -82,10 +82,10 @@ import SectionLayout from '../layouts/SectionLayout.astro';
     margin-left: calc(-50vw + 50%);
     overflow: hidden;
     position: relative;
-    padding-top: var(--space-lg); /* Jarak normal dengan judul */
-    padding-bottom: 25vh; /* Ruang untuk quote di bawah */
+    height: 80vh; /* Dijamin presisi 80vh */
+    padding-top: var(--space-lg);
     display: flex;
-    align-items: flex-start; /* Kartu menempel ke atas agar dekat dengan judul */
+    align-items: flex-start;
   }
 
   /* --- Bottom Decor Styles --- */
@@ -106,16 +106,20 @@ import SectionLayout from '../layouts/SectionLayout.astro';
 
   .works__quote {
     font-family: var(--font-mono);
-    font-size: clamp(0.9rem, 2.2vw, 2.5rem); /* Ukuran font diperbesar */
+    font-size: clamp(1rem, 4vw, 1.5rem); /* Ukuran lebih besar di mobile */
     color: var(--color-text-secondary);
     letter-spacing: 0.15em;
-    white-space: nowrap;
     font-weight: 600;
     text-transform: uppercase;
     margin: 0;
-    margin-right: -0.15em; /* Kompensasi letter-spacing */
     text-align: center;
-    line-height: 1;
+    line-height: 1.5; /* Memberi jarak vertikal antar baris */
+  }
+
+  .quote-break {
+    display: block; /* Aktif di mobile */
+    content: "";
+    margin-top: 0.2rem;
   }
 
 
@@ -414,7 +418,22 @@ import SectionLayout from '../layouts/SectionLayout.astro';
     border-radius: 0.5rem;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   }
+
+  @media (min-width: 768px) {
+    .works__quote {
+      font-size: clamp(0.75rem, 1.8vw, 1.5rem);
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .quote-break {
+      display: none;
+    }
+    .works__quote::after {
+      content: " ";
+    }
+  }
 </style>
+
 
 <script>
   import { gsap } from 'gsap';

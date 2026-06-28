@@ -20,10 +20,26 @@ const socialLinks = [
 </SectionLayout>
 
 <script>
-  // Anti-spambot email obfuscation that hides email again on mouseleave
+  // Anti-spambot email obfuscation with dynamic touch/hover text
   const mailBtn = document.querySelector('[data-contact-mail]');
   if (mailBtn) {
-    const originalText = mailBtn.textContent?.trim() || "Hover to reveal email";
+    const isMobile = window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+    const defaultText = isMobile ? "Tap to reveal email" : "Hover to reveal email";
+    
+    mailBtn.textContent = defaultText;
+    let originalText = defaultText;
+
+    // Handle screen resize dynamically
+    window.addEventListener('resize', () => {
+      const mobile = window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+      originalText = mobile ? "Tap to reveal email" : "Hover to reveal email";
+      
+      // Update text on screen if it's currently not revealing the email
+      if (!mailBtn.textContent.includes('@')) {
+        mailBtn.textContent = originalText;
+      }
+    });
+
     const user = mailBtn.getAttribute('data-user');
     const domain = mailBtn.getAttribute('data-domain');
     

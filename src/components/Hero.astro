@@ -6,10 +6,11 @@
     <canvas id="hero-sequence-canvas" class="hero__fullscreen-canvas"></canvas>
     
     <div id="scroll-indicator" class="hero__scroll-indicator">
-      <span class="hero__scroll-text">Scroll</span>
-      <div class="hero__scroll-line">
-        <div class="hero__scroll-line-inner"></div>
-      </div>
+      <span class="hero__scroll-text">Scroll Down</span>
+      <svg class="hero__scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <polyline points="19 12 12 19 5 12"></polyline>
+      </svg>
     </div>
   </div>
 </section>
@@ -39,58 +40,41 @@
     display: block;
   }
 
-  /* --- Scroll Indicator Redesign --- */
+  /* --- Scroll Indicator: Modern Badge Style --- */
   .hero__scroll-indicator {
     position: absolute;
     bottom: clamp(1.5rem, 4vw, 3rem);
     right: clamp(1.5rem, 4vw, 3rem);
+    background-color: #ffffff; /* Background putih jelas */
+    color: #000000; /* Warna icon dan teks hitam kontras */
+    padding: 0.8rem 1.5rem;
+    border-radius: 100px; /* Bentuk kapsul horizontal / badge */
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 1rem;
-    z-index: 20; /* Ensure it's above the video */
-    
-    /* Solid White Background */
-    background-color: #FFFFFF;
-    padding: 1.5rem 1rem;
-    border-radius: 50px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    
+    gap: 0.5rem;
+    z-index: 20;
     transition: opacity 0.5s ease;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.5);
   }
 
   .hero__scroll-text {
     font-family: var(--font-mono);
-    font-size: 1rem; /* Bigger */
+    font-size: 0.9rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    writing-mode: vertical-rl;
-    color: #000000; /* Black text */
+    letter-spacing: 0.1em;
+    margin-top: 1px; /* Optical alignment */
   }
 
-  .hero__scroll-line {
-    width: 2px; /* Thicker */
-    height: 60px; /* Longer */
-    background-color: rgba(0, 0, 0, 0.15); /* Light gray/black background for the track */
-    position: relative;
-    overflow: hidden;
-    border-radius: 2px;
+  .hero__scroll-arrow {
+    width: 20px;
+    height: 20px;
+    animation: bounceDown 2s infinite;
   }
 
-  .hero__scroll-line-inner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000000; /* Solid black line animating */
-    animation: scrollLine 2s cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
-  }
-
-  @keyframes scrollLine {
-    0% { transform: translateY(-100%); }
-    50% { transform: translateY(0); }
-    100% { transform: translateY(100%); }
+  @keyframes bounceDown {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(4px); }
+    60% { transform: translateY(2px); }
   }
 </style>

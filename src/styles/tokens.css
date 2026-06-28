@@ -16,7 +16,7 @@
 
   /* Fluid type scale */
   --text-hero: clamp(4rem, 12vw, 10rem);
-  --text-section: clamp(3rem, 8vw, 6rem);
+  --text-section: clamp(2rem, 10vw, 6rem);
   --text-subtitle: clamp(1rem, 2vw, 1.5rem);
   --text-body: 1rem;
   --text-small: 0.875rem;
