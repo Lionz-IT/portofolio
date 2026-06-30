@@ -16,13 +16,13 @@ export const experiences: Experience[] = [
     role: 'Member',
     company: 'Gamekita Community',
     period: 'Aug 2024 - Present',
-    description: 'Participated in online community forums and discussions. Actively followed game industry trends, exchanged game mechanics insights, and provided constructive feedback within the game developer community.',
+    description: 'Actively participated in an online developer community, engaging in remote technical discussions and forums. Followed software industry trends, exchanged architectural insights, and provided constructive code-level feedback.',
   },
   {
     role: 'Member - Game Programmer',
     company: 'UKM Gamespace',
     period: 'Jul 2024 - Jul 2025',
-    description: 'Collaborated on exploring and implementing game programming and logic design. Contributed to scripting mechanics and integrating 3D assets to build interactive game environments.',
+    description: 'Collaborated on exploring and implementing complex logic design and programming patterns. Contributed to algorithm optimization, software scripting, and building highly interactive digital environments.',
   },
   {
     role: 'Member',
